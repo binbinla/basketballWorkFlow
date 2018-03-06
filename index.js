@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
+import Hello from '../basketballWorkflow/lib/component/Hello';
 
-AppRegistry.registerComponent('basketballWorkflow', () => App);
+AppRegistry.registerComponent('basketballWorkflow', () => Hello);

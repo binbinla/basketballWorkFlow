@@ -14,6 +14,7 @@ import { Navigatable } from '../../types/general-types';
 import { loginState } from '../../reducers/loginReducer';
 import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
+import Toast, {DURATION} from 'react-native-easy-toast';
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -56,15 +57,29 @@ class LoginPage extends React.Component<Props, {}> {
       <View style={styles.container}>
         <Text>状态: {this.props.loginParams.status}
         </Text>
-        <TouchableOpacity onPress={() => this.props.login()} style={{ marginTop: 50 }}>
+        <TouchableOpacity onPress={() => this.loginInPress()} style={{ marginTop: 50 }}>
           <View style={styles.loginBtn}>
             <Text>登录
             </Text>
           </View>
         </TouchableOpacity>
+        <Toast 
+          ref="toast"
+          position="center"
+          />
       </View>
     )
   }
+
+  // 点击登录按钮
+  loginInPress = () => {
+    // this.props.login();
+    const toast: any = this.refs.toast;
+    toast.show("登录成功", DURATION.SHORT, () => {
+      this.props.login();
+    });
+  }
+
 }
 
 const styles = StyleSheet.create({

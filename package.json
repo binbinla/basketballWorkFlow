@@ -10,6 +10,7 @@
     "@types/react-redux": "^5.0.15",
     "react": "16.2.0",
     "react-native": "0.53.3",
+    "react-native-easy-toast": "^1.1.0",
     "react-native-simple-login": "^1.1.0",
     "react-navigation": "^1.5.0",
     "react-navigation-redux-helpers": "^1.0.3",

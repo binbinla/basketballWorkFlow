@@ -2,3 +2,4 @@
 declare module 'react-navigation';
 declare module 'react-native-simple-login';
 declare module 'react-navigation-redux-helpers';
+declare module 'react-native-easy-toast';

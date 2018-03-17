@@ -7,11 +7,17 @@ import {
 } from 'react-native';
 import LoginPage from '../account/Login';
 import Hello from '../../component/Hello';
+import Tabs from '../tabs/index';
 import { StackNavigator } from 'react-navigation';
 
-const App = StackNavigator({
-  Login: { screen: LoginPage},
-  Hello: {screen: Hello}
-});
+export const App = StackNavigator(
+  {
+    Tabs: { screen: Tabs },    
+    Login: { screen: LoginPage },
+  },
+  {
+    initialRouteName: 'Login'
+  }
+);
 
-export default App
+// export default App

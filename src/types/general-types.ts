@@ -1,4 +1,10 @@
 export interface Navigatable {
+  // navigation: {
+  //   state: {
+  //     params?: any
+  //   },
+  //   dispatch: (param: any) => void
+  // }
   navigation: any
 }
 

@@ -9,6 +9,7 @@ import { connect } from 'react-redux'; // 引入connect函数
 import * as loginAction from '../../actions/loginAction';// 导入action方法
 import { NavigationActions } from 'react-navigation';
 import Hello from '../../component/Hello';
+import Tabs from '../tabs/index';
 import { Navigatable } from '../../types/general-types';
 import { loginState } from '../../reducers/loginReducer';
 import { allReducer } from '../../reducers/index';
@@ -17,7 +18,7 @@ import { Action } from '../../actions/types';
 const resetAction = NavigationActions.reset({
   index: 0,
   actions: [
-    NavigationActions.navigate({ routeName: 'Hello' })
+    NavigationActions.navigate({ routeName: 'Tabs' })
   ]
 })
 

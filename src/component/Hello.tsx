@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 type Props = {};
-export default class App extends React.Component<object, object> {
+export default class Hello extends React.Component<object, object> {
   render() {
     return (
       <View style={styles.container}>

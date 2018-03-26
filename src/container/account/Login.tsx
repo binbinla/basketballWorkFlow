@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ViewStyle
 } from 'react-native';
 import { connect } from 'react-redux'; // 引入connect函数
 import * as loginAction from '../../actions/loginAction';// 导入action方法
@@ -15,6 +16,9 @@ import { loginState } from '../../reducers/loginReducer';
 import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
 import Toast, {DURATION} from 'react-native-easy-toast';
+import { Hoshi } from 'react-native-textinput-effects';
+import Button from '../../component/Button';
+import { commonColors } from '../../utils/colors';
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -31,12 +35,21 @@ interface DispathProps {
   readonly login: () => Action<void>
 }
 
+interface State {
+  account?: string,
+  password?: string
+}
+
 type Props = Navigatable & StateProps & DispathProps
 
-class LoginPage extends React.Component<Props, {}> {
+class LoginPage extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    this.state = {
+      account: undefined,
+      password: undefined
+    }
   }
   static navigationOptions = {
     title: 'LoginPage'
@@ -52,17 +65,29 @@ class LoginPage extends React.Component<Props, {}> {
   }
 
   render() {
-    // const { login } = this.props;
     return (
       <View style={styles.container}>
-        <Text>状态: {this.props.loginParams.status}
-        </Text>
-        <TouchableOpacity onPress={() => this.loginInPress()} style={{ marginTop: 50 }}>
-          <View style={styles.loginBtn}>
-            <Text>登录
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <View style={styles.card}>
+        <Hoshi
+          style={{marginLeft: 15, marginRight: 15}}
+          label={'账号'}
+          maskColor={'#F9F7F6'}
+          borderColor={'#b76c94'}
+          onChangeText={(text: any) => {this.setState({account: text})}}
+        />
+        <Hoshi
+          style={{marginTop: 20, marginLeft: 15, marginRight: 15}}
+          label={'密码'}
+          maskColor={'#F9F7F6'}
+          borderColor={'#b76c94'}
+          secureTextEntry={true}
+          onChangeText={(text: any) => {this.setState({password: text})}}          
+        />
+        </View>
+        <Button
+          text={'登录'}
+          onButtonClick={() => this.loginInPress()}
+        />
         <Toast 
           ref="toast"
           position="center"
@@ -75,6 +100,14 @@ class LoginPage extends React.Component<Props, {}> {
   loginInPress = () => {
     // this.props.login();
     const toast: any = this.refs.toast;
+    if (!this.state.account || this.state.account === "") {
+      toast.show("账号不可为空", DURATION.SHORT);
+      return;
+    }
+    if (!this.state.password || this.state.password === "") {
+      toast.show("密码不可为空", DURATION.SHORT);
+      return;
+    }
     toast.show("登录成功", DURATION.SHORT, () => {
       this.props.login();
     });
@@ -82,16 +115,19 @@ class LoginPage extends React.Component<Props, {}> {
 
 }
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle,
+  card: ViewStyle
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: commonColors.white    
   },
-  loginBtn: {
-    borderWidth: 1,
-    padding: 5,
+  card: {
+    paddingVertical: 25,
+    backgroundColor: commonColors.textInputBg
   }
 });
 

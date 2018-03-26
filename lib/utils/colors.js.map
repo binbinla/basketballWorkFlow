@@ -1,1 +1,1 @@
-{"version":3,"file":"colors.js","sourceRoot":"","sources":["../../src/utils/colors.ts"],"names":[],"mappings":""}
+{"version":3,"file":"colors.js","sourceRoot":"","sources":["../../src/utils/colors.ts"],"names":[],"mappings":";;AAAa,QAAA,YAAY,GAAG;IAC1B,KAAK,EAAE,SAAS;IAChB,QAAQ,EAAE,SAAS;IACnB,WAAW,EAAE,SAAS;CACvB,CAAA"}

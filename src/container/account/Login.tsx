@@ -76,7 +76,7 @@ class LoginPage extends React.Component<Props, State> {
           onChangeText={(text: any) => {this.setState({account: text})}}
         />
         <Hoshi
-          style={{marginTop: 20, marginLeft: 15, marginRight: 15}}
+          style={{marginLeft: 15, marginRight: 15}}
           label={'密码'}
           maskColor={'#F9F7F6'}
           borderColor={'#b76c94'}
@@ -126,7 +126,8 @@ const styles = StyleSheet.create<Styles>({
     backgroundColor: commonColors.white    
   },
   card: {
-    paddingVertical: 25,
+    marginTop: 25,
+    marginBottom: 25,
     backgroundColor: commonColors.textInputBg
   }
 });

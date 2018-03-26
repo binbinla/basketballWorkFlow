@@ -53,7 +53,7 @@ const styles = StyleSheet.create<Styles>({
     backgroundColor: commonColors.buttonBg,
     borderRadius: 5,
     marginHorizontal: 15,
-    paddingVertical: 5,
+    paddingVertical: 8,
     justifyContent: 'center',
     alignItems: 'center'
   },

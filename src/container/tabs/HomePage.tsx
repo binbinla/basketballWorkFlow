@@ -10,6 +10,8 @@ import { NavigationActions } from 'react-navigation';
 import { Navigatable } from '../../types/general-types';
 import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
+import GameCard from '../../component/GameCard';
+import { commonColors } from '../../utils/colors';
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -40,8 +42,9 @@ class HomePage extends React.Component<Props, {}> {
   render() {
     return (
       <View style={styles.container}>
-        <Text>首页
-        </Text>
+        <GameCard
+          bgColor={commonColors.gameOrange}
+        />
       </View>
     )
   }

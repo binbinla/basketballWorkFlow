@@ -16,7 +16,7 @@ export const App = StackNavigator(
     Login: { screen: LoginPage },
   },
   {
-    initialRouteName: 'Login'
+    initialRouteName: 'Tabs'
   }
 );
 

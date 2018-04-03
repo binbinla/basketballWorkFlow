@@ -1,15 +1,19 @@
 // 'use strict';
 import { combineReducers } from 'redux';
-import loginIn, { loginState } from "../reducers/loginReducer";
+import loginHandler, { LoginState } from "../reducers/loginReducer";
 import navigatorReducer from '../reducers/navigatorReducer';
+import { fetchGamesHandler, GameState } from '../reducers/gameReducer';
+
 
 const rootReducer = combineReducers({
-  loginIn,
+  loginHandler,
+  fetchGamesHandler,
   navigatorReducer
 });
 
 export default rootReducer;
 
 export interface allReducer {
-  login: loginState
+  login: LoginState,
+  game: GameState
 } 

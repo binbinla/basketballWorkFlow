@@ -19,7 +19,7 @@ const resetAction = NavigationActions.reset({
 })
 
 interface StateProps {
-  // readonly loginParams: loginState
+  // readonly loginParams: LoginState
 }
 
 interface DispathProps {

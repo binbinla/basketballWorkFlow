@@ -10,13 +10,17 @@ import {
   Image
 } from 'react-native';
 import { commonColors } from '../utils/colors';
+import { GameState } from '../reducers/gameReducer';
+import teamMap from '../utils/team-map';
 
 /** 
  * 
 */
 interface Props extends ViewStyle {
-  bgColor: string
-  // gameItem
+  // homeTeamItem: GameState,
+  // guestTeamItem: GameState,
+  item: GameState,
+  bgColor?: string
 }
 
 export default class GameCard extends React.Component<Props, object> {
@@ -24,12 +28,16 @@ export default class GameCard extends React.Component<Props, object> {
     super(props);
   }
   render() {
+    const homeTeamLogo = teamMap[this.props.item.home.teamAbbreviate].logo
+    const visitorTeamLogo = teamMap[this.props.item.visitor.teamAbbreviate].logo
+    const homeTeamCity = teamMap[this.props.item.home.teamAbbreviate].city
+    const visitorTeamCity = teamMap[this.props.item.visitor.teamAbbreviate].city
     return (
       <View style={[styles.container, {backgroundColor: this.props.bgColor}]}>
         <View style={styles.leftCard}>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Image style={styles.image} source={require('../../assets/img/atl.png')} />
-            <Text style={styles.teamName}>{'老鹰队'}</Text>
+            <Image style={styles.image} source={homeTeamLogo} />
+            <Text style={styles.teamName}>{homeTeamCity}</Text>
           </View>
           <Text style={styles.leftScore}>{100}</Text>
         </View>
@@ -40,8 +48,8 @@ export default class GameCard extends React.Component<Props, object> {
         <View style={styles.rightCard}>
           <Text style={styles.rightScore}>{101}</Text>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Image style={styles.image} source={require('../../assets/img/dal.png')} />
-            <Text style={styles.teamName}>{'小牛队'}</Text>
+            <Image style={styles.image} source={visitorTeamLogo} />
+            <Text style={styles.teamName}>{visitorTeamCity}</Text>
           </View>
         </View>
       </View>

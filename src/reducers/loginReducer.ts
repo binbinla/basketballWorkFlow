@@ -1,7 +1,7 @@
 // 'use strict';
 import * as types from '../constants/loginType';
 
-export interface loginState {
+export interface LoginState {
   status: string,
   isSuccess: boolean,
   user: User | null
@@ -13,15 +13,15 @@ export interface User {
 }
 
 // 初始状态
-const initialState: loginState = {
+const initialState: LoginState = {
   status: '点击登录',
   isSuccess: false,
   user: null
 }
 
 // 不同类别的事件使用switch对应处理过程
-export default function loginIn(state = initialState, action: any) {
-  let newState: loginState = state;
+export default function loginHandler(state = initialState, action: any) {
+  let newState: LoginState = state;
   switch (action.type) {
     case types.LOGIN_IN_DOING:
       newState = Object.assign({}, state, {

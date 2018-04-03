@@ -4,6 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ViewStyle,
+  TextStyle
 } from 'react-native';
 import { connect } from 'react-redux'; // 引入connect函数
 import { NavigationActions } from 'react-navigation';
@@ -12,6 +14,10 @@ import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
 import GameCard from '../../component/GameCard';
 import { commonColors } from '../../utils/colors';
+import { GameState } from '../../reducers/gameReducer';
+import * as gameAction from '../../actions/gameAction';
+
+const GiftedListView = require('react-native-gifted-listview');
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -21,11 +27,11 @@ const resetAction = NavigationActions.reset({
 })
 
 interface StateProps {
-  // readonly loginParams: loginState
+  readonly gamesParams: GameState[]
 }
 
 interface DispathProps {
-  // readonly login: () => Action<void>
+  readonly fetchGames: () => Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
@@ -39,35 +45,119 @@ class HomePage extends React.Component<Props, {}> {
     title: '放学打球'
   };
 
+  // componentWillMount() {
+  //   this.props.fetchGames();
+  // }
+
   render() {
     return (
       <View style={styles.container}>
-        <GameCard
-          bgColor={commonColors.gameOrange}
+        <GiftedListView
+          style={{flex: 1}}
+          rowView={this._renderRowView}
+          onFetch={this._onFetch}
+          firstLoader={true}
+          pagination={true}
+          refreshable={true}
+          withSections={true} // enable sections
+          sectionHeaderView={this._renderSectionHeaderView}
+          customStyles={{
+            paginationView: {
+              backgroundColor: '#eee',
+            },
+          }}
+          refreshableTintColor="blue"
         />
       </View>
     )
   }
+
+  /**
+   * will be called when refreshing
+   * @param
+   */
+  _onFetch(page = 1, callback, options) {
+    setTimeout(() => {
+      // const result = this.props.gamesParams ? this.props.gamesParams : []
+      let result = {};
+      result['今天'] = gameAction.testState;
+      result['昨天'] = gameAction.testState;
+      callback(result);
+    }, 1000);
+  }
+
+   /**
+   * Render a row
+   * @param {object} rowData Row data
+   */
+  _renderSectionHeaderView(sectionData, sectionID) {
+    return (
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>
+          {sectionID}
+        </Text>
+      </View>
+    );
+  }
+
+  /***
+   * Render a row
+   * @param
+   */
+  _renderRowView(item: any) {
+    return (
+      <TouchableOpacity
+        style={{paddingTop: 10}}
+        activeOpacity={0.8}
+        onPress={() => this._onItemPress(item)}
+      >
+        <GameCard
+          item={item}
+          bgColor={commonColors.gameOrange}
+        />
+      </TouchableOpacity>
+    )
+  }
+
+  /**
+   * when a row was touched
+   * @param
+   */
+  _onItemPress(item: any) {
+    console.log(item + 'was pressed')
+  }
 }
 
-const styles = StyleSheet.create({
+interface Style {
+  container: ViewStyle,
+  header: ViewStyle,
+  headerTitle: TextStyle
+}
+
+const styles = StyleSheet.create<Style>({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: commonColors.white
+  },
+  header: {
+    backgroundColor: commonColors.sectionHeader,
+    padding: 10,
+    marginTop: 10
+  },
+  headerTitle: {
+    color: commonColors.white,
   }
 });
 
 function mapStateToProps(reducer: any) {
   return {
-    // loginParams: reducer.loginIn
+    gamesParams: reducer.fetchGamesHandler
   }
 }
-
+ 
 function mapDispatchToProps() { 
   return (dispatch: any) => ({
-    // login: () => dispatch(loginAction.login())
+    fetchGames: () => dispatch(gameAction.fetchGames())
   })
 }
 

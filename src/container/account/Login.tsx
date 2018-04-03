@@ -12,7 +12,7 @@ import { NavigationActions } from 'react-navigation';
 import Hello from '../../component/Hello';
 import Tabs from '../tabs/index';
 import { Navigatable } from '../../types/general-types';
-import { loginState } from '../../reducers/loginReducer';
+import { LoginState } from '../../reducers/loginReducer';
 import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
 import Toast, {DURATION} from 'react-native-easy-toast';
@@ -28,7 +28,7 @@ const resetAction = NavigationActions.reset({
 })
 
 interface StateProps {
-  readonly loginParams: loginState
+  readonly loginParams: LoginState
 }
 
 interface DispathProps {
@@ -115,12 +115,12 @@ class LoginPage extends React.Component<Props, State> {
 
 }
 
-interface Styles {
+interface Style {
   container: ViewStyle,
   card: ViewStyle
 }
 
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create<Style>({
   container: {
     flex: 1,
     backgroundColor: commonColors.white    
@@ -134,7 +134,7 @@ const styles = StyleSheet.create<Styles>({
 
 function mapStateToProps(reducer: any) {
   return {
-    loginParams: reducer.loginIn
+    loginParams: reducer.loginHandler
   }
 }
 

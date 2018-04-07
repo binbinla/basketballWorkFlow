@@ -21,6 +21,16 @@ export function login() {
 	}
 }
 
+export function logout() {
+	return (dispatch: any) => {
+		dispatch(() => {
+			return {
+				type: types.DID_LOGOUT
+			}
+		})
+	}
+}
+
 function isLogining() {
 	return {
 		type: types.LOGIN_IN_DOING

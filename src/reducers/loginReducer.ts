@@ -44,6 +44,13 @@ export default function loginHandler(state = initialState, action: any) {
         user: null        
       });
       return newState
+    case types.DID_LOGOUT:
+      newState = Object.assign({}, state, {
+        status: '退出登录',
+        isSuccess: false,
+        user: null
+      });
+      return newState
     default:
       return state;
   }

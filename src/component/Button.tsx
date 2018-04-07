@@ -50,7 +50,7 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   container: {
-    backgroundColor: commonColors.buttonBg,
+    backgroundColor: commonColors.topicColor,
     borderRadius: 5,
     marginHorizontal: 15,
     paddingVertical: 8,

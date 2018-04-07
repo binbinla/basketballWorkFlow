@@ -17,6 +17,7 @@ import FormWithPicture from '../../component/Form/FormWithPicture';
 import FormWithPairText from '../../component/Form/FormWithPairText';
 import Button from '../../component/Button';
 import { commonColors } from '../../utils/colors';
+import * as loginAction from '../../actions/loginAction';
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -30,7 +31,7 @@ interface StateProps {
 }
 
 interface DispathProps {
-  // readonly login: () => Action<void>
+  readonly logout: () => Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
@@ -41,7 +42,7 @@ class MinePage extends React.Component<Props, {}> {
     super(props);
   }
   static navigationOptions = {
-    title: '放学打球'
+    title: '个人中心'
   };
 
   render() {
@@ -89,7 +90,7 @@ class MinePage extends React.Component<Props, {}> {
           <Button
             style={{ marginTop: 15, backgroundColor: commonColors.topicColor}} 
             text="退出登录"
-            onButtonClick={() => {}}
+            onButtonClick={() => this.logout()}
           />
         </ScrollView>
       </View>
@@ -100,7 +101,23 @@ class MinePage extends React.Component<Props, {}> {
    * 跳转至 ‘关于页面’
    */
   aboutTheApp = () => {
-    console.log('点击了关于')
+    console.log('点击了关于');
+    this.props.navigation.navigate('Hello');
+  }
+
+  /**
+   * 跳转至 ‘登录页面’
+   */
+  logout = () => {
+    console.log('点击了退出登录');
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Login' })
+      ]
+    });
+    this.props.logout();
+    this.props.navigation.dispatch(resetAction);
   }
 }
 
@@ -132,7 +149,7 @@ function mapStateToProps(reducer: any) {
 
 function mapDispatchToProps() {
   return (dispatch: any) => ({
-    // login: () => dispatch(loginAction.login())
+    logout: () => dispatch(loginAction.logout())
   })
 }
 

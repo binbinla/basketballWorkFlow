@@ -33,7 +33,7 @@ export default class Button extends React.Component<Props, object> {
           // </Text>          
       //   </TouchableOpacity>
       <TouchableOpacity activeOpacity={0.8} onPress={() => {this.props.onButtonClick()}}>
-        <View style={[this.props.style, styles.container]}>
+        <View style={[styles.container, this.props.style]}>
           <Text style={[this.props.buttonTextStyle, styles.text]}>
               {this.props.text}
           </Text>   

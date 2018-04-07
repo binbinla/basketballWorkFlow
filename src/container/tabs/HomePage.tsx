@@ -80,8 +80,8 @@ class HomePage extends React.Component<Props, {}> {
     setTimeout(() => {
       // const result = this.props.gamesParams ? this.props.gamesParams : []
       let result = {};
-      result['今天'] = gameAction.testState;
-      result['昨天'] = gameAction.testState;
+      result['今天 周三'] = gameAction.testState;
+      result['昨天 周二'] = gameAction.testState;
       callback(result);
     }, 1000);
   }
@@ -141,11 +141,11 @@ const styles = StyleSheet.create<Style>({
   },
   header: {
     backgroundColor: commonColors.sectionHeader,
-    padding: 10,
+    padding: 5,
     marginTop: 10
   },
   headerTitle: {
-    color: commonColors.white,
+    color: commonColors.sectionHeaderText,
   }
 });
 

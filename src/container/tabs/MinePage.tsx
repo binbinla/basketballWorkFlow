@@ -78,8 +78,8 @@ class MinePage extends React.Component<Props, {}> {
               onFormClick={() => this.helpAndFeedback()}
             />
             <FormArrowToDetail
-              leftText={'给个好评'}
-              onFormClick={() => this.aboutTheApp()}
+              leftText={'给个好评鼓励一下吧'}
+              onFormClick={() => this.evaluateApp()}
             />                           
             <FormArrowToDetail
               leftText={'关于App'}
@@ -111,6 +111,14 @@ class MinePage extends React.Component<Props, {}> {
   helpAndFeedback = () => {
     console.log('点击了意见与反馈');
     this.props.navigation.navigate('HelpAndFeedback');
+  }
+
+  /**
+   * 跳转至 ‘评价App页面’
+   */
+  evaluateApp = () => {
+    console.log('点击了评价App页面');
+    this.props.navigation.navigate('EvaluateApp');
   }
 
   /**

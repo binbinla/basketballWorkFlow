@@ -11,6 +11,7 @@ import { App } from '../entrance/App';
 import PersonalProfile from '../../container/mine/PersonalProfile';
 import AboutApp from '../../container/mine/AboutApp';
 import HelpAndFeedback from '../../container/mine/HelpAndFeedback';
+import EvaluateApp from '../../container/mine/EvaluateApp';
 
 // const HomeStack = StackNavigator({
 
@@ -31,7 +32,8 @@ const MineStack = StackNavigator(
     Login: { screen: LoginPage},
     PersonalProfile: { screen: PersonalProfile},
     AboutApp: { screen: AboutApp},
-    HelpAndFeedback: { screen: HelpAndFeedback}
+    HelpAndFeedback: { screen: HelpAndFeedback},
+    EvaluateApp: { screen: EvaluateApp}
   },
   {
     navigationOptions: {

@@ -9,7 +9,11 @@ export interface LoginState {
 
 export interface User {
   name: string,
-  age: number
+  age: number,
+  nickName: string,
+  phoneNumber: string,
+  sex: string,
+  address: string
 }
 
 // 初始状态
@@ -20,7 +24,7 @@ const initialState: LoginState = {
 }
 
 // 不同类别的事件使用switch对应处理过程
-export default function loginHandler(state = initialState, action: any) {
+export function loginHandler(state = initialState, action: any) {
   let newState: LoginState = state;
   switch (action.type) {
     case types.LOGIN_IN_DOING:

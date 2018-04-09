@@ -18,7 +18,9 @@ interface Props extends ViewStyle {
   leftText: string,
   rightText: string,
   onFormClick:() => void,
-  cutOffLine?: boolean
+  cutOffLine?: boolean,
+  style?: ViewStyle,
+  arrowRight?: boolean
 }
 
 export default class FormWithPairText extends React.Component<Props, object> {
@@ -31,16 +33,35 @@ export default class FormWithPairText extends React.Component<Props, object> {
     cutOffLineStyle = this.props.cutOffLine === undefined ? defaultCutOffLineStyle : this.props.cutOffLine ? defaultCutOffLineStyle : {}
     return (
       <TouchableOpacity activeOpacity={0.5} onPress={() => {this.props.onFormClick()}}>
-        <View style={[styles.container, cutOffLineStyle]}>
+        <View style={[styles.container, this.props.style, cutOffLineStyle]}>
           <Text style={[styles.leftText]}>
               {this.props.leftText}
           </Text>
-          <Text style={[styles.rightText]}>
-              {this.props.rightText}
-          </Text>
+          {
+            this.props.arrowRight ?
+              this.renderArrowRight()
+            : 
+              <Text style={[styles.rightText]}>
+                {this.props.rightText}
+              </Text>
+          }
         </View>
       </TouchableOpacity>
     );
+  }
+
+  renderArrowRight = () => {
+    return (
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+        <Text style={[styles.rightText]}>
+          {this.props.rightText}
+        </Text>          
+        <Image
+          style={styles.image}
+          source={require('../../../assets/img/indicate/arrow-right.png')}
+        /> 
+      </View>
+    )
   }
 }
 
@@ -72,7 +93,6 @@ const styles = StyleSheet.create<Styles>({
   image: {
     height: 15,
     width: 15,
-    position: 'absolute',
-    right: 15,
+    marginLeft: 10
   }
 });

@@ -18,6 +18,7 @@ interface Props extends ViewStyle {
   onButtonClick:() => void,
   style?: ViewStyle,
   buttonTextStyle?: TextStyle,
+  disabled?: boolean
 }
 
 export default class Button extends React.Component<Props, object> {
@@ -25,6 +26,8 @@ export default class Button extends React.Component<Props, object> {
     super(props);
   }
   render() {
+    const buttonDisabled = this.props.disabled ? true : false
+    const bgColor = this.props.disabled ? commonColors.disabled : commonColors.topicColor
     return (
       // <View style={[this.props.style, styles.container]}>
       //   <TouchableOpacity style={styles.touch} activeOpacity={0.8} onPress={() => {this.props.onButtonClick()}}>
@@ -32,8 +35,8 @@ export default class Button extends React.Component<Props, object> {
           //   {this.props.text}
           // </Text>          
       //   </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.8} onPress={() => {this.props.onButtonClick()}}>
-        <View style={[styles.container, this.props.style]}>
+      <TouchableOpacity activeOpacity={0.8} onPress={() => {this.props.onButtonClick()}} disabled={buttonDisabled}>
+        <View style={[styles.container, this.props.style, { backgroundColor: bgColor}]}>
           <Text style={[this.props.buttonTextStyle, styles.text]}>
               {this.props.text}
           </Text>   

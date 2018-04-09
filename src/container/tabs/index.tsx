@@ -8,6 +8,9 @@ import Hello from '../../component/Hello';
 import LoginPage from '../account/Login';
 import { commonColors } from '../../utils/colors';
 import { App } from '../entrance/App';
+import PersonalProfile from '../../container/mine/PersonalProfile';
+import AboutApp from '../../container/mine/AboutApp';
+import HelpAndFeedback from '../../container/mine/HelpAndFeedback';
 
 // const HomeStack = StackNavigator({
 
@@ -26,7 +29,9 @@ const MineStack = StackNavigator(
     MinePage: { screen: MinePage },
     Hello: { screen: Hello},
     Login: { screen: LoginPage},
-    // Tabs: { screen: Tabs}
+    PersonalProfile: { screen: PersonalProfile},
+    AboutApp: { screen: AboutApp},
+    HelpAndFeedback: { screen: HelpAndFeedback}
   },
   {
     navigationOptions: {

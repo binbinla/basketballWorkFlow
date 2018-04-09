@@ -56,7 +56,7 @@ class MinePage extends React.Component<Props, {}> {
               nickName={'大陈'}
               contactText={'188****6910'}
               pictureUri={'../../../assets/img/indicate/snail.jpg'}
-              onFormClick={() => this.aboutTheApp()}
+              onFormClick={() => this.personalProfile()}
             />
             <FormWithPairText
               leftText="我的积分"
@@ -67,15 +67,15 @@ class MinePage extends React.Component<Props, {}> {
           </View>
           <View style={styles.partContainer}>
             <FormArrowToDetail
-                leftText={'账户安全'}
+                leftText={'我的主队'}
                 onFormClick={() => this.aboutTheApp()}
                 cutOffLine={false}
               />            
           </View>
           <View style={styles.partContainer}>
             <FormArrowToDetail
-              leftText={'帮助与反馈'}
-              onFormClick={() => this.aboutTheApp()}
+              leftText={'意见与反馈'}
+              onFormClick={() => this.helpAndFeedback()}
             />
             <FormArrowToDetail
               leftText={'给个好评'}
@@ -98,11 +98,27 @@ class MinePage extends React.Component<Props, {}> {
   }
 
   /**
+   * 跳转至 ‘个人资料页面’
+   */
+  personalProfile = () => {
+    console.log('点击了个人资料');
+    this.props.navigation.navigate('PersonalProfile');
+  }
+
+  /**
+   * 跳转至 ‘帮助与反馈’
+   */
+  helpAndFeedback = () => {
+    console.log('点击了意见与反馈');
+    this.props.navigation.navigate('HelpAndFeedback');
+  }
+
+  /**
    * 跳转至 ‘关于页面’
    */
   aboutTheApp = () => {
     console.log('点击了关于');
-    this.props.navigation.navigate('Hello');
+    this.props.navigation.navigate('AboutApp');
   }
 
   /**

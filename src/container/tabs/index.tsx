@@ -12,6 +12,9 @@ import PersonalProfile from '../../container/mine/PersonalProfile';
 import AboutApp from '../../container/mine/AboutApp';
 import HelpAndFeedback from '../../container/mine/HelpAndFeedback';
 import EvaluateApp from '../../container/mine/EvaluateApp';
+import ChangeNickName from '../../container/mine/personalProfile/ChangeNickName';
+import ChangeAddress from '../../container/mine/personalProfile/ChangeAddress';
+
 
 // const HomeStack = StackNavigator({
 
@@ -33,7 +36,9 @@ const MineStack = StackNavigator(
     PersonalProfile: { screen: PersonalProfile},
     AboutApp: { screen: AboutApp},
     HelpAndFeedback: { screen: HelpAndFeedback},
-    EvaluateApp: { screen: EvaluateApp}
+    EvaluateApp: { screen: EvaluateApp},
+    ChangeNickName: { screen: ChangeNickName},
+    ChangeAddress: { screen: ChangeAddress}
   },
   {
     navigationOptions: {

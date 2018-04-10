@@ -93,6 +93,7 @@ class PersonalProfile extends React.Component<Props, {}> {
    */
   onNickNameClick = () => {
     console.log('点击了昵称')
+    this.props.navigation.navigate('ChangeNickName')
   }
   
   /**
@@ -107,6 +108,7 @@ class PersonalProfile extends React.Component<Props, {}> {
    */
   onAddressClick = () => {
     console.log('点击了地址')
+    this.props.navigation.navigate('ChangeAddress')
   }
 }
 

@@ -36,13 +36,43 @@ export function logout() {
 	}
 }
 
+export function modifyNickName(newNickName: string) {
+	console.log('changeNickName' + newNickName)
+	return (dispatch: any) => {
+		dispatch(changeNickName(newNickName));
+	}
+}
+
+export function modifyAddress(newAddress: string) {
+	console.log('changeAddress' + newAddress)
+	return (dispatch: any) => {
+		dispatch(changeAddress(newAddress));
+	}
+}
+
+function changeAddress(newAddress: string) {
+	return {
+		type: types.MODIFY_ADDRESS,
+		address: newAddress,
+		user: user,
+	}
+}
+
+function changeNickName(newNickName: string) {
+	return {
+		type: types.MODIFY_NICKNAME,
+		nickName: newNickName,
+		user: user,
+	}
+}
+
 function isLogining() {
 	return {
 		type: types.LOGIN_IN_DOING
 	}
 }
 
-function loginSuccess(isSuccess: boolean, user: any) {
+function loginSuccess(isSuccess: boolean, user: User) {
 	console.log('success');
 	return {
 		type: types.LOGIN_IN_DONE,
@@ -56,3 +86,4 @@ function loginError(isSuccess: boolean) {
 		type: types.LOGIN_IN_ERROR,
 	}
 }
+

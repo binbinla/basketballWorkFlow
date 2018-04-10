@@ -11,5 +11,6 @@ export const commonColors = {
   formTextColor: '#404040',
   formSuperficialColor: '#A9A9A9',
   borderColor: '#D3D3D3',
-  topicColor: '#A31F24'
+  topicColor: '#A31F24',
+  disabled: '#696969'
 }

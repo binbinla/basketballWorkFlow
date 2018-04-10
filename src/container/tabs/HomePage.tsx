@@ -42,7 +42,7 @@ class HomePage extends React.Component<Props, {}> {
     super(props);
   }
   static navigationOptions = {
-    title: '放学打球'
+    title: '赛况'
   };
 
   // componentWillMount() {

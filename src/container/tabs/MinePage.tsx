@@ -17,6 +17,7 @@ import FormWithPicture from '../../component/Form/FormWithPicture';
 import FormWithPairText from '../../component/Form/FormWithPairText';
 import Button from '../../component/Button';
 import { commonColors } from '../../utils/colors';
+import * as loginAction from '../../actions/loginAction';
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -30,7 +31,7 @@ interface StateProps {
 }
 
 interface DispathProps {
-  // readonly login: () => Action<void>
+  readonly logout: () => Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
@@ -41,7 +42,7 @@ class MinePage extends React.Component<Props, {}> {
     super(props);
   }
   static navigationOptions = {
-    title: '放学打球'
+    title: '个人中心'
   };
 
   render() {
@@ -55,7 +56,7 @@ class MinePage extends React.Component<Props, {}> {
               nickName={'大陈'}
               contactText={'188****6910'}
               pictureUri={'../../../assets/img/indicate/snail.jpg'}
-              onFormClick={() => this.aboutTheApp()}
+              onFormClick={() => this.personalProfile()}
             />
             <FormWithPairText
               leftText="我的积分"
@@ -66,19 +67,19 @@ class MinePage extends React.Component<Props, {}> {
           </View>
           <View style={styles.partContainer}>
             <FormArrowToDetail
-                leftText={'账户安全'}
+                leftText={'我的主队'}
                 onFormClick={() => this.aboutTheApp()}
                 cutOffLine={false}
               />            
           </View>
           <View style={styles.partContainer}>
             <FormArrowToDetail
-              leftText={'帮助与反馈'}
-              onFormClick={() => this.aboutTheApp()}
+              leftText={'意见与反馈'}
+              onFormClick={() => this.helpAndFeedback()}
             />
             <FormArrowToDetail
-              leftText={'给个好评'}
-              onFormClick={() => this.aboutTheApp()}
+              leftText={'给个好评鼓励一下吧'}
+              onFormClick={() => this.evaluateApp()}
             />                           
             <FormArrowToDetail
               leftText={'关于App'}
@@ -89,7 +90,7 @@ class MinePage extends React.Component<Props, {}> {
           <Button
             style={{ marginTop: 15, backgroundColor: commonColors.topicColor}} 
             text="退出登录"
-            onButtonClick={() => {}}
+            onButtonClick={() => this.logout()}
           />
         </ScrollView>
       </View>
@@ -97,10 +98,50 @@ class MinePage extends React.Component<Props, {}> {
   }
 
   /**
+   * 跳转至 ‘个人资料页面’
+   */
+  personalProfile = () => {
+    console.log('点击了个人资料');
+    this.props.navigation.navigate('PersonalProfile');
+  }
+
+  /**
+   * 跳转至 ‘帮助与反馈’
+   */
+  helpAndFeedback = () => {
+    console.log('点击了意见与反馈');
+    this.props.navigation.navigate('HelpAndFeedback');
+  }
+
+  /**
+   * 跳转至 ‘评价App页面’
+   */
+  evaluateApp = () => {
+    console.log('点击了评价App页面');
+    this.props.navigation.navigate('EvaluateApp');
+  }
+
+  /**
    * 跳转至 ‘关于页面’
    */
   aboutTheApp = () => {
-    console.log('点击了关于')
+    console.log('点击了关于');
+    this.props.navigation.navigate('AboutApp');
+  }
+
+  /**
+   * 跳转至 ‘登录页面’
+   */
+  logout = () => {
+    console.log('点击了退出登录');
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Login' })
+      ]
+    });
+    this.props.logout();
+    this.props.navigation.dispatch(resetAction);
   }
 }
 
@@ -132,7 +173,7 @@ function mapStateToProps(reducer: any) {
 
 function mapDispatchToProps() {
   return (dispatch: any) => ({
-    // login: () => dispatch(loginAction.login())
+    logout: () => dispatch(loginAction.logout())
   })
 }
 

@@ -9,7 +9,11 @@ export interface LoginState {
 
 export interface User {
   name: string,
-  age: number
+  age: number,
+  nickName: string,
+  phoneNumber: string,
+  sex: string,
+  address: string
 }
 
 // 初始状态
@@ -20,8 +24,9 @@ const initialState: LoginState = {
 }
 
 // 不同类别的事件使用switch对应处理过程
-export default function loginHandler(state = initialState, action: any) {
+export function loginHandler(state = initialState, action: any) {
   let newState: LoginState = state;
+  let newUser: User;
   switch (action.type) {
     case types.LOGIN_IN_DOING:
       newState = Object.assign({}, state, {
@@ -44,6 +49,30 @@ export default function loginHandler(state = initialState, action: any) {
         user: null        
       });
       return newState
+    case types.DID_LOGOUT:
+      newState = Object.assign({}, state, {
+        status: '退出登录',
+        isSuccess: false,
+        user: null
+      });
+      return newState
+    case types.MODIFY_NICKNAME:
+      newUser = Object.assign({}, action.user, {
+        nickName: action.nickName
+      })
+      newState = Object.assign({}, state, {
+        user: newUser
+      })
+      return newState;
+    case types.MODIFY_ADDRESS:
+      newUser = Object.assign({}, action.user, {
+        address: action.address
+      })    
+      newState = Object.assign({}, state, {
+        user: newUser
+      })
+      // console.log('reducer change address')
+      return newState;    
     default:
       return state;
   }

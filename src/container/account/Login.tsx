@@ -52,13 +52,19 @@ class LoginPage extends React.Component<Props, State> {
     }
   }
   static navigationOptions = {
-    title: 'LoginPage'
+    title: '登录',
+    // headerStyle: {
+    //   backgroundColor: commonColors.topicColor,
+    // },
+    // headerTintColor: commonColors.white,
+    tabBarVisible: false,
+    header: null
   };
 
   shouldComponentUpdate(nextProps: Props, nextState: any) {
     // 登录完成,切成功登录
     if (nextProps.loginParams.status === '登陆成功' && nextProps.loginParams.isSuccess) {
-      this.props.navigation.dispatch(resetAction)
+      this.props.navigation.dispatch(resetAction);
       return false;
     }
     return true;
@@ -69,14 +75,14 @@ class LoginPage extends React.Component<Props, State> {
       <View style={styles.container}>
         <View style={styles.card}>
         <Hoshi
-          style={{marginLeft: 15, marginRight: 15}}
+          style={{backgroundColor: commonColors.white}}
           label={'账号'}
           maskColor={'#F9F7F6'}
           borderColor={'#b76c94'}
           onChangeText={(text: any) => {this.setState({account: text})}}
         />
         <Hoshi
-          style={{marginLeft: 15, marginRight: 15}}
+          style={{backgroundColor: commonColors.white}}
           label={'密码'}
           maskColor={'#F9F7F6'}
           borderColor={'#b76c94'}

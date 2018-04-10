@@ -12,11 +12,11 @@ import { StackNavigator } from 'react-navigation';
 
 export const App = StackNavigator(
   {
-    Tabs: { screen: Tabs },    
     Login: { screen: LoginPage },
+    Tabs: { screen: Tabs },    
   },
   {
-    initialRouteName: 'Tabs'
+    initialRouteName: 'Login'
   }
 );
 

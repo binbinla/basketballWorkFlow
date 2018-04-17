@@ -34,7 +34,7 @@ class TeamsPage extends React.Component<Props, {}> {
     super(props);
   }
   static navigationOptions = {
-    title: '放学打球'
+    title: '球队'
   };
 
   render() {

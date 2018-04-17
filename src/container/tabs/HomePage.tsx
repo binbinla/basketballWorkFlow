@@ -54,7 +54,7 @@ class HomePage extends React.Component<Props, {}> {
       <View style={styles.container}>
         <GiftedListView
           style={{flex: 1}}
-          rowView={this._renderRowView}
+          rowView={this._renderRowView.bind(this)}
           onFetch={this._onFetch}
           firstLoader={true}
           pagination={true}
@@ -63,10 +63,11 @@ class HomePage extends React.Component<Props, {}> {
           sectionHeaderView={this._renderSectionHeaderView}
           customStyles={{
             paginationView: {
-              backgroundColor: '#eee',
+              backgroundColor: commonColors.white,
             },
           }}
           refreshableTintColor="blue"
+          paginationWaitingView={this._renderPaginationWaitingView}
         />
       </View>
     )
@@ -80,8 +81,8 @@ class HomePage extends React.Component<Props, {}> {
     setTimeout(() => {
       // const result = this.props.gamesParams ? this.props.gamesParams : []
       let result = {};
-      result['今天 周三'] = gameAction.testState;
-      result['昨天 周二'] = gameAction.testState;
+      result['周三'] = gameAction.testState;
+      result['周二'] = gameAction.testState;
       callback(result);
     }, 1000);
   }
@@ -116,7 +117,7 @@ class HomePage extends React.Component<Props, {}> {
           bgColor={commonColors.gameOrange}
         />
       </TouchableOpacity>
-    )
+    )    
   }
 
   /**
@@ -126,12 +127,28 @@ class HomePage extends React.Component<Props, {}> {
   _onItemPress(item: any) {
     console.log(item + 'was pressed')
   }
+
+  _renderPaginationWaitingView(paginateCallback) {
+    return (
+      <TouchableOpacity
+        onPress={paginateCallback}
+        style={styles.paginationView}
+      >
+        <Text style={[styles.paginationText]}>
+          加载更多
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+    
 }
 
 interface Style {
   container: ViewStyle,
   header: ViewStyle,
-  headerTitle: TextStyle
+  headerTitle: TextStyle,
+  paginationView: ViewStyle,
+  paginationText: TextStyle
 }
 
 const styles = StyleSheet.create<Style>({
@@ -146,6 +163,16 @@ const styles = StyleSheet.create<Style>({
   },
   headerTitle: {
     color: commonColors.sectionHeaderText,
+  },
+  paginationView: {
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: commonColors.white,
+  },
+  paginationText: {
+    fontSize: 13,
+    color: commonColors.underGray,
   }
 });
 

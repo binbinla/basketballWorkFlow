@@ -1,4 +1,3 @@
-import { teamInfoState } from '../reducers/teamReducer';
 import * as types from '../constants/gameTypes';
 
 export interface GameState {

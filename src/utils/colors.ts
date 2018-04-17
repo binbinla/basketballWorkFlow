@@ -1,5 +1,6 @@
 export const commonColors = {
   white: '#FFFFFF',
+  black: '#000000',
   gray: '#F2F2F2',
   underGray: '#404040',
   buttonBg: '#080808',

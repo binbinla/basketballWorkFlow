@@ -14,19 +14,50 @@ import HelpAndFeedback from '../../container/mine/HelpAndFeedback';
 import EvaluateApp from '../../container/mine/EvaluateApp';
 import ChangeNickName from '../../container/mine/personalProfile/ChangeNickName';
 import ChangeAddress from '../../container/mine/personalProfile/ChangeAddress';
+import NewsDetail from '../../container/community/NewsDetail';
 
+const HomeStack = StackNavigator(
+  {
+    HomePage: { screen: HomePage},
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: commonColors.topicColor,
+      },
+      headerTintColor: commonColors.white
+    }
+  }  
+)
 
-// const HomeStack = StackNavigator({
+const TeamsStack = StackNavigator(
+  {
+    TeamsPage: { screen: TeamsPage},
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: commonColors.topicColor,
+      },
+      headerTintColor: commonColors.white
+    }
+  }  
+)
 
-// })
-
-// const TeamsStack = StackNavigator({
-
-// })
-
-// const CommunityStack = StackNavigator({
-
-// })
+const CommunityStack = StackNavigator(
+  {
+    CommunityPage: { screen: CommunityPage},
+    NewsDetail: { screen: NewsDetail}
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: commonColors.topicColor,
+      },
+      headerTintColor: commonColors.white
+    }
+  }  
+)
 
 const MineStack = StackNavigator(
   {
@@ -53,9 +84,9 @@ const MineStack = StackNavigator(
 export const Tabs = TabNavigator(
   {
     MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} },
-    HomePage: { screen: HomePage, navigationOptions: { tabBarLabel: '首页'}},
-    TeamsPage: { screen: TeamsPage, navigationOptions: { tabBarLabel: '球队'} },
-    CommunityPage: { screen: CommunityPage, navigationOptions: { tabBarLabel: '社区'} },
+    HomeStack: { screen: HomeStack, navigationOptions: { tabBarLabel: '赛况'}},
+    TeamsStack: { screen: TeamsStack, navigationOptions: { tabBarLabel: '球队'} },
+    CommunityStack: { screen: CommunityStack, navigationOptions: { tabBarLabel: '社区'} },
     // MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} }
   },
   {
@@ -76,7 +107,8 @@ export const Tabs = TabNavigator(
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
     animationEnabled: false,
-    swipeEnabled: false
+    swipeEnabled: false,
+    // lazyLoad: true
   },
   {
     initialRouteName: 'MineStack'

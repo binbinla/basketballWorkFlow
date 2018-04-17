@@ -7,3 +7,4 @@ declare module 'react-native-textinput-effects';
 declare module 'react-native-gifted-listview';
 declare module 'react-native-star-rating';
 declare module 'react-native-vector-icons'; // Android上有可选的配置选项
+declare module '@yfuks/react-native-action-sheet';

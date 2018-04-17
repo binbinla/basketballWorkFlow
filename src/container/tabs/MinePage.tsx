@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
-  ScrollView
+  ScrollView,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux'; // 引入connect函数
 import { NavigationActions } from 'react-navigation';

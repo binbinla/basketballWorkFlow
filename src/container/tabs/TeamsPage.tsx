@@ -10,6 +10,7 @@ import { NavigationActions } from 'react-navigation';
 import { Navigatable } from '../../types/general-types';
 import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
+import TeamCard from '../../component/TeamCard';
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -40,8 +41,9 @@ class TeamsPage extends React.Component<Props, {}> {
   render() {
     return (
       <View style={styles.container}>
-        <Text>东西部球队汇总
-        </Text>
+        <TeamCard
+
+        />
       </View>
     )
   }
@@ -50,8 +52,6 @@ class TeamsPage extends React.Component<Props, {}> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#F5FCFF'
   }
 });

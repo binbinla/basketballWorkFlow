@@ -58,8 +58,8 @@ const styles = StyleSheet.create<Styles>({
     flexDirection: 'row',
     backgroundColor: commonColors.white,
     padding: 8,
-    borderWidth: 0.5,
-    borderTopColor: commonColors.borderColor
+    borderBottomColor: commonColors.borderColor,
+    borderBottomWidth: 0.5
   },
   imageContainer: {
     width: 80,

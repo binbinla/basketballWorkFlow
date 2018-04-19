@@ -14,8 +14,11 @@ import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
 import GameCard from '../../component/GameCard';
 import { commonColors } from '../../utils/colors';
-import { GameState } from '../../reducers/gameReducer';
+import { GameState, DayType } from '../../reducers/gameReducer';
 import * as gameAction from '../../actions/gameAction';
+import * as date from '../../utils/date';
+import { GameGeneralResult } from '../../network/producer';
+import teamMap from '../../utils/team-map';
 
 const GiftedListView = require('react-native-gifted-listview');
 
@@ -27,27 +30,44 @@ const resetAction = NavigationActions.reset({
 })
 
 interface StateProps {
-  readonly gamesParams: GameState[]
+  readonly gamesParams: GameGeneralResult[]
 }
 
 interface DispathProps {
   readonly fetchGames: () => Action<void>
+  readonly getGameGeneral: (year, month, date) =>  Action<void>
+  readonly getYesterdayGameGeneral: (year, month, date) =>  Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
 
-class HomePage extends React.Component<Props, {}> {
+interface State {
+  date: string[]
+}
+
+class HomePage extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    this.state = {
+      date: date.getToday()
+    }
   }
   static navigationOptions = {
     title: '赛况'
   };
 
-  // componentWillMount() {
-  //   this.props.fetchGames();
-  // }
+  componentWillMount() {
+    this.props.fetchGames();
+    const today = date.getToday()
+    this.props.getGameGeneral(today[0], today[1], today[2]);
+    const yesterday = date.getYesterday()
+    this.props.getYesterdayGameGeneral(yesterday[0], yesterday[1], yesterday[2])
+  }
+
+  componentDidMount() {
+    //
+  }
 
   render() {
     return (
@@ -55,9 +75,9 @@ class HomePage extends React.Component<Props, {}> {
         <GiftedListView
           style={{flex: 1}}
           rowView={this._renderRowView.bind(this)}
-          onFetch={this._onFetch}
+          onFetch={this._onFetch.bind(this)}
           firstLoader={true}
-          pagination={true}
+          pagination={false}
           refreshable={true}
           withSections={true} // enable sections
           sectionHeaderView={this._renderSectionHeaderView}
@@ -79,12 +99,40 @@ class HomePage extends React.Component<Props, {}> {
    */
   _onFetch(page = 1, callback, options) {
     setTimeout(() => {
-      // const result = this.props.gamesParams ? this.props.gamesParams : []
       let result = {};
-      result['周三'] = gameAction.testState;
-      result['周二'] = gameAction.testState;
+      result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}`] = this.combineGames(DayType.today)
+      result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}`] = this.combineGames(DayType.yesterday)
+      // let result = {};
+      // result['周三'] = gameAction.testState;
+      // result['周二'] = gameAction.testState;
       callback(result);
-    }, 1000);
+    }, 2000);
+  }
+
+  combineGames = (type: DayType): GameState[] => {
+    const all: GameState[] = []
+    if (type === DayType.today) {
+      this.props.gamesParams['today'].live.forEach(item => {
+        all.push(item);
+      })
+      this.props.gamesParams['today'].unstart.forEach(item => {
+        all.push(item);
+      })
+      this.props.gamesParams['today'].over.forEach(item => {
+        all.push(item);
+      })
+    } else if (type === DayType.yesterday) {
+      this.props.gamesParams['yesterday'].live.forEach(item => {
+        all.push(item);
+      })
+      this.props.gamesParams['yesterday'].unstart.forEach(item => {
+        all.push(item);
+      })
+      this.props.gamesParams['yesterday'].over.forEach(item => {
+        all.push(item);
+      })
+    }
+    return all;
   }
 
    /**
@@ -105,7 +153,8 @@ class HomePage extends React.Component<Props, {}> {
    * Render a row
    * @param
    */
-  _renderRowView(item: any) {
+  _renderRowView(item: GameState) {
+    const color = teamMap[item.home.teamAbbreviate].color
     return (
       <TouchableOpacity
         style={{paddingTop: 10}}
@@ -114,7 +163,7 @@ class HomePage extends React.Component<Props, {}> {
       >
         <GameCard
           item={item}
-          bgColor={commonColors.gameOrange}
+          bgColor={color}
         />
       </TouchableOpacity>
     )    
@@ -140,7 +189,7 @@ class HomePage extends React.Component<Props, {}> {
       </TouchableOpacity>
     );
   }
-    
+
 }
 
 interface Style {
@@ -184,7 +233,9 @@ function mapStateToProps(reducer: any) {
  
 function mapDispatchToProps() { 
   return (dispatch: any) => ({
-    fetchGames: () => dispatch(gameAction.fetchGames())
+    fetchGames: () => dispatch(gameAction.fetchGames()),
+    getGameGeneral: (year, month, date) => dispatch(gameAction.getGameGeneral(year, month, date)),
+    getYesterdayGameGeneral: (year, month, date) => dispatch(gameAction.getYesterdayGameGeneral(year, month, date))
   })
 }
 

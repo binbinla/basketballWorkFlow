@@ -10,6 +10,8 @@
     "@types/react-redux": "^5.0.15",
     "@yfuks/react-native-action-sheet": "0.0.4",
     "create-react-class": "^15.6.3",
+    "moment": "^2.22.1",
+    "moment-timezone": "^0.5.16",
     "react": "16.2.0",
     "react-native": "0.53.3",
     "react-native-easy-toast": "^1.1.0",

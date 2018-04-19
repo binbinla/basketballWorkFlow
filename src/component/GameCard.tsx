@@ -28,28 +28,40 @@ export default class GameCard extends React.Component<Props, object> {
     super(props);
   }
   render() {
-    const homeTeamLogo = teamMap[this.props.item.home.teamAbbreviate].logo
-    const visitorTeamLogo = teamMap[this.props.item.visitor.teamAbbreviate].logo
-    const homeTeamCity = teamMap[this.props.item.home.teamAbbreviate].city
-    const visitorTeamCity = teamMap[this.props.item.visitor.teamAbbreviate].city
+    if (this.props.item.home && this.props.item.visitor) {
+      //
+    }
+    const homeToLower = this.props.item.home.teamAbbreviate.toLowerCase();
+    const visitorToLower = this.props.item.visitor.teamAbbreviate.toLowerCase();
+    const homeTeamLogo = teamMap[homeToLower].logo
+    const visitorTeamLogo = teamMap[visitorToLower].logo
+    const homeTeamCity = teamMap[homeToLower].city
+    const visitorTeamCity = teamMap[visitorToLower].city
+    const homeTeamName = teamMap[homeToLower].team
+    const visitorTeamName = teamMap[visitorToLower].team
+    const homeScore = this.props.item.home.score
+    const visitorScore = this.props.item.visitor.score
+    const process = this.props.item.process.quarter + " " + this.props.item.process.time
     return (
       <View style={[styles.container, {backgroundColor: this.props.bgColor}]}>
         <View style={styles.leftCard}>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image style={styles.image} source={homeTeamLogo} />
             <Text style={styles.teamName}>{homeTeamCity}</Text>
+            <Text style={styles.teamName}>{homeTeamName}</Text>
           </View>
-          <Text style={styles.leftScore}>{100}</Text>
+          <Text style={styles.leftScore}>{homeScore}</Text>
         </View>
         <View style={styles.timeContainer}>
-         <Text style={styles.time}>{'Q4 4:32'}</Text>
+         <Text style={styles.time}>{process}</Text>
         </View>
         <View style={styles.cutOffLine}/>
         <View style={styles.rightCard}>
-          <Text style={styles.rightScore}>{101}</Text>
+          <Text style={styles.rightScore}>{visitorScore}</Text>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image style={styles.image} source={visitorTeamLogo} />
             <Text style={styles.teamName}>{visitorTeamCity}</Text>
+            <Text style={styles.teamName}>{visitorTeamName}</Text>
           </View>
         </View>
       </View>

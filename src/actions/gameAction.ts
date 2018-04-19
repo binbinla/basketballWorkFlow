@@ -1,5 +1,6 @@
 import * as types from '../constants/gameTypes';
-import { GameState } from '../reducers/gameReducer';
+import { GameState, GameType } from '../reducers/gameReducer';
+import Channel from '../network/index';
 
 export function fetchGames() {
   console.log('访问获取比赛的方法');
@@ -9,13 +10,16 @@ export function fetchGames() {
 }
 
 const testItem: GameState = {
-  type: 'live',
+  id: '',
+  type: GameType.live,
   home: {
+    id: '',
     players: [],
     teamAbbreviate: 'cle',
     score: '105',
   },
   visitor: {
+    id: '',
     players: [],
     teamAbbreviate: 'gsw',
     score: '101',
@@ -26,19 +30,48 @@ const testItem: GameState = {
     quarter: 'Q4'
   },
   detail: {
+    loaded: false,
     url: '',
     data: {}
   }
 }
 
 export const testState: GameState[] = [testItem, testItem, testItem];
-// export let testInstance[] = {};
-// testInstance[0] = testState;
-// testInstance['昨天'] = testState;
 
 function didFetchGames() {
   return {
-    type: types.DID_FETCH_GAMES,
+    type: types.DID_FETCH_TODAY_GAMES,
     games: testState
+  }
+}
+
+/**
+ * Get info of game general
+ */
+export const getGameGeneral = (year, month, date) => {
+  return (dispatch, getStore) => {
+    const channel = new Channel();
+    return channel.getGameGeneral(year, month, date)
+      .then(data => {
+        console.log('data' + JSON.stringify(data))
+        return dispatch({
+          type: types.DID_FETCH_TODAY_GAMES,
+          games: data
+        })
+      })
+  }
+}
+
+export const getYesterdayGameGeneral = (year, month, date) => {
+  return (dispatch, getStore) => {
+    const channel = new Channel();
+    return channel.getGameGeneral(year, month, date)
+      .then(data => {
+        console.log('data' + JSON.stringify(data))
+        return dispatch({
+          type: types.DID_FETCH_YESTERDAY_GAMES,
+          games: data
+        })
+      })
   }
 }

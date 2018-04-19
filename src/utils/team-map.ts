@@ -18,7 +18,8 @@ export default {
   bos: {
     id: 1610612738,
     city: 'Boston',
-    team: 'Celtics',
+    // team: 'Celtics',
+    team: '凯尔特人',    
     color: '#008348',
     conf: 'eastern',
     logo: require('../../assets/img/bos.png')
@@ -42,7 +43,8 @@ export default {
   cle: {
     id: 1610612739,
     city: 'Cleveland',
-    team: 'Cavaliers',
+    // team: 'Cavaliers',
+    team: '骑士',    
     color: '#860038',
     conf: 'eastern',
     logo: require('../../assets/img/cle.png')
@@ -74,7 +76,8 @@ export default {
   gsw: {
     id: 1610612744,
     city: 'Golden State',
-    team: 'Warriors',
+    // team: 'Warriors',
+    team: '勇士',
     color: '#FDB927',
     conf: 'western',
     logo: require('../../assets/img/gsw.png')
@@ -82,7 +85,8 @@ export default {
   hou: {
     id: 1610612745,
     city: 'Houston',
-    team: 'Rockets',
+    team: '火箭',
+    // team: 'Rockets',
     color: '#CE1141',
     conf: 'western',
     logo: require('../../assets/img/hou.png'),
@@ -91,7 +95,8 @@ export default {
   ind: {
     id: 1610612754,
     city: 'Indiana',
-    team: 'Pacers',
+    // team: 'Pacers',
+    team: '步行者',
     color: '#FFC633',
     conf: 'eastern',
     logo: require('../../assets/img/ind.png')
@@ -131,7 +136,8 @@ export default {
   mil: {
     id: 1610612749,
     city: 'Milwaukee',
-    team: 'Bucks',
+    // team: 'Bucks',
+    team: '雄鹿',    
     color: '#00471B',
     conf: 'eastern',
     logo: require('../../assets/img/mil.png')
@@ -139,7 +145,8 @@ export default {
   min: {
     id: 1610612750,
     city: 'Minnesota',
-    team: 'Timberwolves',
+    // team: 'Timberwolves',
+    team: '森林狼',    
     color: '#005083',
     conf: 'western',
     logo: require('../../assets/img/min.png')
@@ -147,7 +154,8 @@ export default {
   nop: {
     id: 1610612740,
     city: 'New Orleans',
-    team: 'Pelicans',
+    // team: 'Pelicans',
+    team: '鹈鹕',    
     color: '#002B5C',
     conf: 'western',
     logo: require('../../assets/img/nop.png')
@@ -163,7 +171,8 @@ export default {
   okc: {
     id: 1610612760,
     city: 'Oklahoma City',
-    team: 'Thunder',
+    // team: 'Thunder',
+    team: '雷霆',
     color: '#F05133',
     conf: 'western',
     logo: require('../../assets/img/okc.png')
@@ -195,7 +204,8 @@ export default {
   por: {
     id: 1610612757,
     city: 'Portland',
-    team: 'Trail Blazers',
+    // team: 'Trail Blazers',
+    team: '开拓者',    
     color: '#000',
     conf: 'western',
     logo: require('../../assets/img/por.png')
@@ -219,7 +229,8 @@ export default {
   tor: {
     id: 1610612761,
     city: 'Toronto',
-    team: 'Raptors',
+    // team: 'Raptors',
+    team: '猛龙',    
     color: '#CE1141',
     conf: 'eastern',
     logo: require('../../assets/img/tor.png')
@@ -227,7 +238,8 @@ export default {
   uta: {
     id: 1610612762,
     city: 'Utah',
-    team: 'Jazz',
+    // team: 'Jazz',
+    team: '爵士',    
     color: '#00471B',
     conf: 'western',
     logo: require('../../assets/img/uta.png')
@@ -235,7 +247,8 @@ export default {
   was: {
     id: 1610612764,
     city: 'Washington',
-    team: 'Wizards',
+    // team: 'Wizards',
+    team: '奇才',
     color: '#F5002F',
     conf: 'eastern',
     logo: require('../../assets/img/was.png')

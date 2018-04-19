@@ -1,14 +1,29 @@
 import * as types from '../constants/gameTypes';
+import { GameGeneralResult } from '../network/producer';
+
+export const enum GameType {
+  unstart = 'UNSTART',
+  live = 'LIVE',
+  over = 'OVER'
+}
+
+export const enum DayType {
+  today = 1,
+  yesterday = 2
+}
 
 export interface GameState {
-  type: string
+  id: string
+  type: GameType
   home: {
-    players: any[],
+    id: string,
+    players?: any[],
     teamAbbreviate: string,
     score: string,
   },
   visitor: {
-    players: any[],
+    id: string,
+    players?: any[],
     teamAbbreviate: string,
     score: string,
   },
@@ -18,18 +33,32 @@ export interface GameState {
     quarter: string
   },
   detail: {
-    url: String
+    loaded: boolean,
     data: Object
+    url?: String
   }
 }
 
-const initialState: GameState[] = [];
+
+// const initialState: GameState[] = [];
+
+const initialItem: GameGeneralResult = {
+  unstart: [],
+  live: [],
+  over: [],
+};
+
+const initialState: GameGeneralResult[] = []
 
 export function fetchGamesHandler(state = initialState, action: any) {
-  let newState: GameState[] = state;
+  let newState: GameGeneralResult[] = state;
   switch(action.type) {
-    case types.DID_FETCH_GAMES: {
-      newState = action.games;
+    case types.DID_FETCH_TODAY_GAMES: {
+      newState['today'] = action.games;
+      return newState;
+    }
+    case types.DID_FETCH_YESTERDAY_GAMES: {
+      newState['yesterday'] = action.games;
       return newState;
     }
     default: 

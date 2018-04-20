@@ -1,5 +1,5 @@
 import address from './address';
-import producer, { GameGeneralResult }  from './producer';
+import producer, { GameGeneralResult, TeamRankResult }  from './producer';
 
 export default class Channel {
 
@@ -27,4 +27,37 @@ export default class Channel {
         throw error;
       })
   }
+
+  /**
+   * 
+   * @param year 
+   * @param month 
+   * @param date 
+   */
+  getTeamRank(year, month, date) {
+    let formatMonth = month;
+    if (parseInt(formatMonth, 10) < 10) {
+      formatMonth = parseInt(formatMonth, 10)
+    }
+    const url = address.teamRank(`${formatMonth}/${date}/${year}`)
+    console.log('teamRank Url' + url);
+    // fetch("http://blog.parryqiu.com").then(function(response){console.log( 'response' + JSON.stringify(response))})
+    // console.log('dayin' + JSON.stringify(fetch("http://stats.nba.com/stats/scoreboard?DayOffset=0&LeagueID=00&gameDate=3/13/2018")));
+    return window.fetch("http://stats.nba.com/stats/scoreboard?DayOffset=0&LeagueID=00&gameDate=4/12/2018")
+      .then(function(res) {
+        res.json();
+        // return res.json()
+      })
+      .then(data => {
+        console.log('team rank data' + JSON.stringify(data))
+        producer.teamRank(data)
+        // return result;
+      })
+      .catch(error => {
+        console.log(error);
+        throw error;
+      })
+  }
 }
+
+

@@ -83,11 +83,11 @@ const MineStack = StackNavigator(
 
 export const Tabs = TabNavigator(
   {
-    MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} },
+    // MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} },
     HomeStack: { screen: HomeStack, navigationOptions: { tabBarLabel: '赛况'}},
     TeamsStack: { screen: TeamsStack, navigationOptions: { tabBarLabel: '球队'} },
     CommunityStack: { screen: CommunityStack, navigationOptions: { tabBarLabel: '社区'} },
-    // MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} }
+    MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} }
   },
   {
     navigationOptions: ({ navigation }) => ({

@@ -1,5 +1,6 @@
 
 import { GameType, GameState } from '../reducers/gameReducer'; 
+import { BasicTeamInfo } from '../reducers/teamReducer';
 
 export interface GameGeneralResult {
   unstart: GameState[],
@@ -9,6 +10,10 @@ export interface GameGeneralResult {
   weekDay?: string 
 }
 
+export interface TeamRankResult {
+  eastern: BasicTeamInfo[],
+  western: BasicTeamInfo[]
+}
 
 const producer = {
 
@@ -94,7 +99,38 @@ const producer = {
       }
     })
     return result;    
-  }
+  },
+
+
+  /**
+   * @return {eastern: [{id, name, win, loss}], western:[]}
+   */
+  teamRank: (res): TeamRankResult => {
+    const eastData = res.resultSets[4].rowSet
+    const westData = res.resultSets[5].rowSet
+    let eastern: BasicTeamInfo[] = []
+    let western: BasicTeamInfo[] = []
+    let anotherItem = {}
+    eastData.forEach((item, index) => {
+      eastern.push({
+        id: item[0],
+        name: item[5],
+        win: item[8],
+        loss: item[7]
+      })
+      anotherItem = westData[index]
+      western.push({
+        id: anotherItem[0],
+        name: anotherItem[5],
+        win: anotherItem[8],
+        loss: anotherItem[7]
+      })
+    })
+    return {
+      eastern,
+      western
+    }
+  }    
 }
 
 

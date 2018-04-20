@@ -2,7 +2,8 @@ export default {
   atl: {
     id: 1610612737,
     city: 'Atlanta',
-    team: 'Hawks',
+    // team: 'Hawks',
+    team: '老鹰',    
     color: '#E03A3E',
     conf: 'eastern',
     logo: require('../../assets/img/atl.png')
@@ -27,7 +28,8 @@ export default {
   cha: {
     id: 1610612766,
     city: 'Charlotte',
-    team: 'Hornets',
+    // team: 'Hornets',
+    team: '黄蜂',    
     color: '#008CA8',
     conf: 'eastern',
     logo: require('../../assets/img/cha.png')
@@ -35,7 +37,8 @@ export default {
   chi: {
     id: 1610612741,
     city: 'Chicago',
-    team: 'Bulls',
+    // team: 'Bulls',
+    team: '公牛',    
     color: '#CE1141',
     conf: 'eastern',
     logo: require('../../assets/img/chi.png')
@@ -52,7 +55,8 @@ export default {
   dal: {
     id: 1610612742,
     city: 'Dallas',
-    team: 'Mavericks',
+    // team: 'Mavericks',
+    team: '独行侠',    
     color: '#007DC5',
     conf: 'western',
     logo: require('../../assets/img/dal.png')
@@ -60,7 +64,8 @@ export default {
   den: {
     id: 1610612743,
     city: 'Denver',
-    team: 'Nuggets',
+    // team: 'Nuggets',
+    team: '掘金',
     color: '#FFB20F',
     conf: 'western',
     logo: require('../../assets/img/den.png')
@@ -68,7 +73,8 @@ export default {
   det: {
     id: 1610612765,
     city: 'Detroit',
-    team: 'Pistons',
+    // team: 'Pistons',
+    team: '活塞',    
     color: '#006BB6',
     conf: 'eastern',
     logo: require('../../assets/img/det.png')
@@ -89,8 +95,8 @@ export default {
     // team: 'Rockets',
     color: '#CE1141',
     conf: 'western',
-    logo: require('../../assets/img/hou.png'),
-    logo2: require('../../assets/img/hou2.png')
+    logo2: require('../../assets/img/hou.png'),
+    logo: require('../../assets/img/hou2.png')
   },
   ind: {
     id: 1610612754,
@@ -104,7 +110,8 @@ export default {
   lac: {
     id: 1610612746,
     city: 'Los Angeles',
-    team: 'Clippers',
+    // team: 'Clippers',
+    team: '快船',    
     color: '#222',
     conf: 'western',
     logo: require('../../assets/img/lac.png')
@@ -112,7 +119,8 @@ export default {
   lal: {
     id: 1610612747,
     city: 'Los Angeles',
-    team: 'Lakers',
+    // team: 'Lakers',
+    team: '湖人',    
     color: '#552582',
     conf: 'western',
     logo: require('../../assets/img/lal.png')
@@ -120,7 +128,8 @@ export default {
   mem: {
     id: 1610612763,
     city: 'Memphis',
-    team: 'Grizzlies',
+    // team: 'Grizzlies',
+    team: '灰熊',    
     color: '#6189B9',
     conf: 'western',
     logo: require('../../assets/img/mem.png')
@@ -128,7 +137,8 @@ export default {
   mia: {
     id: 1610612748,
     city: 'Miami',
-    team: 'Heat',
+    // team: 'Heat',
+    team: '热火',    
     color: '#98002E',
     conf: 'eastern',
     logo: require('../../assets/img/mia.png')
@@ -163,7 +173,8 @@ export default {
   nyk: {
     id: 1610612752,
     city: 'New York',
-    team: 'Knicks',
+    // team: 'Knicks',
+    team: '尼克斯',    
     color: '#F58426',
     conf: 'eastern',
     logo: require('../../assets/img/nyk.png')
@@ -180,7 +191,8 @@ export default {
   orl: {
     id: 1610612753,
     city: 'Orlando',
-    team: 'Magic',
+    // team: 'Magic',
+    team: '魔术',    
     color: '#007DC5',
     conf: 'eastern',
     logo: require('../../assets/img/orl.png')
@@ -188,7 +200,8 @@ export default {
   phi: {
     id: 1610612755,
     city: 'Philadelphia',
-    team: '76ers',
+    // team: '76ers',
+    team: '76人',    
     color: '#006BB6',
     conf: 'eastern',
     logo: require('../../assets/img/phi.png')
@@ -196,7 +209,8 @@ export default {
   phx: {
     id: 1610612756,
     city: 'Phoenix',
-    team: 'Suns',
+    // team: 'Suns',
+    team: '太阳',    
     color: '#E56020',
     conf: 'western',
     logo: require('../../assets/img/phx.png')
@@ -213,7 +227,8 @@ export default {
   sac: {
     id: 1610612758,
     city: 'Sacramento',
-    team: 'Kings',
+    // team: 'Kings',
+    team: '国王',    
     color: '#724C9F',
     conf: 'western',
     logo: require('../../assets/img/sac.png')
@@ -221,7 +236,8 @@ export default {
   sas: {
     id: 1610612759,
     city: 'San Antonio',
-    team: 'Spurs',
+    // team: 'Spurs',
+    team: '马刺',    
     color: '#B6BFBF',
     conf: 'western',
     logo: require('../../assets/img/sas.png')

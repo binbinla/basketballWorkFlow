@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
-  TextStyle
+  TextStyle,
+  YellowBox
 } from 'react-native';
 import { connect } from 'react-redux'; // 引入connect函数
 import { NavigationActions } from 'react-navigation';
@@ -19,6 +20,7 @@ import * as gameAction from '../../actions/gameAction';
 import * as date from '../../utils/date';
 import { GameGeneralResult } from '../../network/producer';
 import teamMap from '../../utils/team-map';
+import * as teamAction from '../../actions/teamAction';
 
 const GiftedListView = require('react-native-gifted-listview');
 
@@ -37,6 +39,7 @@ interface DispathProps {
   readonly fetchGames: () => Action<void>
   readonly getGameGeneral: (year, month, date) =>  Action<void>
   readonly getYesterdayGameGeneral: (year, month, date) =>  Action<void>
+  readonly getTeamRank: (year, month, date) => Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
@@ -45,8 +48,10 @@ interface State {
   date: string[]
 }
 
-class HomePage extends React.Component<Props, State> {
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
+class HomePage extends React.Component<Props, State> {
+  
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -58,7 +63,7 @@ class HomePage extends React.Component<Props, State> {
   };
 
   componentWillMount() {
-    this.props.fetchGames();
+    // this.props.fetchGames();
     const today = date.getToday()
     this.props.getGameGeneral(today[0], today[1], today[2]);
     const yesterday = date.getYesterday()
@@ -66,6 +71,10 @@ class HomePage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    //
+  }
+
+  componentWillUnmount() {
     //
   }
 
@@ -235,7 +244,8 @@ function mapDispatchToProps() {
   return (dispatch: any) => ({
     fetchGames: () => dispatch(gameAction.fetchGames()),
     getGameGeneral: (year, month, date) => dispatch(gameAction.getGameGeneral(year, month, date)),
-    getYesterdayGameGeneral: (year, month, date) => dispatch(gameAction.getYesterdayGameGeneral(year, month, date))
+    getYesterdayGameGeneral: (year, month, date) => dispatch(gameAction.getYesterdayGameGeneral(year, month, date)),
+    getTeamRank: (year, month, date) => dispatch(teamAction.getTeamRank(year, month, date))
   })
 }
 

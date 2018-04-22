@@ -24,7 +24,7 @@ const testItem: GameState = {
     teamAbbreviate: 'gsw',
     score: '101',
   },
-  date: '20151026 0400',
+  date: [],
   process: {
     time: '4:32',
     quarter: 'Q4'
@@ -71,6 +71,20 @@ export const getYesterdayGameGeneral = (year, month, date) => {
         return dispatch({
           type: types.DID_FETCH_YESTERDAY_GAMES,
           games: data
+        })
+      })
+  }
+}
+
+export const getGameDetail = (year, month, date, gameId) => {
+  return (dispatch, getStore) => {
+    const channel = new Channel();
+    return channel.getGameDetail(year, month, date, gameId)
+      .then(data => {
+        console.log('game data' + JSON.stringify(data))
+        return dispatch({
+          type: types.DID_FETCH_GAME_DETAIl,
+          gameDetail: data
         })
       })
   }

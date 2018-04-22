@@ -10,3 +10,4 @@ declare module 'react-native-vector-icons'; // Android上有可选的配置选�
 declare module '@yfuks/react-native-action-sheet';
 declare module 'moment';
 declare module 'moment-timezone';
+declare module 'react-native-scrollable-tab-view';

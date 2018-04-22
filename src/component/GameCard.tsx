@@ -20,7 +20,8 @@ interface Props extends ViewStyle {
   // homeTeamItem: GameState,
   // guestTeamItem: GameState,
   item: GameState,
-  bgColor?: string
+  bgColor?: string,
+  atDetail?: boolean
 }
 
 export default class GameCard extends React.Component<Props, object> {
@@ -28,8 +29,23 @@ export default class GameCard extends React.Component<Props, object> {
     super(props);
   }
   render() {
-    if (this.props.item.home && this.props.item.visitor) {
-      //
+    let containerStyle: ViewStyle
+    let timeContainer: ViewStyle
+    if (this.props.atDetail) {
+      containerStyle = {
+
+      },
+      timeContainer = {
+        right: 140
+      }
+    } else {
+      containerStyle = {
+        borderRadius: 5,
+        marginHorizontal: 10
+      },
+      timeContainer = {
+        right: 130
+      }
     }
     const homeToLower = this.props.item.home.teamAbbreviate.toLowerCase();
     const visitorToLower = this.props.item.visitor.teamAbbreviate.toLowerCase();
@@ -43,7 +59,7 @@ export default class GameCard extends React.Component<Props, object> {
     const visitorScore = this.props.item.visitor.score
     const process = this.props.item.process.quarter + " " + this.props.item.process.time
     return (
-      <View style={[styles.container, {backgroundColor: this.props.bgColor}]}>
+      <View style={[styles.container, containerStyle, {backgroundColor: this.props.bgColor}]}>
         <View style={styles.leftCard}>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image style={styles.image} source={homeTeamLogo} />
@@ -52,7 +68,7 @@ export default class GameCard extends React.Component<Props, object> {
           </View>
           <Text style={styles.leftScore}>{homeScore}</Text>
         </View>
-        <View style={styles.timeContainer}>
+        <View style={[styles.timeContainer, timeContainer]}>
          <Text style={styles.time}>{process}</Text>
         </View>
         <View style={styles.cutOffLine}/>
@@ -85,34 +101,38 @@ interface Styles {
 const styles = StyleSheet.create<Styles>({
   container: {
     // flex: 1,
+    // borderRadius: 5,
+    // marginHorizontal: 10,
     flexDirection: 'row',
     backgroundColor: commonColors.white,
-    borderRadius: 5,
-    marginHorizontal: 10,
     paddingVertical: 8,
-    paddingHorizontal: 10
+    paddingHorizontal: 5
   },
   leftCard: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   rightCard: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   leftScore: {
     fontSize: 18,
     color: commonColors.white,
     marginLeft: 10,
-    marginRight: 10,
-    marginTop: 40
+    // marginRight: 10,
+    // marginTop: 40
   },
   rightScore: {
     fontSize: 18,
     color: commonColors.white,
     marginRight: 10,
-    marginLeft: 10,
-    marginTop: 40
+    // marginLeft: 20,
+    // marginTop: 40
   },
   image: {
    height: 90,
@@ -122,11 +142,11 @@ const styles = StyleSheet.create<Styles>({
     width: 1,
     height: 50, 
     backgroundColor: commonColors.white,
-    marginTop: 30
+    marginTop: 45 
   },
   timeContainer: {
     position: 'absolute',
-    right: 125,
+    right:  140,
     top: 5
   },
   time: {

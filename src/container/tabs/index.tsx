@@ -15,10 +15,12 @@ import EvaluateApp from '../../container/mine/EvaluateApp';
 import ChangeNickName from '../../container/mine/personalProfile/ChangeNickName';
 import ChangeAddress from '../../container/mine/personalProfile/ChangeAddress';
 import NewsDetail from '../../container/community/NewsDetail';
+import GameDetail from '../../container/game/GameDetail';
 
 const HomeStack = StackNavigator(
   {
     HomePage: { screen: HomePage},
+    GameDetail: {screen: GameDetail}
   },
   {
     navigationOptions: {

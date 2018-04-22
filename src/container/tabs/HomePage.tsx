@@ -109,8 +109,10 @@ class HomePage extends React.Component<Props, State> {
   _onFetch(page = 1, callback, options) {
     setTimeout(() => {
       let result = {};
-      result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}`] = this.combineGames(DayType.today)
-      result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}`] = this.combineGames(DayType.yesterday)
+      const todayResult = this.combineGames(DayType.today);
+      const yesterdayResult = this.combineGames(DayType.yesterday);
+      result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}${' '}${todayResult.length}场`] = todayResult
+      result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}${' '}${yesterdayResult.length}场`] = yesterdayResult
       // let result = {};
       // result['周三'] = gameAction.testState;
       // result['周二'] = gameAction.testState;
@@ -182,8 +184,13 @@ class HomePage extends React.Component<Props, State> {
    * when a row was touched
    * @param
    */
-  _onItemPress(item: any) {
-    console.log(item + 'was pressed')
+  _onItemPress(item: GameState) {
+    console.log(item + 'was pressed');
+    this.props.navigation.navigate('GameDetail', {
+      // gameId: item.id,
+      // gameDate: item.date
+      gameItem: item
+    }); 
   }
 
   _renderPaginationWaitingView(paginateCallback) {

@@ -1,5 +1,5 @@
 
-import { GameType, GameState } from '../reducers/gameReducer'; 
+import { GameType, GameState, SingleGameTeamInfo } from '../reducers/gameReducer'; 
 import { BasicTeamInfo } from '../reducers/teamReducer';
 
 export interface GameGeneralResult {
@@ -15,12 +15,22 @@ export interface TeamRankResult {
   western: BasicTeamInfo[]
 }
 
+export interface GameDetailResult {
+  home: SingleGameTeamInfo,
+  visitor: SingleGameTeamInfo,
+  type: GameType
+  process: {
+    time: string,
+    quarter: string
+  }
+}
+
 const producer = {
 
   /**
    * return {live: [], unstart: [], over: []}
    */
-  gameGeneral: (res): GameGeneralResult => {
+  gameGeneral: (res, date): GameGeneralResult => {
     let result: GameGeneralResult = {
       unstart: [],
       live: [],
@@ -30,7 +40,7 @@ const producer = {
     res['sports_content']['games']['game'].forEach((game, index) => {
       item = {
         id: game.id,
-        date: '',
+        date: date,
         type: GameType.unstart,
         home: {
           id: '',
@@ -124,13 +134,52 @@ const producer = {
         name: anotherItem[5],
         win: anotherItem[8],
         loss: anotherItem[7]
-      })
+      }) 
     })
     return {
       eastern,
       western
     }
-  }    
+  },    
+
+  /**
+   *  @return {type, home: {players: {Array}, team, score}, visitor: {<=same}, process: {time, quarter}}
+   */
+  gameDetail:(res): GameDetailResult => {
+    const data = res.sports_content.sports_meta.game
+    let result: GameDetailResult = {
+      home: {
+        id: '',
+        teamAbbreviate: '',
+        score: ''
+      },
+      visitor: {
+        id: '',
+        teamAbbreviate: '',
+        score: ''
+      },
+      type: GameType.over,
+      process: {
+        time: '',
+        quarter: ''
+      }
+    }
+    Object.keys(result).forEach(side => {
+      // result[side].teamAbbreviate = data[side].team_key
+      result[side].score = data[side].score
+      result[side].players = data[side].players
+    })
+    const gameType = parseInt(data['period_time'].game_status, 10)
+    result.type = gameType === 3 ? GameType.over : (gameType === 2 ? GameType.live : GameType.unstart)
+    if (result.type === GameType.live) {
+      const process = data.period_time
+      result.process = {
+        time:  process.game_clock || 'End',
+        quarter: 'Q' + process.period_value
+      }
+    }
+    return result;
+  }
 }
 
 

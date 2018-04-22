@@ -1,5 +1,5 @@
 import * as types from '../constants/gameTypes';
-import { GameGeneralResult } from '../network/producer';
+import { GameGeneralResult, GameDetailResult } from '../network/producer';
 
 export const enum GameType {
   unstart = 'UNSTART',
@@ -27,7 +27,7 @@ export interface GameState {
     teamAbbreviate: string,
     score: string,
   },
-  date: string,
+  date: string[],
   process: {
     time: string,
     quarter: string
@@ -39,6 +39,12 @@ export interface GameState {
   }
 }
 
+export interface SingleGameTeamInfo {
+  id: string,
+  players?: any[],
+  teamAbbreviate: string,
+  score: string,
+}
 
 // const initialState: GameState[] = [];
 
@@ -65,3 +71,31 @@ export function fetchGamesHandler(state = initialState, action: any) {
       return state;
   }
 }
+
+const gameDetailInitial: GameDetailResult= {
+  home: {
+    id: '',
+    teamAbbreviate: '',
+    score: ''
+  },
+  visitor: {
+    id: '',
+    teamAbbreviate: '',
+    score: ''
+  },
+  type: GameType.over,
+  process: {
+    time: '',
+    quarter: ''
+  }
+}
+
+export function fetchGameDetailHandler(state = gameDetailInitial, action: any) {
+  let newState: GameDetailResult = state;
+  switch(action.type) {
+    case types.DID_FETCH_GAME_DETAIl: {
+      newState = action.gameDetail
+    }
+  }
+}
+

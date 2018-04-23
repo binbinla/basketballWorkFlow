@@ -50,10 +50,6 @@ export default class GamePlayerCard extends React.Component<Props, State> {
           automaticallyAdjustContentInsets={false}
           horizontal={true}
         >
-        {/* <View style={{flexDirection: 'column', flex: 1}}>
-          {this.renderTitle(0)}
-          {this.renderRow()}
-        </View> */}
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this.renderRow.bind(this)}

@@ -78,14 +78,21 @@ export const getYesterdayGameGeneral = (year, month, date) => {
 
 export const getGameDetail = (year, month, date, gameId) => {
   return (dispatch, getStore) => {
+    dispatch(didStartFetchGameDetail());
     const channel = new Channel();
     return channel.getGameDetail(year, month, date, gameId)
       .then(data => {
-        console.log('game data' + JSON.stringify(data))
+        // console.log('game detail action' +  JSON.stringify(data.visitor.players))
         return dispatch({
           type: types.DID_FETCH_GAME_DETAIl,
           gameDetail: data
         })
       })
+  }
+}
+
+function didStartFetchGameDetail() {
+  return {
+    type: types.DID_START_FETCHING_GAME_DETAIL
   }
 }

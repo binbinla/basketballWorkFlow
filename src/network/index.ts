@@ -74,7 +74,7 @@ export default class Channel {
     return window.fetch(url)
       .then(res => res.json())
       .then(data => {
-        console.log('game detail res' + JSON.stringify(data))
+        // console.log('game detail res' + JSON.stringify(data))
         const result = producer.gameDetail(data)
         return result
       })

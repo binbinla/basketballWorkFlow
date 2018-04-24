@@ -1,6 +1,7 @@
 
 import { GameType, GameState, SingleGameTeamInfo } from '../reducers/gameReducer'; 
 import { BasicTeamInfo } from '../reducers/teamReducer';
+import { Player } from '../model/player';
 
 export interface GameGeneralResult {
   unstart: GameState[],
@@ -22,7 +23,8 @@ export interface GameDetailResult {
   process: {
     time: string,
     quarter: string
-  }
+  },
+  loading?: boolean
 }
 
 const producer = {
@@ -146,17 +148,19 @@ const producer = {
    *  @return {type, home: {players: {Array}, team, score}, visitor: {<=same}, process: {time, quarter}}
    */
   gameDetail:(res): GameDetailResult => {
-    const data = res.sports_content.sports_meta.game
+    const data = res['sports_content']['game']
     let result: GameDetailResult = {
       home: {
         id: '',
         teamAbbreviate: '',
-        score: ''
+        score: '',
+        players: []
       },
       visitor: {
         id: '',
         teamAbbreviate: '',
-        score: ''
+        score: '',
+        players: []
       },
       type: GameType.over,
       process: {
@@ -164,10 +168,11 @@ const producer = {
         quarter: ''
       }
     }
-    Object.keys(result).forEach(side => {
-      // result[side].teamAbbreviate = data[side].team_key
-      result[side].score = data[side].score
-      result[side].players = data[side].players
+    const sides = ['home', 'visitor']
+    sides.forEach(key => {
+      result[key].teamAbbreviate = (data[key].team_key).toLowerCase();
+      result[key].score = data[key].score
+      result[key].players = data[key].players.player
     })
     const gameType = parseInt(data['period_time'].game_status, 10)
     result.type = gameType === 3 ? GameType.over : (gameType === 2 ? GameType.live : GameType.unstart)

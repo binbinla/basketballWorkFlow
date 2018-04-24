@@ -1,5 +1,6 @@
 import * as types from '../constants/gameTypes';
 import { GameGeneralResult, GameDetailResult } from '../network/producer';
+import { Player } from '../model/player';
 
 export const enum GameType {
   unstart = 'UNSTART',
@@ -17,13 +18,13 @@ export interface GameState {
   type: GameType
   home: {
     id: string,
-    players?: any[],
+    players?: Player[],
     teamAbbreviate: string,
     score: string,
   },
   visitor: {
     id: string,
-    players?: any[],
+    players?: Player[],
     teamAbbreviate: string,
     score: string,
   },
@@ -87,15 +88,23 @@ const gameDetailInitial: GameDetailResult= {
   process: {
     time: '',
     quarter: ''
-  }
+  },
+  loading: true
 }
 
 export function fetchGameDetailHandler(state = gameDetailInitial, action: any) {
   let newState: GameDetailResult = state;
   switch(action.type) {
+    case types.DID_START_FETCHING_GAME_DETAIL: {
+      return newState;
+    }
     case types.DID_FETCH_GAME_DETAIl: {
       newState = action.gameDetail
+      newState.loading = false
+      return newState;
     }
+    default:
+      return state;
   }
 }
 

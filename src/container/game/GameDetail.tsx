@@ -22,10 +22,15 @@ import { GameState } from '../../reducers/gameReducer';
 import GameCard from '../../component/GameCard';
 import teamMap from '../../utils/team-map';
 import GamePlayerCard from './GamePlayerCard';
+import { Player } from '../../model/player';
+import { GameDetailResult } from '../../network/producer';
+import Channel from '../../network/index';
+import * as types from '../../constants/gameTypes';
+
 const ScrollableTabView = require('react-native-scrollable-tab-view');
 
 interface StateProps {
-  // readonly loginParams: LoginState
+  readonly gameDetailParams: GameDetailResult
 }
 
 interface DispathProps {
@@ -33,10 +38,12 @@ interface DispathProps {
 }
 
 interface State {
-  // gameId: string,
-  // gameDate: string[]
-  gameItem: GameState
+  gameItem: GameState,
+  homePlayers?: Player[],
+  visitorPlayers?: Player[]
+  loading: boolean 
 }
+
 type Props = Navigatable & DispathProps & StateProps
 
 class GameDetail extends React.Component<Props, State> {
@@ -45,15 +52,13 @@ class GameDetail extends React.Component<Props, State> {
     super(props);
     const { params } = this.props.navigation.state;
     this.state = {
-      // gameId: params ? params.gameId : null,
-      // gameDate: params ? params.gameDate : null
-      gameItem: params ? params.gameItem : null
+      gameItem: params ? params.gameItem : null,
+      loading: true
     }
   }
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
-      // title: '比赛详情',
       title: '',      
       tabBarVisible: false,
       headerStyle: {
@@ -66,27 +71,42 @@ class GameDetail extends React.Component<Props, State> {
     this.props.getGameDetail(this.state.gameItem.date[0], this.state.gameItem.date[1], this.state.gameItem.date[2], this.state.gameItem.id)
   }
 
+  componentWillReceiveProps(nextProps: Props) {
+    if (!nextProps.gameDetailParams.loading) {
+      this.setState({ loading: false })
+      // console.log('next props home players' + JSON.stringify(nextProps.gameDetailParams.home.players))
+      this.setState({ homePlayers: nextProps.gameDetailParams.home.players, visitorPlayers: nextProps.gameDetailParams.visitor.players })
+    }
+  }
+
   render() {
     const topicColor = teamMap[this.state.gameItem.home.teamAbbreviate].color
-    return (
-      <View style={styles.container}>
-        <GameCard
-          item={this.state.gameItem}
-          bgColor={topicColor}
-          atDetail={true}
-        />
-        <ScrollableTabView 
-          initialPage={0}
-          tabBarUnderlineStyle={{backgroundColor: topicColor}}
-          tabBarActiveTextColor={topicColor}
-          locked={true}
-          // renderTabBar={() => <ScrollableTabBar/>}
-        >
-          <GamePlayerCard tabLabel={`${teamMap[this.state.gameItem.home.teamAbbreviate].team}`}/>
-          <GamePlayerCard tabLabel={`${teamMap[this.state.gameItem.visitor.teamAbbreviate].team}`}/>
-        </ScrollableTabView>
-      </View>
-    )
+    if (this.state.loading) {
+      return null;
+    } else {
+      // console.log('this.state.players' + JSON.stringify(this.state.homePlayers))
+      return (
+        <View style={styles.container}>
+          <GameCard
+            item={this.state.gameItem}
+            bgColor={topicColor}
+            atDetail={true}
+          />
+          <ScrollableTabView 
+            initialPage={0}
+            tabBarUnderlineStyle={{backgroundColor: topicColor}}
+            tabBarActiveTextColor={topicColor}
+            locked={true}
+            // renderTabBar={() => <ScrollableTabBar/>}
+          >
+            {/* <GamePlayerCard tabLabel={`${teamMap[this.state.gameItem.home.teamAbbreviate].team}`} players={this.props.gameDetailParams.home.players ? this.props.gameDetailParams.home.players: []}/>
+            <GamePlayerCard tabLabel={`${teamMap[this.state.gameItem.visitor.teamAbbreviate].team}`} players={this.props.gameDetailParams.visitor.players ? this.props.gameDetailParams.visitor.players: []}/> */}
+            <GamePlayerCard tabLabel={`${teamMap[this.state.gameItem.home.teamAbbreviate].team}`} players={this.state.homePlayers ? this.state.homePlayers : []}/>
+            <GamePlayerCard tabLabel={`${teamMap[this.state.gameItem.visitor.teamAbbreviate].team}`} players={this.state.visitorPlayers ? this.state.visitorPlayers: []}/>            
+          </ScrollableTabView>
+        </View>
+      )
+    }
   }
 }
 
@@ -103,7 +123,7 @@ const styles = StyleSheet.create<Style>({
 
 function mapStateToProps(reducer: any) {
   return {
-    // loginParams: reducer.loginHandler
+    gameDetailParams: reducer.fetchGameDetailHandler
   }
 }
 

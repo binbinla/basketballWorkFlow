@@ -12,7 +12,7 @@ export const getToday = () => {
   console.log("dateArray" + dateArray)
   return dateArray.splice(0, 3)
   // let d = new Date()
-  // d.setDate(d.getDate() - 1)
+  // d.setDate(d.getDate() - 5)
   // const dateString = moment.tz(d, 'America/Los_Angeles').format()
   // const dateArray = dateString.replace('T', '-').split('-')
   // return dateArray.splice(0, 3)

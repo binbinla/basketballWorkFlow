@@ -15,10 +15,12 @@ import EvaluateApp from '../../container/mine/EvaluateApp';
 import ChangeNickName from '../../container/mine/personalProfile/ChangeNickName';
 import ChangeAddress from '../../container/mine/personalProfile/ChangeAddress';
 import NewsDetail from '../../container/community/NewsDetail';
+import GameDetail from '../../container/game/GameDetail';
 
 const HomeStack = StackNavigator(
   {
     HomePage: { screen: HomePage},
+    GameDetail: {screen: GameDetail}
   },
   {
     navigationOptions: {
@@ -83,11 +85,11 @@ const MineStack = StackNavigator(
 
 export const Tabs = TabNavigator(
   {
-    MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} },
+    // MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} },
     HomeStack: { screen: HomeStack, navigationOptions: { tabBarLabel: '赛况'}},
     TeamsStack: { screen: TeamsStack, navigationOptions: { tabBarLabel: '球队'} },
     CommunityStack: { screen: CommunityStack, navigationOptions: { tabBarLabel: '社区'} },
-    // MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} }
+    MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} }
   },
   {
     navigationOptions: ({ navigation }) => ({

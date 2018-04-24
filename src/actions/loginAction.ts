@@ -9,7 +9,8 @@ const user: User = {
 	nickName: 'hello_bin',
 	phoneNumber: '188****6910',
 	sex: '男',
-	address: '广东省广州市'
+	address: '广东省广州市',
+	imageResource: ''
 }
 
 // 访问登录接口,根据返回结果来划分action属于哪个type,然后返回对象,给reducer处理

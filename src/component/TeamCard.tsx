@@ -11,12 +11,14 @@ import {
 } from 'react-native';
 import { commonColors } from '../utils/colors';
 import teamMap from '../utils/team-map';
+import { BasicTeamInfo } from '../reducers/teamReducer';
 
 /** 
  * Props pass from parent
 */
 interface Props extends ViewStyle {
-  // 
+  item: BasicTeamInfo
+  rank: number
 }
 
 export default class TeamCard extends React.Component<Props, object> {
@@ -24,14 +26,14 @@ export default class TeamCard extends React.Component<Props, object> {
     super(props);
   }
   render() {
-    const area = teamMap['gsw'].city
-    const teamName = teamMap['gsw'].team
-    const logo = teamMap['gsw'].logo
+    const area = teamMap[this.props.item.name].city
+    const teamName = teamMap[this.props.item.name].team
+    const logo = teamMap[this.props.item.name].logo
     return (
       <View style={[styles.container]}>
         <View style={styles.leftContainer}>
           <Text style={styles.rankingText}>
-            { '1' }
+            { this.props.rank }
           </Text>
           <View style={{marginLeft: 15}}>
             <Text style={styles.areaText}> {area} </Text>
@@ -40,7 +42,7 @@ export default class TeamCard extends React.Component<Props, object> {
         </View>
         <View style={styles.rightContainer}>
           <Text style={styles.scoreText}>
-            {'65胜-17负'}
+            {`${this.props.item.win}胜-${this.props.item.loss}负`}
           </Text>
           <Image
             style={styles.image}
@@ -88,16 +90,16 @@ const styles = StyleSheet.create<Styles>({
     color: '#667893'
   },
   areaText: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#647791'
   },
   teamNameText: {
-    fontSize: 15,
+    fontSize: 14,
     color: '#8D9AAD',
     marginTop: 4
   },
   scoreText: {
-    fontSize: 15,
+    fontSize: 14,
     color: commonColors.black,
     // fontWeight: 'bold'
   },

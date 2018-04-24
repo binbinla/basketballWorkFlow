@@ -1,1 +1,1 @@
-{"version":3,"file":"gameTypes.js","sourceRoot":"","sources":["../../src/constants/gameTypes.ts"],"names":[],"mappings":";;AAAa,QAAA,qBAAqB,GAAG,iBAAiB,CAAC,CAAC,WAAW;AAEtD,QAAA,yBAAyB,GAAG,2BAA2B,CAAC,CAAC,WAAW"}
+{"version":3,"file":"gameTypes.js","sourceRoot":"","sources":["../../src/constants/gameTypes.ts"],"names":[],"mappings":";;AAAa,QAAA,qBAAqB,GAAG,iBAAiB,CAAC,CAAC,WAAW;AAEtD,QAAA,yBAAyB,GAAG,2BAA2B,CAAC,CAAC,WAAW;AAEpE,QAAA,qBAAqB,GAAG,uBAAuB,CAAC,CAAC,WAAW;AAE5D,QAAA,8BAA8B,GAAG,gCAAgC,CAAC,CAAC,kBAAkB"}

@@ -13,7 +13,8 @@ export interface User {
   nickName: string,
   phoneNumber: string,
   sex: string,
-  address: string
+  address: string,
+  imageResource: any
 }
 
 // 初始状态

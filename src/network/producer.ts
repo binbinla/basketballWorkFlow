@@ -1,5 +1,7 @@
 
-import { GameType, GameState } from '../reducers/gameReducer'; 
+import { GameType, GameState, SingleGameTeamInfo } from '../reducers/gameReducer'; 
+import { BasicTeamInfo } from '../reducers/teamReducer';
+import { Player } from '../model/player';
 
 export interface GameGeneralResult {
   unstart: GameState[],
@@ -9,13 +11,28 @@ export interface GameGeneralResult {
   weekDay?: string 
 }
 
+export interface TeamRankResult {
+  eastern: BasicTeamInfo[],
+  western: BasicTeamInfo[]
+}
+
+export interface GameDetailResult {
+  home: SingleGameTeamInfo,
+  visitor: SingleGameTeamInfo,
+  type: GameType
+  process: {
+    time: string,
+    quarter: string
+  },
+  loading?: boolean
+}
 
 const producer = {
 
   /**
    * return {live: [], unstart: [], over: []}
    */
-  gameGeneral: (res): GameGeneralResult => {
+  gameGeneral: (res, date): GameGeneralResult => {
     let result: GameGeneralResult = {
       unstart: [],
       live: [],
@@ -25,7 +42,7 @@ const producer = {
     res['sports_content']['games']['game'].forEach((game, index) => {
       item = {
         id: game.id,
-        date: '',
+        date: date,
         type: GameType.unstart,
         home: {
           id: '',
@@ -94,6 +111,79 @@ const producer = {
       }
     })
     return result;    
+  },
+
+
+  /**
+   * @return {eastern: [{id, name, win, loss}], western:[]}
+   */
+  teamRank: (res): TeamRankResult => {
+    const eastData = res.resultSets[4].rowSet
+    const westData = res.resultSets[5].rowSet
+    let eastern: BasicTeamInfo[] = []
+    let western: BasicTeamInfo[] = []
+    let anotherItem = {}
+    eastData.forEach((item, index) => {
+      eastern.push({
+        id: item[0],
+        name: item[5],
+        win: item[8],
+        loss: item[7]
+      })
+      anotherItem = westData[index]
+      western.push({
+        id: anotherItem[0],
+        name: anotherItem[5],
+        win: anotherItem[8],
+        loss: anotherItem[7]
+      }) 
+    })
+    return {
+      eastern,
+      western
+    }
+  },    
+
+  /**
+   *  @return {type, home: {players: {Array}, team, score}, visitor: {<=same}, process: {time, quarter}}
+   */
+  gameDetail:(res): GameDetailResult => {
+    const data = res['sports_content']['game']
+    let result: GameDetailResult = {
+      home: {
+        id: '',
+        teamAbbreviate: '',
+        score: '',
+        players: []
+      },
+      visitor: {
+        id: '',
+        teamAbbreviate: '',
+        score: '',
+        players: []
+      },
+      type: GameType.over,
+      process: {
+        time: '',
+        quarter: ''
+      }
+    }
+    const sides = ['home', 'visitor']
+    sides.forEach(key => {
+      result[key].teamAbbreviate = (data[key].team_key).toLowerCase();
+      result[key].score = data[key].score
+      result[key].players = data[key].players.player
+    })
+    const gameType = parseInt(data['period_time'].game_status, 10)
+    result.type = gameType === 3 ? GameType.over : (gameType === 2 ? GameType.live : GameType.unstart)
+    if (result.type === GameType.live) {
+      const process = data.period_time
+      result.process = {
+        time:  process.game_clock || 'End',
+        quarter: 'Q' + process.period_value
+      }
+    }
+    return result;
   }
 }
 

@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
-  TextStyle
+  TextStyle,
+  YellowBox
 } from 'react-native';
 import { connect } from 'react-redux'; // 引入connect函数
 import { NavigationActions } from 'react-navigation';
@@ -19,6 +20,7 @@ import * as gameAction from '../../actions/gameAction';
 import * as date from '../../utils/date';
 import { GameGeneralResult } from '../../network/producer';
 import teamMap from '../../utils/team-map';
+import * as teamAction from '../../actions/teamAction';
 
 const GiftedListView = require('react-native-gifted-listview');
 
@@ -37,6 +39,7 @@ interface DispathProps {
   readonly fetchGames: () => Action<void>
   readonly getGameGeneral: (year, month, date) =>  Action<void>
   readonly getYesterdayGameGeneral: (year, month, date) =>  Action<void>
+  readonly getTeamRank: (year, month, date) => Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
@@ -45,8 +48,10 @@ interface State {
   date: string[]
 }
 
-class HomePage extends React.Component<Props, State> {
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
+class HomePage extends React.Component<Props, State> {
+  
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -58,7 +63,7 @@ class HomePage extends React.Component<Props, State> {
   };
 
   componentWillMount() {
-    this.props.fetchGames();
+    // this.props.fetchGames();
     const today = date.getToday()
     this.props.getGameGeneral(today[0], today[1], today[2]);
     const yesterday = date.getYesterday()
@@ -66,6 +71,10 @@ class HomePage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    //
+  }
+
+  componentWillUnmount() {
     //
   }
 
@@ -100,8 +109,10 @@ class HomePage extends React.Component<Props, State> {
   _onFetch(page = 1, callback, options) {
     setTimeout(() => {
       let result = {};
-      result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}`] = this.combineGames(DayType.today)
-      result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}`] = this.combineGames(DayType.yesterday)
+      const todayResult = this.combineGames(DayType.today);
+      const yesterdayResult = this.combineGames(DayType.yesterday);
+      result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}${' '}${todayResult.length}场`] = todayResult
+      result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}${' '}${yesterdayResult.length}场`] = yesterdayResult
       // let result = {};
       // result['周三'] = gameAction.testState;
       // result['周二'] = gameAction.testState;
@@ -173,8 +184,13 @@ class HomePage extends React.Component<Props, State> {
    * when a row was touched
    * @param
    */
-  _onItemPress(item: any) {
-    console.log(item + 'was pressed')
+  _onItemPress(item: GameState) {
+    console.log(item + 'was pressed');
+    this.props.navigation.navigate('GameDetail', {
+      // gameId: item.id,
+      // gameDate: item.date
+      gameItem: item
+    }); 
   }
 
   _renderPaginationWaitingView(paginateCallback) {
@@ -235,7 +251,8 @@ function mapDispatchToProps() {
   return (dispatch: any) => ({
     fetchGames: () => dispatch(gameAction.fetchGames()),
     getGameGeneral: (year, month, date) => dispatch(gameAction.getGameGeneral(year, month, date)),
-    getYesterdayGameGeneral: (year, month, date) => dispatch(gameAction.getYesterdayGameGeneral(year, month, date))
+    getYesterdayGameGeneral: (year, month, date) => dispatch(gameAction.getYesterdayGameGeneral(year, month, date)),
+    getTeamRank: (year, month, date) => dispatch(teamAction.getTeamRank(year, month, date))
   })
 }
 

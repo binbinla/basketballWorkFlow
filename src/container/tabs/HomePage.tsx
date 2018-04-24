@@ -48,8 +48,6 @@ interface State {
   date: string[]
 }
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
-
 class HomePage extends React.Component<Props, State> {
   
   constructor(props: Props) {

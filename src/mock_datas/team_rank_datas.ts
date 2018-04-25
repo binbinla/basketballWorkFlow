@@ -163,6 +163,12 @@ export const eastern: BasicTeamInfo[] = [
     loss: 53
   },
   {
+    id: '1610612751',
+    name: 'bkn',
+    win: 28,
+    loss: 54
+  },
+  {
     id: '1610612741',
     name: 'chi',
     win: 27,

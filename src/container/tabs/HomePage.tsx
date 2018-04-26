@@ -23,6 +23,7 @@ import teamMap from '../../utils/team-map';
 import * as teamAction from '../../actions/teamAction';
 
 const GiftedListView = require('react-native-gifted-listview');
+// const jsonData = require('../../mock_datas/teamDetail/teamDetailWestern/team_detail_hou.json');
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -73,7 +74,7 @@ class HomePage extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    //
+    // console.log('jsonData' + jsonData);
   }
 
   render() {
@@ -111,9 +112,6 @@ class HomePage extends React.Component<Props, State> {
       const yesterdayResult = this.combineGames(DayType.yesterday);
       result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}${' '}${todayResult.length}场`] = todayResult
       result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}${' '}${yesterdayResult.length}场`] = yesterdayResult
-      // let result = {};
-      // result['周三'] = gameAction.testState;
-      // result['周二'] = gameAction.testState;
       callback(result);
     }, 2000);
   }

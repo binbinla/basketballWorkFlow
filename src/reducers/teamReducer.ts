@@ -2,29 +2,45 @@
 import { TeamRankResult } from '../network/producer';
 import * as types from '../constants/teamTypes';
 
-export interface TeamInfoState {
-  id: string,
+export interface TeamDetailInfo {
+  teamId: string,
   teamName: string,
-  teamCity: string,
-  teamAbbr: string,
-  teamConf: string,
-  teamDivi: string,
-  confRank: string,
-  diviRank: string,
-  win: string,
-  loss: string,
-  ptsRank: string,
-  rebRank: string,
-  astRank: string,
-  oppRank: string
+  w_pct: number,
+  fg_pct: number,
+  fg3_pct: number,
+  reb: number,
+  ast: number,
+  tov: number,
+  stl: number,
+  blk: number,
+  pts: number,
+  w_pct_rank: number,
+  fg_pct_rank: number,
+  fg3_pct_rank: number,
+  reb_rank: number,
+  ast_rank: number,
+  tov_rank: number,
+  stl_rank: number,
+  blk_rank: number,
+  pts_rank: number,
+  // players: PlayerPersonalInfo[] // 数据类型得改，两种来的
 }
-
 
 export interface BasicTeamInfo {
   id: string,
   name: string,
   win: number,
   loss: number
+}
+
+export interface PlayerPersonalInfo {
+  id: string,
+  name: string,
+  number: string,
+  position: string,
+  height: string,
+  weight: string,
+  age: string,
 }
 
 const initialState: TeamRankResult = {

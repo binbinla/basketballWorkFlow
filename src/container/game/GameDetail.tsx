@@ -118,7 +118,7 @@ class GameDetail extends React.Component<Props, State> {
       )
     }
   }
-}
+}   
 
 interface Style {
   container: ViewStyle,

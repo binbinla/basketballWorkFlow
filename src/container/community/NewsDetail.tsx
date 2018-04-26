@@ -47,7 +47,7 @@ type Props = Navigatable & DispathProps & StateProps
 
 class NewsDetail extends React.Component<Props, State> {
 
-  private _scrollView: ScrollView | null;
+  private _scroll
 
   constructor(props: Props) {
     super(props);
@@ -58,7 +58,6 @@ class NewsDetail extends React.Component<Props, State> {
         rowHasChanged: (row1, row2) => row1 !== row2
       }),
     }
-    this._scrollView = null
   }
 
   static navigationOptions = {
@@ -74,7 +73,8 @@ class NewsDetail extends React.Component<Props, State> {
     this.setState({ loading: nextProps.commentParams.loading });
     this.updateDataSource(nextProps.commentParams.allComments);
     if (this.props.commentParams.loading && nextProps.commentParams.loading) {
-
+      console.log('visit scroll')
+      this._scroll.scrollToEnd({ animated: true });
     }
   }
   
@@ -107,7 +107,11 @@ class NewsDetail extends React.Component<Props, State> {
           textStyle={{ fontSize: 10, color: commonColors.white }}
           hudBg={true}
         />          
-        <ScrollView style={{flex: 1, marginBottom: 40}} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={{flex: 1, marginBottom: 40}} 
+          showsVerticalScrollIndicator={false}
+          ref={(scroll) => this._scroll = scroll}
+         >
           <View style={styles.container}>
             <View style={styles.titleContainer}>
               <Text style={styles.titleText}>
@@ -159,7 +163,7 @@ class NewsDetail extends React.Component<Props, State> {
                   </TouchableOpacity>
                   <Text style={styles.centerText}>{'我来评论'}</Text>
                   <TouchableOpacity onPress={this._onPostPress}>
-                    <Text style={styles.cornerText}>{'发表'}</Text>
+                    <Text style={[styles.cornerText, {color: commonColors.topicColor}]}>{'发表'}</Text>
                   </TouchableOpacity>
                 </View>
                 <TextInput

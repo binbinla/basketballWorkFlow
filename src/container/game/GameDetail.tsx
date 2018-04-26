@@ -89,7 +89,7 @@ class GameDetail extends React.Component<Props, State> {
             textContent={'努力加载中...'}
             visible={this.state.loading}
             color={commonColors.black}
-            textStyle={{ fontSize: 10 }}
+            textStyle={{ fontSize: 10, color: commonColors.black }}
           />               
         </View>
       )

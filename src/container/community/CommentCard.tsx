@@ -66,18 +66,19 @@ const styles = StyleSheet.create<Styles>({
     marginRight: 8
   },
   image: {
-    width: 50,
-    height: 50
+    width: 30,
+    height: 30,
+    borderRadius: 15
   },
   textContainer: {
     flexDirection: 'column'
   },
   nickName: {
-    fontSize: 10,
+    fontSize: 12,
     color: commonColors.underGray
   },
   comment: {
-    fontSize: 12,
+    fontSize: 15,
     color: commonColors.black,
     marginTop: 8
   }

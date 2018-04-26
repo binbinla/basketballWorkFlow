@@ -24,7 +24,8 @@ interface Props extends ViewStyle {
   color?: string,
   size?: SIZES,
   overlayColor?: string,
-  textStyle?: TextStyle
+  textStyle?: TextStyle,
+  hudBg?: boolean
 }
 
 export enum ANIMATION {
@@ -82,18 +83,32 @@ export default class GameCard extends React.Component<Props, State> {
   }
 
   _renderDefaultContent() {
-    return (
-      <View style={styles.background}>
-        <ActivityIndicator
-          color={this.props.color || commonColors.white}
-          size={this._mapSize(this.props.size || SIZES.LARGE)}
-          style={{ flex: 1 }}
-        />
-        <View style={styles.textContainer}>
-          <Text style={[styles.textContent, this.props.textStyle]}>{this.state.textContent}</Text>
+    if (this.props.hudBg) {
+      return (
+        <View style={styles.background}>
+          <View style={styles.hud}>
+            <ActivityIndicator
+              color={this.props.color || commonColors.white}
+              size={this._mapSize(this.props.size || SIZES.LARGE)}
+            />     
+            <Text style={[styles.hudText, this.props.textStyle]}>{this.state.textContent}</Text>
+          </View>
         </View>
-      </View>
-    );
+      )
+    } else {
+      return (
+        <View style={styles.background}>
+          <ActivityIndicator
+            color={this.props.color || commonColors.white}
+            size={this._mapSize(this.props.size || SIZES.LARGE)}
+            style={{ flex: 1 }}
+          />
+          <View style={styles.textContainer}>
+            <Text style={[styles.textContent, this.props.textStyle]}>{this.state.textContent}</Text>
+          </View>
+        </View>
+      );      
+    }
   }
 
   /**
@@ -147,7 +162,9 @@ interface Styles {
   container: ViewStyle,
   background: ViewStyle,
   textContainer: ViewStyle,
-  textContent: TextStyle
+  textContent: TextStyle,
+  hud: ViewStyle,
+  hudText: TextStyle
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -182,6 +199,19 @@ const styles = StyleSheet.create<Styles>({
   textContent: {
     top: 50,
     height: 50,
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  hud: {
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    width: '30%',
+    height: '20%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4
+  },
+  hudText: {
+    marginTop: 10,
     fontSize: 20,
     fontWeight: 'bold'
   }

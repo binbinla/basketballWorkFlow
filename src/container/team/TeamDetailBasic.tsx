@@ -132,7 +132,6 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   container: {
-    // flex: 1,
     flexDirection: 'column',
     backgroundColor: commonColors.white,
   },

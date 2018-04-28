@@ -75,7 +75,6 @@ class GameDetail extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     if (!nextProps.gameDetailParams.loading) {
       this.setState({ loading: false })
-      // console.log('next props home players' + JSON.stringify(nextProps.gameDetailParams.home.players))
       this.setState({ homePlayers: nextProps.gameDetailParams.home.players, visitorPlayers: nextProps.gameDetailParams.visitor.players })
     }
   }

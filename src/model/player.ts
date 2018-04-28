@@ -29,3 +29,13 @@ export interface Player {
   plus_minus: string,
   minutes: string,
 }
+
+export interface TeamPlayer {
+  id: string,
+  name: string,
+  gp: number,
+  pts: number,
+  reb: number,
+  ast: number,
+  min: number
+}

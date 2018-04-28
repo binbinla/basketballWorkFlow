@@ -23,7 +23,6 @@ import teamMap from '../../utils/team-map';
 import * as teamAction from '../../actions/teamAction';
 
 const GiftedListView = require('react-native-gifted-listview');
-// const jsonData = require('../../mock_datas/teamDetail/teamDetailWestern/team_detail_hou.json');
 
 const resetAction = NavigationActions.reset({
   index: 0,

@@ -19,25 +19,29 @@ import { commonColors } from '../../utils/colors';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import TeamDetailCard from './TeamDetailCard';
 import Spinner from '../../component/Spinner';
-import { BasicTeamInfo } from '../../reducers/teamReducer';
+import { BasicTeamInfo, TeamDetailInfo, PlayerPersonalInfo, teamDetailInitial } from '../../reducers/teamReducer';
 import teamMap from '../../utils/team-map';
 import { Zone } from './TeamDetailCard';
+import TeamDetailBasic from './TeamDetailBasic';
+import { TeamDetailResult } from '../../network/producer';
+import * as teamAction from '../../actions/teamAction';
 
 const ScrollableTabView = require('react-native-scrollable-tab-view');
 
 interface StateProps {
-  // readonly loginParams: LoginState
+  readonly teamDetailParams: TeamDetailResult
 }
 
 interface DispathProps {
-  //
+  readonly getTeamDetail: (teamId) => Action<void>
 }
 
 interface State {
   loading: boolean,
   teamItem:  BasicTeamInfo,
   rank: number,
-  zone: Zone
+  teamDetail?: TeamDetailInfo,
+  playerPersonal?: PlayerPersonalInfo
 }
 
 type Props = Navigatable & DispathProps & StateProps
@@ -50,7 +54,6 @@ class TeamDetail extends React.Component<Props, State> {
     this.state = {
       teamItem: params ? params.teamItem : null,
       rank: params ? params.rank : null,
-      zone:  params ? params.zone : null,
       loading: true
     }
   }
@@ -66,11 +69,14 @@ class TeamDetail extends React.Component<Props, State> {
   };
 
   componentWillMount() {
-
+    this.props.getTeamDetail(this.state.teamItem.id);
   }
 
   componentWillReceiveProps(nextProps: Props) {
-
+    if (!nextProps.teamDetailParams.loading) {
+      this.setState({ loading: false });
+      this.setState({ teamDetail: nextProps.teamDetailParams.teamDetail, playerPersonal: nextProps.teamDetailParams.playerPersonal })
+    }
   }
 
   render() {
@@ -92,7 +98,7 @@ class TeamDetail extends React.Component<Props, State> {
           <TeamDetailCard
             teamItem={this.state.teamItem}
             rank={this.state.rank}
-            zone={this.state.zone}
+            zone={this.state.teamItem.zone}
           />
           <ScrollableTabView 
             initialPage={0}
@@ -100,9 +106,12 @@ class TeamDetail extends React.Component<Props, State> {
             tabBarActiveTextColor={topicColor}
             // locked={true}
             // renderTabBar={() => <ScrollableTabBar/>}
-          >          
+          >
+          <TeamDetailBasic
+            teamDetail={this.state.teamDetail ? this.state.teamDetail : teamDetailInitial}
+          />          
           </ScrollableTabView>
-        </View>
+        </View> 
       )
     }    
   }
@@ -121,13 +130,13 @@ const styles = StyleSheet.create<Style>({
 
 function mapStateToProps(reducer: any) {
   return {
-    // loginParams: reducer.loginHandler
+    teamDetailParams: reducer.fetchTeamDetailHandler
   }
 }
 
 function mapDispatchToProps() {
   return (dispatch: any) => ({
-    //
+    getTeamDetail: (teamId) => dispatch(teamAction.getTeamDetail(teamId))
   })
 }
 

@@ -1,5 +1,5 @@
 import address from './address';
-import producer, { GameGeneralResult, TeamRankResult, GameDetailResult }  from './producer';
+import producer, { GameGeneralResult, TeamRankResult, GameDetailResult, TeamDetailResult }  from './producer';
 
 export default class Channel {
 
@@ -44,16 +44,14 @@ export default class Channel {
     const url = address.teamRank(`${formatMonth}/${date}/${year}`)
     console.log('teamRank Url' + url);
     // fetch("http://blog.parryqiu.com").then(function(response){console.log( 'response' + JSON.stringify(response))})
-    // console.log('dayin' + JSON.stringify(fetch("http://stats.nba.com/stats/scoreboard?DayOffset=0&LeagueID=00&gameDate=3/13/2018")));
     return window.fetch("http://stats.nba.com/stats/scoreboard?DayOffset=0&LeagueID=00&gameDate=4/12/2018")
       .then(function(res) {
         res.json();
-        // return res.json()
       })
       .then(data => {
         console.log('team rank data' + JSON.stringify(data))
-        producer.teamRank(data)
-        // return result;
+        const result = producer.teamRank(data)
+        return result;
       })
       .catch(error => {
         console.log(error);
@@ -82,6 +80,14 @@ export default class Channel {
         console.log(error);
         throw error;
       })
+  }
+
+  getTeamDetail(teamId): TeamDetailResult {
+    let result: TeamDetailResult = {
+      teamDetail: producer.teamDetail(),
+      playerPersonal: producer.teamDetailBasic()
+    }
+    return result;
   }
 }
 

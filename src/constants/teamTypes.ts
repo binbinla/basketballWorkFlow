@@ -1,3 +1,7 @@
 
 
 export const DID_FETCH_TEAM_RANK = 'DID_FETCH_TEAM_RANK'; // 已获取球队排名
+
+export const DID_START_FETCHING_TEAM_DETAIL = 'DID_START_FETCHING_TEAM_DETAIL'; // 开始获取球队详情
+
+export const DID_FETCH_TEAM_DETAIL = 'DID_FETCH_TEAM_DETAIL' // 已获取球队详情

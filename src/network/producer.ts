@@ -1,7 +1,7 @@
 
 import { GameType, GameState, SingleGameTeamInfo } from '../reducers/gameReducer'; 
-import { BasicTeamInfo } from '../reducers/teamReducer';
-import { Player } from '../model/player';
+import { BasicTeamInfo, TeamDetailInfo, PlayerPersonalInfo } from '../reducers/teamReducer';
+import { Player, TeamPlayer } from '../model/player';
 
 export interface GameGeneralResult {
   unstart: GameState[],
@@ -24,6 +24,12 @@ export interface GameDetailResult {
     time: string,
     quarter: string
   },
+  loading?: boolean
+}
+
+export interface TeamDetailResult {
+  teamDetail: TeamDetailInfo,
+  playerPersonal: PlayerPersonalInfo,
   loading?: boolean
 }
 
@@ -128,14 +134,16 @@ const producer = {
         id: item[0],
         name: item[5],
         win: item[8],
-        loss: item[7]
+        loss: item[7],
+        zone: item[2] // 尚未与接口进行匹配
       })
       anotherItem = westData[index]
       western.push({
         id: anotherItem[0],
         name: anotherItem[5],
         win: anotherItem[8],
-        loss: anotherItem[7]
+        loss: anotherItem[7],
+        zone: item[2]
       }) 
     })
     return {
@@ -183,6 +191,67 @@ const producer = {
         quarter: 'Q' + process.period_value
       }
     }
+    return result;
+  },
+
+  teamDetail: (res): TeamDetailInfo => {
+    const dataPartOne = res["resultSets"][0]["rowSet"]
+    let result: TeamDetailInfo = {
+      teamId: dataPartOne[1],
+      teamName: dataPartOne[2],
+      win: dataPartOne[5],
+      loss: dataPartOne[6],
+      w_pct: dataPartOne[7],
+      w_pct_rank: dataPartOne[33],
+      fg_pct: dataPartOne[11],
+      fg_pct_rank: dataPartOne[37],
+      fg3_pct: dataPartOne[14],
+      fg3_pct_rank: dataPartOne[40],
+      reb: dataPartOne[20],
+      reb_rank: dataPartOne[46],
+      ast: dataPartOne[21],
+      ast_rank: dataPartOne[47],
+      tov: dataPartOne[22],
+      tov_rank: dataPartOne[48],
+      stl: dataPartOne[23],
+      stl_rank: dataPartOne[49],
+      blk: dataPartOne[24],
+      blk_rank: dataPartOne[50],
+      pts: dataPartOne[28],
+      pts_rank: dataPartOne[54],
+      players: []
+    }
+    const dataPartTwo = res["resultSets"][1]["rowSet"]
+    dataPartTwo.map(player => {
+      let makePlayer: TeamPlayer = {
+        id: player[1],
+        name: player[2],
+        gp: player[3],
+        pts: player[27],
+        reb: player[19],
+        ast: player[20],
+        min: player[7]
+      }
+      result.players.push(makePlayer);
+    })
+    return result;
+  },
+
+  teamDetailBasic:(res): PlayerPersonalInfo[] => {
+    const data = res["resultSets"][0]["rowSet"]
+    let result: PlayerPersonalInfo[] = []
+    data.forEach(player => {
+      let makePlayer: PlayerPersonalInfo = {
+        id: String(data[0]),
+        name: data[3],
+        number: data[4],
+        position: data[5],
+        height: data[6],
+        weight: data[7],
+        age: String(data[9])
+      }
+      result.push(makePlayer);
+    })
     return result;
   }
 }

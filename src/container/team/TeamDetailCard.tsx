@@ -36,8 +36,9 @@ export default class TeamDetailCard extends React.Component<Props, object> {
     const teamName = teamMap[this.props.teamItem.name].team
     const logo = teamMap[this.props.teamItem.name].logo
     const zone = this.props.zone === Zone.WEST ? '西部排名第 ' : '东部排名第 '
+    const bg = teamMap[this.props.teamItem.name].color
     return (
-      <View style={[styles.container]}>
+      <View style={[styles.container, { backgroundColor: bg }]}>
         <View style={styles.teamNameContainer}>
           <Text style={styles.areaText}>{area}</Text>
           <Text style={styles.nameText}>{teamName}</Text>

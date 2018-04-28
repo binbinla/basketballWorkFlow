@@ -1,4 +1,3 @@
-import { NewsState } from '../reducers/newsReducer';
 
 export default {
   '100001': {

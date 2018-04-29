@@ -7,7 +7,8 @@ import {
   ViewStyle,
   TextStyle,
   TouchableOpacity,
-  Image
+  Image,
+  ScrollView
 } from 'react-native';
 import { commonColors } from '../../utils/colors';
 import { TeamDetailInfo } from '../../reducers/teamReducer';
@@ -16,7 +17,8 @@ import { TeamDetailInfo } from '../../reducers/teamReducer';
  * Props pass from parent
 */
 interface Props extends ViewStyle {
-  teamDetail: TeamDetailInfo
+  teamDetail: TeamDetailInfo,
+  tabLabel: string
 }
 
 export default class TeamDetailBasic extends React.Component<Props, object> {
@@ -24,6 +26,7 @@ export default class TeamDetailBasic extends React.Component<Props, object> {
     super(props);
   }
   render() {
+    const teamDetail = JSON.stringify(this.props.teamDetail);
     const nameArray: string[] = [
       '胜率',
       '投篮命中率',
@@ -60,11 +63,15 @@ export default class TeamDetailBasic extends React.Component<Props, object> {
     return (
       <View style={[styles.container]}>
         {this.renderTitle()}
-        <View style={styles.contentContainer}>
-          {this.renderData(nameArray)}
-          {this.renderData(dataPartOne)}
-          {this.renderData(dataPartTwo, true)}
-        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={true}
+        >
+          <View style={styles.contentContainer}>
+            {this.renderData(nameArray)}
+            {this.renderData(dataPartOne)}
+            {/* {this.renderData(dataPartTwo, true)} */}
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -78,9 +85,10 @@ export default class TeamDetailBasic extends React.Component<Props, object> {
         <View style={styles.titleTextContainer}>
           <Text style={styles.titleText}>{'数据值'}</Text>
         </View>
-        <View style={[styles.titleTextContainer, {borderRightWidth: 0}]}>
+        {/* 接口返回值全为1，数据不准确，暂时不提供 */}
+        {/* <View style={[styles.titleTextContainer, { borderRightWidth: 0 }]}>
           <Text style={styles.titleText}>{'联盟排名'}</Text>
-        </View>
+        </View> */}
       </View>
     )
   }
@@ -89,34 +97,18 @@ export default class TeamDetailBasic extends React.Component<Props, object> {
     const hideBorder: ViewStyle = hideRightBorder ? { borderRightWidth: 0 } : {}
     return (
       <View style={styles.itemNameContainer}>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[0]}</Text></View>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[1]}</Text></View>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[2]}</Text></View>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[3]}</Text></View>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[4]}</Text></View>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[5]}</Text></View>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[6]}</Text></View>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[7]}</Text></View>
-        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{data[8]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[0] + Math.random()}>{data[0]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[1] + Math.random()}>{data[1]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[2] + Math.random()}>{data[2]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[3] + Math.random()}>{data[3]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[4] + Math.random()}>{data[4]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[5] + Math.random()}>{data[5]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[6] + Math.random()}>{data[6]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[7] + Math.random()}>{data[7]}</Text></View>
+        <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText} key={data[8] + Math.random()}>{data[8]}</Text></View>
       </View>
     )
-  } 
-
-  // renderDataPartOne = (): JSX.Element => {
-  //   return (
-  //     <View style={styles.itemNameContainer}>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //       <View style={[styles.singleContentContainer, hideBorder]}><Text style={styles.singleContentText}>{}</Text></View>
-  //     </View>
-  //   )
-  // }
+  }
 }
 
 interface Styles {
@@ -132,29 +124,31 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   container: {
+    flex: 1,
     flexDirection: 'column',
-    backgroundColor: commonColors.white,
+    backgroundColor: commonColors.white
   },
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomColor: commonColors.borderColor,
     borderBottomWidth: 1
   },
   titleTextContainer: {
+    flex: 1,
     borderRightColor: commonColors.borderColor,
     borderRightWidth: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 5
   },
   titleText: {
     fontSize: 15,
-    color: commonColors.black,
+    color: commonColors.black
   },
   contentContainer: {
-    flex: 3,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginLeft: 0.5
   },
   itemNameContainer: {
     flex: 1,
@@ -166,6 +160,8 @@ const styles = StyleSheet.create<Styles>({
     height: 50,
     borderRightColor: commonColors.borderColor,
     borderRightWidth: 1,
+    borderBottomColor: commonColors.borderColor,
+    borderBottomWidth: 1
   },
   singleContentText: {
     fontSize: 13,

@@ -10,7 +10,7 @@ import {
   Image
 } from 'react-native';
 import { commonColors } from '../../utils/colors';
-import { BasicTeamInfo } from '../../reducers/teamReducer';
+import { BasicTeamInfo, TeamDetailInfo } from '../../reducers/teamReducer';
 import teamMap from '../../utils/team-map';
 
 export enum Zone {
@@ -22,6 +22,7 @@ export enum Zone {
  * Props pass from parent
 */
 interface Props extends ViewStyle {
+  teamDetail: TeamDetailInfo,
   teamItem:  BasicTeamInfo,
   rank: number,
   zone: Zone 
@@ -48,6 +49,7 @@ export default class TeamDetailCard extends React.Component<Props, object> {
           source={logo}
         />
         <View style={styles.rightContainer}>
+          <Text style={styles.rightText}>{`${this.props.teamDetail.season}赛季`}</Text>
           <Text style={styles.rightText}>{`${this.props.teamItem.win}胜-${this.props.teamItem.loss}负`}</Text>
           <Text style={[styles.rightText, {marginTop: 5}]}>{`${zone}${this.props.rank}`}</Text>
         </View>
@@ -72,7 +74,7 @@ const styles = StyleSheet.create<Styles>({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 8
+    paddingHorizontal: 15
   },
   teamNameContainer: {
     flexDirection: 'column'
@@ -87,8 +89,8 @@ const styles = StyleSheet.create<Styles>({
     marginTop: 5
   },
   image: {
-    width: 50,
-    height: 50
+    width: 100,
+    height: 100
   },
   rightContainer: {
     flexDirection: 'column',

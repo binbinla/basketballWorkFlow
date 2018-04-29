@@ -29,7 +29,7 @@ export interface GameDetailResult {
 
 export interface TeamDetailResult {
   teamDetail: TeamDetailInfo,
-  playerPersonal: PlayerPersonalInfo,
+  playerPersonal: PlayerPersonalInfo[],
   loading?: boolean
 }
 
@@ -195,10 +195,11 @@ const producer = {
   },
 
   teamDetail: (res): TeamDetailInfo => {
-    const dataPartOne = res["resultSets"][0]["rowSet"]
+    const dataPartOne = res["resultSets"][0]["rowSet"][0]
     let result: TeamDetailInfo = {
       teamId: dataPartOne[1],
       teamName: dataPartOne[2],
+      season: dataPartOne[3],
       win: dataPartOne[5],
       loss: dataPartOne[6],
       w_pct: dataPartOne[7],
@@ -222,39 +223,40 @@ const producer = {
       players: []
     }
     const dataPartTwo = res["resultSets"][1]["rowSet"]
-    dataPartTwo.map(player => {
+    for (let i = 0; i < dataPartTwo.length; i++) {
+      const current = res["resultSets"][1]["rowSet"][i];
       let makePlayer: TeamPlayer = {
-        id: player[1],
-        name: player[2],
-        gp: player[3],
-        pts: player[27],
-        reb: player[19],
-        ast: player[20],
-        min: player[7]
-      }
+        id: String(current[1]),
+        name: current[2],
+        gp: current[3],
+        pts: current[27],
+        reb: current[19],
+        ast: current[20],
+        min: current[7]
+      }      
       result.players.push(makePlayer);
-    })
+    }
     return result;
   },
 
   teamDetailBasic:(res): PlayerPersonalInfo[] => {
     const data = res["resultSets"][0]["rowSet"]
     let result: PlayerPersonalInfo[] = []
-    data.forEach(player => {
+    for (let i = 0; i < data.length; i++) {
+      const current = data[i];
       let makePlayer: PlayerPersonalInfo = {
-        id: String(data[0]),
-        name: data[3],
-        number: data[4],
-        position: data[5],
-        height: data[6],
-        weight: data[7],
-        age: String(data[9])
+        id: String(current[12]),
+        name: current[3],
+        number: current[4],
+        position: current[5],
+        height: current[6],
+        weight: current[7],
+        age: String(current[9])
       }
-      result.push(makePlayer);
-    })
+      result.push(makePlayer);      
+    }
     return result;
   }
 }
-
 
 export default producer

@@ -8,8 +8,6 @@ export enum PlayerPosition {
 }
 
 export interface Player {
-  // first_name: string,
-  // jersey_number: string,
   last_name: string,
   starting_position: string,
   points: string,

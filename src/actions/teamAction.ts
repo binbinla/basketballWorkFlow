@@ -31,7 +31,6 @@ export function getTeamRank(year, month, date) {
 }
 
 function didFetchTeamRank() {
-  console.log('team rank action')
   scrap_result = { western: western, eastern: eastern };
   return {
     type: types.DID_FETCH_TEAM_RANK,

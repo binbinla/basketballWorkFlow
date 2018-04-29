@@ -10,12 +10,13 @@ import {
   Image
 } from 'react-native';
 import { commonColors } from '../../utils/colors';
+import { CombineItem } from './TeamDetail';
 
 /** 
  * Props pass from parent
 */
 interface Props extends ViewStyle {
-  // 
+  combinePlayerItem: CombineItem
 }
 
 export default class TeamPlayerCard extends React.Component<Props, object> {
@@ -26,22 +27,24 @@ export default class TeamPlayerCard extends React.Component<Props, object> {
     return (
       <View style={[styles.container]}>
         <View style={styles.leftContainer}>
-          <Text style={styles.leftText}></Text>
-          <Text style={[styles.leftText, {marginTop: 4}]}></Text>
+          <Text style={styles.leftText}>{this.props.combinePlayerItem.personalPlayer.name}</Text>
+          <Text style={[styles.leftText, {marginTop: 4}]}>{`${this.props.combinePlayerItem.personalPlayer.position}  ${this.props.combinePlayerItem.personalPlayer.number}`}</Text>
         </View>
         <View style={styles.rightContainer}>
           <View style={styles.rightTop}>
-            <Text style={styles.rightTopText}></Text>
-            <Text style={styles.rightTopText}></Text>
-            <Text style={styles.rightTopText}></Text>
+            <Text style={styles.rightTopText}>{`年龄 ${this.props.combinePlayerItem.personalPlayer.age}`}</Text>
+            <Text style={styles.rightTopText}>{`身高 ${this.props.combinePlayerItem.personalPlayer.height}`}</Text>
+            <Text style={styles.rightTopText}>{`体重 ${this.props.combinePlayerItem.personalPlayer.weight}`}</Text>
           </View>
           <Text style={styles.rightCenterText}>{'场均数据：'}</Text>
           <View style={styles.rightBottom}>
-            <Text style={styles.rightTopText}></Text>
-            <Text style={styles.rightTopText}></Text>
-            <Text style={styles.rightTopText}></Text>
-            <Text style={styles.rightTopText}></Text>
-            <Text style={styles.rightTopText}></Text>
+            <Text style={styles.rightTopText}>{`分数 ${this.props.combinePlayerItem.detailPlayer.pts}`}</Text>
+            <Text style={styles.rightTopText}>{`篮板 ${this.props.combinePlayerItem.detailPlayer.reb}`}</Text>
+            <Text style={styles.rightTopText}>{`助攻 ${this.props.combinePlayerItem.detailPlayer.ast}`}</Text>
+          </View>
+          <View style={styles.rightBottom}>
+            <Text style={styles.rightTopText}>{`上场时间 ${this.props.combinePlayerItem.detailPlayer.min}`}</Text>
+            <Text style={styles.rightTopText}>{`出场数 ${this.props.combinePlayerItem.detailPlayer.gp}`}</Text>
           </View>
         </View>
       </View>
@@ -63,12 +66,14 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   container: {
-    // flex: 1,
     flexDirection: 'row',
     backgroundColor: commonColors.white,
     padding: 8,
+    borderBottomColor: commonColors.gray,
+    borderBottomWidth: 1
   },
   leftContainer: {
+    flex: 1.5,
     flexDirection: 'column',
     justifyContent: 'center'
   },
@@ -77,6 +82,7 @@ const styles = StyleSheet.create<Styles>({
     color: commonColors.black
   },
   rightContainer: {
+    flex: 2,
     flexDirection: 'column',
     marginLeft: 20,
     justifyContent: 'center'
@@ -94,7 +100,7 @@ const styles = StyleSheet.create<Styles>({
   },
   rightTopText: {
     fontSize: 12,
-    color: commonColors.gray
+    color: commonColors.black
   },
   rightCenterText: {
     fontSize: 14,

@@ -141,7 +141,7 @@ class TeamsPage extends React.Component<Props, {}> {
    */
   _onItemPress(item: BasicTeamInfo) {
     console.log(item + 'was pressed');
-    this.props.navigation.navigate('NewsDetail', {
+    this.props.navigation.navigate('TeamDetail', {
       teamItem: item,
       rank: this.rank,
     }); 

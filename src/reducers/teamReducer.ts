@@ -7,6 +7,7 @@ import { TeamPlayer } from '../model/player';
 export interface TeamDetailInfo {
   teamId: string,
   teamName: string,
+  season: string,
   win: number,
   loss: number,
   w_pct: number,
@@ -67,6 +68,7 @@ export function fetchTeamsRankHandler(state = initialState, action: any) {
 export const teamDetailInitial: TeamDetailInfo = {
   teamId: '',
   teamName: '',
+  season: '',
   win: 0,
   loss: 0,
   w_pct: 0,
@@ -102,7 +104,7 @@ export const playerPersonalInitial: PlayerPersonalInfo = {
 
 const initial: TeamDetailResult = {
   teamDetail: teamDetailInitial,
-  playerPersonal: playerPersonalInitial,
+  playerPersonal: [playerPersonalInitial],
   loading: true
 }
 

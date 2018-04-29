@@ -1,7 +1,7 @@
 
 import { GameType, GameState, SingleGameTeamInfo } from '../reducers/gameReducer'; 
-import { BasicTeamInfo } from '../reducers/teamReducer';
-import { Player } from '../model/player';
+import { BasicTeamInfo, TeamDetailInfo, PlayerPersonalInfo } from '../reducers/teamReducer';
+import { Player, TeamPlayer } from '../model/player';
 
 export interface GameGeneralResult {
   unstart: GameState[],
@@ -24,6 +24,12 @@ export interface GameDetailResult {
     time: string,
     quarter: string
   },
+  loading?: boolean
+}
+
+export interface TeamDetailResult {
+  teamDetail: TeamDetailInfo,
+  playerPersonal: PlayerPersonalInfo[],
   loading?: boolean
 }
 
@@ -128,14 +134,16 @@ const producer = {
         id: item[0],
         name: item[5],
         win: item[8],
-        loss: item[7]
+        loss: item[7],
+        zone: item[2] // 尚未与接口进行匹配
       })
       anotherItem = westData[index]
       western.push({
         id: anotherItem[0],
         name: anotherItem[5],
         win: anotherItem[8],
-        loss: anotherItem[7]
+        loss: anotherItem[7],
+        zone: item[2]
       }) 
     })
     return {
@@ -184,8 +192,71 @@ const producer = {
       }
     }
     return result;
+  },
+
+  teamDetail: (res): TeamDetailInfo => {
+    const dataPartOne = res["resultSets"][0]["rowSet"][0]
+    let result: TeamDetailInfo = {
+      teamId: dataPartOne[1],
+      teamName: dataPartOne[2],
+      season: dataPartOne[3],
+      win: dataPartOne[5],
+      loss: dataPartOne[6],
+      w_pct: dataPartOne[7],
+      w_pct_rank: dataPartOne[33],
+      fg_pct: dataPartOne[11],
+      fg_pct_rank: dataPartOne[37],
+      fg3_pct: dataPartOne[14],
+      fg3_pct_rank: dataPartOne[40],
+      reb: dataPartOne[20],
+      reb_rank: dataPartOne[46],
+      ast: dataPartOne[21],
+      ast_rank: dataPartOne[47],
+      tov: dataPartOne[22],
+      tov_rank: dataPartOne[48],
+      stl: dataPartOne[23],
+      stl_rank: dataPartOne[49],
+      blk: dataPartOne[24],
+      blk_rank: dataPartOne[50],
+      pts: dataPartOne[28],
+      pts_rank: dataPartOne[54],
+      players: []
+    }
+    const dataPartTwo = res["resultSets"][1]["rowSet"]
+    for (let i = 0; i < dataPartTwo.length; i++) {
+      const current = res["resultSets"][1]["rowSet"][i];
+      let makePlayer: TeamPlayer = {
+        id: String(current[1]),
+        name: current[2],
+        gp: current[3],
+        pts: current[27],
+        reb: current[19],
+        ast: current[20],
+        min: current[7]
+      }      
+      result.players.push(makePlayer);
+    }
+    return result;
+  },
+
+  teamDetailBasic:(res): PlayerPersonalInfo[] => {
+    const data = res["resultSets"][0]["rowSet"]
+    let result: PlayerPersonalInfo[] = []
+    for (let i = 0; i < data.length; i++) {
+      const current = data[i];
+      let makePlayer: PlayerPersonalInfo = {
+        id: String(current[12]),
+        name: current[3],
+        number: current[4],
+        position: current[5],
+        height: current[6],
+        weight: current[7],
+        age: String(current[9])
+      }
+      result.push(makePlayer);      
+    }
+    return result;
   }
 }
-
 
 export default producer

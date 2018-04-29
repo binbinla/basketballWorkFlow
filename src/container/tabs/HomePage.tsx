@@ -48,8 +48,6 @@ interface State {
   date: string[]
 }
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
-
 class HomePage extends React.Component<Props, State> {
   
   constructor(props: Props) {
@@ -75,7 +73,7 @@ class HomePage extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    //
+    // console.log('jsonData' + jsonData);
   }
 
   render() {
@@ -113,9 +111,6 @@ class HomePage extends React.Component<Props, State> {
       const yesterdayResult = this.combineGames(DayType.yesterday);
       result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}${' '}${todayResult.length}场`] = todayResult
       result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}${' '}${yesterdayResult.length}场`] = yesterdayResult
-      // let result = {};
-      // result['周三'] = gameAction.testState;
-      // result['周二'] = gameAction.testState;
       callback(result);
     }, 2000);
   }

@@ -23,17 +23,22 @@ import news_test_data from '../../mock_datas/news_datas';
 import CommentInputForm from './CommentInputForm';
 import CommentCard from './CommentCard';
 import { LoginState } from '../../reducers/loginReducer';
+import { CommentState } from '../../reducers/newsReducer';
+import * as newsAction from '../../actions/newsAction';
+import Spinner from '../../component/Spinner';
 
 interface StateProps {
-  readonly loginParams: LoginState
+  readonly loginParams: LoginState,
+  readonly commentParams: CommentState
 }
 
 interface DispathProps {
-  //
+  readonly commitComment: (comment: string) => Action<void>
 }
 
 interface State {
-  visible: boolean
+  visible: boolean,
+  loading: boolean,
   commentContent?: string,
   commentDataSource? 
 }
@@ -42,20 +47,47 @@ type Props = Navigatable & DispathProps & StateProps
 
 class NewsDetail extends React.Component<Props, State> {
 
+  private _scroll
+
   constructor(props: Props) {
     super(props);
     this.state = {
       visible: false,
+      loading: false,
       commentDataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
-      })
+      }),
     }
   }
+
   static navigationOptions = {
     title: '新闻一线',
     tabBarVisible: false,
   };
 
+  componentDidMount () {
+    
+  }
+
+  componentWillReceiveProps (nextProps: Props) {
+    this.setState({ loading: nextProps.commentParams.loading });
+    this.updateDataSource(nextProps.commentParams.allComments);
+    if (this.props.commentParams.loading && nextProps.commentParams.loading) {
+      console.log('visit scroll')
+      this._scroll.scrollToEnd({ animated: true });
+    }
+  }
+  
+  updateDataSource (commentRows: string[]) {
+    // console.log('commentRows' + commentRows)
+    const { commentDataSource } = this.state
+    let rows = Object.assign([], commentRows)
+
+    this.setState({
+      commentDataSource: commentDataSource.cloneWithRows(rows)
+    })
+  }
+  
   render() {
     const { params } = this.props.navigation.state;
     const newsId = params ? params.id : null;
@@ -68,7 +100,18 @@ class NewsDetail extends React.Component<Props, State> {
 
     return (
       <View style={{flex: 1}}>
-        <ScrollView style={{flex: 1, marginBottom: 40}} showsVerticalScrollIndicator={false}>
+        <Spinner 
+          textContent={'评论提交中...'}
+          visible={this.state.loading}
+          color={commonColors.white}
+          textStyle={{ fontSize: 10, color: commonColors.white }}
+          hudBg={true}
+        />          
+        <ScrollView
+          style={{flex: 1, marginBottom: 40}} 
+          showsVerticalScrollIndicator={false}
+          ref={(scroll) => this._scroll = scroll}
+         >
           <View style={styles.container}>
             <View style={styles.titleContainer}>
               <Text style={styles.titleText}>
@@ -96,10 +139,10 @@ class NewsDetail extends React.Component<Props, State> {
             <View style={styles.commentTip}>
                 <Text style={styles.commentTipText}>{'这些评论亮了'}</Text>
             </View>              
-            {/* <ListView
+            <ListView
                 dataSource={this.state.commentDataSource}
                 renderRow={this._renderRow.bind(this)}
-                style={styles.listView} />              */}
+                style={styles.listView} />             
           </View>        
         </ScrollView>        
         <View style={styles.commentContainer}>
@@ -120,7 +163,7 @@ class NewsDetail extends React.Component<Props, State> {
                   </TouchableOpacity>
                   <Text style={styles.centerText}>{'我来评论'}</Text>
                   <TouchableOpacity onPress={this._onPostPress}>
-                    <Text style={styles.cornerText}>{'发表'}</Text>
+                    <Text style={[styles.cornerText, {color: commonColors.topicColor}]}>{'发表'}</Text>
                   </TouchableOpacity>
                 </View>
                 <TextInput
@@ -141,13 +184,18 @@ class NewsDetail extends React.Component<Props, State> {
   /**
    * 渲染评论
    */
-  _renderRow = (rowData, sectionID, rowID, highlightRow): JSX.Element => {
-    return (
-      <CommentCard
-        user={this.props.loginParams.user}
-        commentContent={'希望老詹下一场别再打这么久了，把身体留着来76人多打几年'}
-      />
-    )
+  _renderRow = (rowData, sectionID, rowID, highlightRow) => {
+    // console.log('rowdata' + rowData)
+    if (rowData) {
+      return (
+        <CommentCard
+          user={this.props.loginParams.user}
+          commentContent={rowData}
+        />
+      )
+    } else {
+      return null
+    }
   }
 
   /**
@@ -175,9 +223,15 @@ class NewsDetail extends React.Component<Props, State> {
    * 点击发表
    */
   _onPostPress = () => {
-
+    this.setState({
+      visible: false
+    }, () => {
+      if (this.state.commentContent) {
+        this.props.commitComment(this.state.commentContent);
+      }
+    })
   }
-
+ 
   /**
    * 输入框文本变化监听
    */
@@ -247,7 +301,7 @@ const styles = StyleSheet.create<Style>({
   },
   modalContainer: {
     flex: 1,
-    backgroundColor:'rgba(0, 0, 0, 0.3)'
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
   },
   modalContent: {
     flex: 1,
@@ -289,7 +343,7 @@ const styles = StyleSheet.create<Style>({
     borderBottomWidth: 0.5,
     borderLeftColor: commonColors.topicColor,
     borderLeftWidth: 4,
-    marginVertical: 10
+    marginTop: 10
   },
   commentTipText: {
     fontSize: 13,
@@ -300,13 +354,14 @@ const styles = StyleSheet.create<Style>({
 
 function mapStateToProps(reducer: any) {
   return {
-    loginParams: reducer.loginHandler
+    loginParams: reducer.loginHandler,
+    commentParams: reducer.commitCommentHandler
   }
 }
 
 function mapDispatchToProps() {
   return (dispatch: any) => ({
-    //
+    commitComment: (comment: string) => dispatch(newsAction.commitComment(comment)),
   })
 }
 

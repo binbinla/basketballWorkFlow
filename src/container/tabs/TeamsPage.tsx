@@ -20,6 +20,7 @@ import { commonColors } from '../../utils/colors';
 import { BasicTeamInfo } from '../../reducers/teamReducer';
 import moment from 'moment-timezone';
 import { western, eastern } from '../../mock_datas/team_rank_datas';
+import { Zone } from '../team/TeamDetailCard';
 
 const GiftedListView = require('react-native-gifted-listview');
 
@@ -28,7 +29,7 @@ const resetAction = NavigationActions.reset({
   actions: [
     NavigationActions.navigate({ routeName: 'Hello' })
   ]
-})
+});
 
 interface StateProps {
   readonly teamRankParams: TeamRankResult
@@ -43,6 +44,7 @@ type Props = Navigatable & StateProps & DispathProps
 class TeamsPage extends React.Component<Props, {}> {
 
   private rank: number = 1
+  private zone: Zone = Zone.WEST
 
   constructor(props: Props) {
     super(props);
@@ -54,18 +56,10 @@ class TeamsPage extends React.Component<Props, {}> {
   componentWillMount() {
     const today = date.getToday();
     this.props.getTeamRank(today[0], today[1], today[2]);
-    // fetch("http://stats.nba.com/stats/scoreboard?DayOffset=0&LeagueID=00&gameDate=4/12/2018")
-    //   // .then(res => res.json())
-    //   .then(data => {
-    //     console.log('component did mount ' + JSON.stringify(data));
-    //   })
-    //   .catch(error => {
-    //     console.log('point out errror' + error)
-    //   })
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    console.log('next Props' + JSON.stringify(nextProps));
+    // console.log('next Props' + JSON.stringify(nextProps));
   }
 
   render() {
@@ -145,8 +139,12 @@ class TeamsPage extends React.Component<Props, {}> {
    * when a row was touched
    * @param
    */
-  _onItemPress(item: any) {
-    console.log(item + 'was pressed')
+  _onItemPress(item: BasicTeamInfo) {
+    console.log(item + 'was pressed');
+    this.props.navigation.navigate('TeamDetail', {
+      teamItem: item,
+      rank: this.rank,
+    }); 
   }
 
 }

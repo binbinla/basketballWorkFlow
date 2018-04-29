@@ -16,6 +16,9 @@ import ChangeNickName from '../../container/mine/personalProfile/ChangeNickName'
 import ChangeAddress from '../../container/mine/personalProfile/ChangeAddress';
 import NewsDetail from '../../container/community/NewsDetail';
 import GameDetail from '../../container/game/GameDetail';
+import TeamDetail from '../team/TeamDetail';
+import TeamDetailBasic from '../team/TeamDetailBasic';
+import TeamDetailPlayers from '../team/TeamDetailPlayers';
 
 const HomeStack = StackNavigator(
   {
@@ -35,6 +38,7 @@ const HomeStack = StackNavigator(
 const TeamsStack = StackNavigator(
   {
     TeamsPage: { screen: TeamsPage},
+    TeamDetail: { screen: TeamDetail},
   },
   {
     navigationOptions: {

@@ -64,7 +64,7 @@ const address = {
   },
   
  /**
-  * @params gameDate month/date/year
+  * @params gameDate month/date/year 4/12/2018
   */
  teamRank: (gameDate) => {
     return `http://stats.nba.com/stats/scoreboard?DayOffset=0&LeagueID=00&gameDate=${gameDate}`
@@ -78,7 +78,7 @@ const address = {
   },
 
   /**
-   * 某个球队某个赛季的详细信息
+   * 某个球队某个赛季的详细信息 √
    */
   teamDetail: (id) => {
     return `http://stats.nba.com/stats/teamplayerdashboard?DateFrom=&DateTo=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PaceAdjust=N&PerMode=PerGame&Period=0&PlusMinus=N&Rank=N&Season=${season}&SeasonSegment=&SeasonType=Regular+Season&TeamID=${id}&VsConference=&VsDivision=`

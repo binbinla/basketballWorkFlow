@@ -1,4 +1,5 @@
 import * as types from '../constants/newsTypes';
+import news_datas from '../mock_datas/news_datas';
 
 export interface NewsState {
   newsId: number,
@@ -50,7 +51,7 @@ const initialState = {
 
 export function fetchNewsHandler(state = initialState, action: any) {
   let newState = state;
-  switch(action.type) {
+  switch (action.type) {
     case types.DID_FETCH_NEWS: {
       newState = Object.assign({}, state, {
         ids: action.news
@@ -60,4 +61,38 @@ export function fetchNewsHandler(state = initialState, action: any) {
     default: 
       return state;
   }  
+}
+
+
+export interface CommentState {
+  loading: boolean,
+  allComments: string[]
+}
+
+const commentInitialState: CommentState = {
+  loading: true,
+  allComments: []
+}
+
+export function commitCommentHandler(state: CommentState = commentInitialState, action: any) {
+  state.allComments.push(action.commentContent);
+  let newState = state;
+  switch (action.type) {
+    case types.DID_START_COMMIT_COMMENT: {
+      newState = Object.assign({}, state, {
+        loading: true
+      })
+      return newState;
+    }
+    case types.DID_FINISH_COMMIT_COMMENT: {
+      newState = Object.assign({}, state, {
+        loading: false,
+        // allComment: newAllComments
+      })
+      console.log('redux allComments' + newState.allComments);
+      return newState;
+    }
+    default: 
+      return state;
+  }
 }

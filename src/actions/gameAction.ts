@@ -88,7 +88,7 @@ export const getGameDetail = (year, month, date, gameId) => {
           gameDetail: data
         })
       })
-  }
+  } 
 }
 
 function didStartFetchGameDetail() {

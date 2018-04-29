@@ -30,7 +30,7 @@ interface State {
 export default class GamePlayerCard extends React.Component<Props, State> {
   constructor(props: Props){
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.person_id !== r2.person_id});
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let rows = Object.assign([], this.props.players);
     rows.unshift({
       last_name: '',

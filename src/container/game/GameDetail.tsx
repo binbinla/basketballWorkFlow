@@ -26,6 +26,7 @@ import { Player } from '../../model/player';
 import { GameDetailResult } from '../../network/producer';
 import Channel from '../../network/index';
 import * as types from '../../constants/gameTypes';
+import Spinner from '../../component/Spinner';
 
 const ScrollableTabView = require('react-native-scrollable-tab-view');
 
@@ -74,7 +75,6 @@ class GameDetail extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     if (!nextProps.gameDetailParams.loading) {
       this.setState({ loading: false })
-      // console.log('next props home players' + JSON.stringify(nextProps.gameDetailParams.home.players))
       this.setState({ homePlayers: nextProps.gameDetailParams.home.players, visitorPlayers: nextProps.gameDetailParams.visitor.players })
     }
   }
@@ -82,11 +82,20 @@ class GameDetail extends React.Component<Props, State> {
   render() {
     const topicColor = teamMap[this.state.gameItem.home.teamAbbreviate].color
     if (this.state.loading) {
-      return null;
+      return (
+        <View style={styles.container}>
+          <Spinner 
+            textContent={'努力加载中...'}
+            visible={this.state.loading}
+            color={commonColors.black}
+            textStyle={{ fontSize: 10, color: commonColors.black }}
+          />               
+        </View>
+      )
     } else {
       // console.log('this.state.players' + JSON.stringify(this.state.homePlayers))
       return (
-        <View style={styles.container}>
+        <View style={styles.container}>   
           <GameCard
             item={this.state.gameItem}
             bgColor={topicColor}
@@ -108,7 +117,7 @@ class GameDetail extends React.Component<Props, State> {
       )
     }
   }
-}
+}   
 
 interface Style {
   container: ViewStyle,

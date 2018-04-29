@@ -1,5 +1,6 @@
 import address from './address';
-import producer, { GameGeneralResult, TeamRankResult, GameDetailResult }  from './producer';
+import producer, { GameGeneralResult, TeamRankResult, GameDetailResult, TeamDetailResult }  from './producer';
+import { mapTeamIdToBasic, mapTeamIdToDetail } from './mapTeamJson';
 
 export default class Channel {
 
@@ -11,7 +12,7 @@ export default class Channel {
 
   getGameGeneral(year, month, date): Promise<GameGeneralResult> {
     const gen_url = address.gameGeneral(`${year}${month}${date}`);
-    console.log('game general url' + gen_url);
+    // console.log('game general url' + gen_url);
     const getDate: string[] = [year,month,date]
     return window.fetch(gen_url)
       .then(res => res.json())
@@ -43,17 +44,13 @@ export default class Channel {
     }
     const url = address.teamRank(`${formatMonth}/${date}/${year}`)
     console.log('teamRank Url' + url);
-    // fetch("http://blog.parryqiu.com").then(function(response){console.log( 'response' + JSON.stringify(response))})
-    // console.log('dayin' + JSON.stringify(fetch("http://stats.nba.com/stats/scoreboard?DayOffset=0&LeagueID=00&gameDate=3/13/2018")));
     return window.fetch("http://stats.nba.com/stats/scoreboard?DayOffset=0&LeagueID=00&gameDate=4/12/2018")
       .then(function(res) {
         res.json();
-        // return res.json()
       })
       .then(data => {
-        console.log('team rank data' + JSON.stringify(data))
-        producer.teamRank(data)
-        // return result;
+        const result = producer.teamRank(data)
+        return result;
       })
       .catch(error => {
         console.log(error);
@@ -70,11 +67,9 @@ export default class Channel {
    */
   getGameDetail(year, month, date, gameId): Promise<GameDetailResult> {
     const url = address.gameDetail(`${year}${month}${date}`, gameId);
-    console.log('game detail url' + url);
     return window.fetch(url)
       .then(res => res.json())
       .then(data => {
-        // console.log('game detail res' + JSON.stringify(data))
         const result = producer.gameDetail(data)
         return result
       })
@@ -82,6 +77,14 @@ export default class Channel {
         console.log(error);
         throw error;
       })
+  }
+
+  getTeamDetail(teamId): TeamDetailResult {
+    let result: TeamDetailResult = {
+      teamDetail: producer.teamDetail(JSON.parse(mapTeamIdToDetail(teamId))),
+      playerPersonal: producer.teamDetailBasic(JSON.parse(mapTeamIdToBasic(teamId)))
+    }
+    return result;
   }
 }
 

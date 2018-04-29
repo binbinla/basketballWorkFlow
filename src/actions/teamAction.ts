@@ -31,10 +31,29 @@ export function getTeamRank(year, month, date) {
 }
 
 function didFetchTeamRank() {
-  console.log('team rank action')
   scrap_result = { western: western, eastern: eastern };
   return {
     type: types.DID_FETCH_TEAM_RANK,
     teamRank: scrap_result
+  }
+}
+
+export const getTeamDetail = (teamID) => {
+  return (dispatch, getStore) => {
+    dispatch(didStartFetchTeamDetail());
+    const channel = new Channel();
+    setTimeout(() => {
+      const result = channel.getTeamDetail(teamID)
+      return dispatch({
+        type: types.DID_FETCH_TEAM_DETAIL,
+        teamDetail: result
+      })
+    }, 1500);
+  }
+}
+
+function didStartFetchTeamDetail() {
+  return {
+    type: types.DID_START_FETCHING_TEAM_DETAIL
   }
 }

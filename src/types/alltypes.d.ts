@@ -11,3 +11,4 @@ declare module '@yfuks/react-native-action-sheet';
 declare module 'moment';
 declare module 'moment-timezone';
 declare module 'react-native-scrollable-tab-view';
+ 

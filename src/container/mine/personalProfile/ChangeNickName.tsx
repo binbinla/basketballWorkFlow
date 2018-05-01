@@ -55,7 +55,6 @@ class ChangeNickName extends React.Component<Props, State> {
    * 监听headerRight
    */
   _navigatePress = () => {
-    console.log('点击headerRight');
     const toast: any = this.refs.toast;
     this.props.modifyNickName(this.state.currentText);
     toast.show("更改成功", DURATION.LONG, () => {

@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ViewStyle,
   TextStyle,
-  YellowBox
+  YellowBox,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux'; // 引入connect函数
 import { NavigationActions } from 'react-navigation';
@@ -56,9 +57,22 @@ class HomePage extends React.Component<Props, State> {
       date: date.getToday()
     }
   }
-  static navigationOptions = {
-    title: '赛况'
-  };
+
+  static navigationOptions = ({ navigation, screenProps }) => ({
+    title: '赛况',
+    headerRight: (
+      <TouchableOpacity
+        onPress={() => navigation.state.params.navigatePress()}
+        activeOpacity={0.5}
+        style={{marginRight: 6, paddingHorizontal: 8}}
+      >
+        <Image
+          source={require('../../../assets/img/indicate/ic_search_black.png')}
+          style={{width: 30, height: 30}}
+        />
+      </TouchableOpacity>
+    )
+  });  
 
   componentWillMount() {
     // this.props.fetchGames();
@@ -69,11 +83,16 @@ class HomePage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    //
+    this.props.navigation.setParams({ navigatePress: this._navigatePress })
   }
 
-  componentWillUnmount() {
-    // console.log('jsonData' + jsonData);
+    /**
+   * 监听headerRight
+   */
+  _navigatePress = () => {
+    this.props.navigation.navigate('GameSearch', {
+      //
+    }); 
   }
 
   render() {
@@ -182,8 +201,6 @@ class HomePage extends React.Component<Props, State> {
   _onItemPress(item: GameState) {
     console.log(item + 'was pressed');
     this.props.navigation.navigate('GameDetail', {
-      // gameId: item.id,
-      // gameDate: item.date
       gameItem: item
     }); 
   }

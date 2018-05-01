@@ -19,11 +19,13 @@ import GameDetail from '../../container/game/GameDetail';
 import TeamDetail from '../team/TeamDetail';
 import TeamDetailBasic from '../team/TeamDetailBasic';
 import TeamDetailPlayers from '../team/TeamDetailPlayers';
+import GameSearch from '../../container/game/GameSearch';
 
 const HomeStack = StackNavigator(
   {
     HomePage: { screen: HomePage},
-    GameDetail: {screen: GameDetail}
+    GameDetail: { screen: GameDetail},
+    GameSearch: { screen: GameSearch}
   },
   {
     navigationOptions: {

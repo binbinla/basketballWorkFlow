@@ -80,9 +80,8 @@ export const getGameSearch = (year, month, date) => {
   return (dispatch, getStore) => {
     dispatch(didStartFetchSearchGames());
     const channel = new Channel();
-    return channel.getGameGeneral(year, month, date)
+    return channel.getGameGeneral(year, month, date, true)
       .then(data => {
-        console.log('game search data' + JSON.stringify(data))
         return dispatch({
           type: types.DID_FETCH_SEARCH_GAMES,
           games: data

@@ -104,6 +104,10 @@ class GameSearch extends React.Component<Props, State> {
           refreshableTintColor="blue"
           emptyView={this._renderEmptyView}
         />
+        <Toast
+          ref="toast"
+          position="center"
+        />
       </View>
     )
   }
@@ -122,18 +126,19 @@ class GameSearch extends React.Component<Props, State> {
     setTimeout(() => {
       let result = {};
       const searchResult = this.combineGames();
-      let formatDate: string = ''
-      if (this.props.gamesParams.gameGeneral.gameDate) {
-        const dates = this.props.gamesParams.gameGeneral.gameDate.split('-');
-        formatDate = dates[0] + '-' + dates[1] + '-' + String(Number(dates[2]) - 1);
-      }
-      result[`${formatDate}${' '}${searchResult.length}场`] = searchResult
+      result[`${this.props.gamesParams.gameGeneral.gameDate}${' '}${searchResult.length}场`] = searchResult
       callback(result);
     }, 2000);
   }
 
   combineGames = (): GameState[] => {
     const all: GameState[] = []
+    const toast: any = this.refs.toast;
+    if (this.props.gamesParams.gameGeneral.live.length === 0 &&
+      this.props.gamesParams.gameGeneral.unstart.length === 0 &&
+      this.props.gamesParams.gameGeneral.over.length === 0) {
+      toast.show("当天没有比赛", DURATION.LONG);
+    }
     this.props.gamesParams.gameGeneral.live.forEach(item => {
       all.push(item);
     })
@@ -200,7 +205,8 @@ class GameSearch extends React.Component<Props, State> {
   _onSubmitEditing = () => {
     if (this.state.searchText && this.state.searchText !== '') {
       const dates: string[] = this.state.searchText.split('/');
-      this.props.getGameSearch(dates[0], dates[1], dates[2]);
+      const day: string = String(Number(dates[2]) - 1); 
+      this.props.getGameSearch(dates[0], dates[1], day);
       this.setState({ loading: true }, () => {
         this.listview._refresh();
       })

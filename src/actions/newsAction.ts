@@ -1,10 +1,18 @@
 import * as types from '../constants/newsTypes';
 import { NewsState } from '../reducers/newsReducer';
+import Channel from '../network/index';
 
-export function fetchNews() {
-  console.log('访问获取新闻的方法');
-  return (dispatch: any) => {
-    dispatch(didFetchNews());
+export const fetchNews = (num: number, start: number) => {
+  return (dispatch, getStore) => {
+    // dispatch(didFetchNews());
+    const channel = new Channel();
+    return channel.getRecentNews(num, start)
+      .then(data => {
+        return dispatch({
+          type: types.DID_FETCH_NEWS,
+          news: data
+        })
+      })
   }
 }
 

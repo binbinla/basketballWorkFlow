@@ -1,3 +1,4 @@
+import { News } from './../model/news';
 import address from './address';
 import producer, { GameGeneralResult, TeamRankResult, GameDetailResult, TeamDetailResult }  from './producer';
 import { mapTeamIdToBasic, mapTeamIdToDetail } from './mapTeamJson';
@@ -85,6 +86,20 @@ export default class Channel {
       playerPersonal: producer.teamDetailBasic(JSON.parse(mapTeamIdToBasic(teamId)))
     }
     return result;
+  }
+
+  getRecentNews(num: number, start: number): Promise<News[]> {
+    const url = address.recentNBANews(num, start);
+    return window.fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const result = producer.recentNBANews(data);
+        return result;
+      })
+      .catch(error => {
+        console.log(error);
+        throw error;
+      })
   }
 }
 

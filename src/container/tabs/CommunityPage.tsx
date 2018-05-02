@@ -16,7 +16,8 @@ import { commonColors } from '../../utils/colors';
 import NewsCard from '../../component/NewsCard';
 import { NewsState } from '../../reducers/newsReducer';
 import * as newsAction from '../../actions/newsAction';
-import Toast, {DURATION} from 'react-native-easy-toast';
+import Toast, { DURATION } from 'react-native-easy-toast';
+import { News } from '../../model/news';
 
 const GiftedListView = require('react-native-gifted-listview');
 
@@ -28,11 +29,11 @@ const resetAction = NavigationActions.reset({
 })
 
 interface StateProps {
-  readonly newsParams: any
+  readonly newsParams: News[]
 }
 
 interface DispathProps {
-  readonly fetchNews: () => Action<void>
+  readonly fetchNews: (num: number, start: number) => Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
@@ -47,27 +48,7 @@ class CommunityPage extends React.Component<Props, {}> {
   };
 
   componentWillMount() {
-    this.props.fetchNews();
-    // console.log('news fetch');
-    // fetch("http://stats.nba.com/stats/commonplayerinfo?LeagueID=00&PlayerID=203584&SeasonType=Regular+Season", {
-    //   method: 'GET',
-    //   credentials: "include",
-    //   headers: {
-    //     cookie: JSON.stringify(getCookie('__guid=65800172.4031362203156968000.1522065220488.3794; __gads=ID=03a5ac0aa1827b17:T=1522065226:S=ALNI_Ma9lOh3ONwDqugSEzOaY0KekVMR_Q; AMCV_248F210755B762187F000101%40AdobeOrg=-1891778711%7CMCAID%7C2D5C6FA5052A639F-6000012AA050E45B%7CMCIDTS%7C17641%7CMCMID%7C10509461825900863961656828769582452970%7CMCAAMLH-1524748627%7C11%7CMCAAMB-1524748627%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1524151027s%7CNONE%7CMCSYNCSOP%7C411-17648%7CvVersion%7C2.4.0; pgv_pvid=3730815700; ug=5ab8df450778880a3c732e47be0074cb; s_vi=[CS]v1|2D5C6FA5052A639F-6000012AA050E45B[CE]; s_fid=2282642745FE8062-049F91B355DBFE06; _ga=GA1.2.956194348.1522065224; mbox=PC#2eb8928a49b94e778e5b1c6bb51882d6.24_13#1585310027|session#ef08aee812e347138faa184078a75091#1524636763; ak_bmsc=3100331DA9FCEB334F0F0648C4C91E4DDF7732BD2E0D000021E2E35A0ADDF638~pl/FuDh2Fb5zu1QomlkraNb1fjOk4Nq2LaL+LrAbDuxUqbiMmEZafpxt1uBY34aGvj7flJELH2mTszMOORZvVHb4ugDJ+mPZ7O8CaX1ZnbKvaxlzhg9Ld9G3W+19qi/sUgMj/Xi+BBqFIC3h2PPx3+9NqgGstezvdp4dnoi38Q9KxuRY+IdiqDOLoaSD4OQh6qf3gYL57XUxaMNdRLDDzEBLedIoxKHPu1r+uf2wmorOg=; bm_sv=177DA7646B70D64CF778591832C6C508~3Ay5CASaeqXjLhVEMyrqsbEvptMSZP36qBaz8+564Lb3xS5uNVQwNhL8aVVh/DpSbr42DiRFdX8m7Rk9I3LN80WV5PBwpPjY/2H7YIVQRHbDlyTuAVRSFaAPgU7VRdT+PJ85lAPwuJdYHyHIyv9EFQ==; monitor_count=6')) 
-    //     // 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-    //   }
-    // })
-    //   // .then(res => res.json())
-    //   .then(data => {
-    //     console.log('component will mount ' + JSON.stringify(data));
-    //     const toast: any = this.refs.toast;
-    //     toast.show("请求成功", DURATION.SHORT);
-    //   })
-    //   .catch(error => {
-    //     console.log('point out errror' + error);
-    //     const toast: any = this.refs.toast;
-    //     toast.show("请求失败", DURATION.SHORT);
-    //   })    
+    this.props.fetchNews(40, 0);
   }
 
   componentWillReceiveProps(nextProps: Props, nextState: any) {
@@ -77,12 +58,12 @@ class CommunityPage extends React.Component<Props, {}> {
   render() {
     return (
       <View style={styles.container}>
-        <Toast 
+        <Toast
           ref="toast"
           position="center"
-          />      
+        />
         <GiftedListView
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           rowView={this._renderRowView.bind(this)}
           onFetch={this._onFetch.bind(this)}
           firstLoader={true}
@@ -90,6 +71,7 @@ class CommunityPage extends React.Component<Props, {}> {
           refreshable={true}
           withSections={true} // enable sections
           sectionHeaderView={this._renderSectionHeaderView}
+          paginationAllLoadedView={this._renderPaginationAllLoadedView}
           customStyles={{
             paginationView: {
               backgroundColor: commonColors.white,
@@ -106,19 +88,34 @@ class CommunityPage extends React.Component<Props, {}> {
    * will be called when refreshing
    * @param
    */
-  _onFetch(page = 1, callback, options) {
+  _onFetch(page, callback, options) {
     setTimeout(() => {
-      const ids = this.props.newsParams.ids ? this.props.newsParams.ids : []
+      const news = this.props.newsParams ? this.props.newsParams : []
       let result = {}
-      result['周一'] = ids;
-      callback(result);
-    }, 1000);
-  }  
-  
-   /**
-   * Render a row
-   * @param {object} rowData Row data
-   */
+      if (news.length !== 0) {
+        if (page === 1) {
+          result['NBA新闻资讯 第一页'] = news.slice(0,10);
+          callback(result);
+        } else if (page === 2) {
+          result['NBA新闻资讯 第二页'] = news.slice(10,20);
+          callback(result);
+        } else if (page === 3) {
+          result['NBA新闻资讯 第三页'] = news.slice(20,30);
+          callback(result);
+        } else if (page === 4) {
+          result['NBA新闻资讯 第四页'] = news.slice(30,40);
+          callback(result, {
+            allLoaded: true, // the end of the list is reached
+          });
+        }
+      }
+    }, 1500);
+  }
+
+  /**
+  * Render a row
+  * @param {object} rowData Row data
+  */
   _renderSectionHeaderView(sectionData, sectionID) {
     return (
       <View style={styles.header}>
@@ -129,6 +126,19 @@ class CommunityPage extends React.Component<Props, {}> {
     );
   }
 
+  /**
+   * 数据已经加载完毕
+   */
+  _renderPaginationAllLoadedView() {
+    return (
+      <View style={styles.paginationView}>
+        <Text style={styles.paginationText}>
+          没有更多了~
+        </Text>
+      </View>
+    );
+  }
+  
   /***
    * Render a row
    * @param
@@ -141,7 +151,7 @@ class CommunityPage extends React.Component<Props, {}> {
         onPress={() => this._onItemPress(rowData)}
       >
         <NewsCard
-          newsId={rowData}
+          news={rowData}
         />
       </TouchableOpacity>
     )
@@ -155,7 +165,7 @@ class CommunityPage extends React.Component<Props, {}> {
     console.log(rowData + 'was pressed');
     this.props.navigation.navigate('NewsDetail', {
       id: rowData
-    });    
+    });
   }
 
   _renderPaginationWaitingView(paginateCallback) {
@@ -170,7 +180,7 @@ class CommunityPage extends React.Component<Props, {}> {
       </TouchableOpacity>
     );
   }
-  
+
 }
 
 interface Style {
@@ -212,9 +222,9 @@ function mapStateToProps(reducer: any) {
   }
 }
 
-function mapDispatchToProps() { 
+function mapDispatchToProps() {
   return (dispatch: any) => ({
-    fetchNews: () => dispatch(newsAction.fetchNews())
+    fetchNews: (num: number, start: number) => dispatch(newsAction.fetchNews(num, start))
   })
 }
 

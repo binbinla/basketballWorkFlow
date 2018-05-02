@@ -2,6 +2,7 @@
 import { GameType, GameState, SingleGameTeamInfo } from '../reducers/gameReducer'; 
 import { BasicTeamInfo, TeamDetailInfo, PlayerPersonalInfo } from '../reducers/teamReducer';
 import { Player, TeamPlayer } from '../model/player';
+import { News } from '../model/news';
 
 export interface GameGeneralResult {
   unstart: GameState[],
@@ -261,6 +262,32 @@ const producer = {
         age: String(current[9])
       }
       result.push(makePlayer);      
+    }
+    return result;
+  },
+
+  recentNBANews:(res): News[] => {
+    let result: News[] = []
+    const status = res["status"]
+    if (status === '0') {
+      const data = res["result"]["list"]
+      if (data.length !== 0) {
+        data.forEach((item, index) => {
+          let news: News = {
+            title: '',
+            time: '',
+            picSource: '',
+            content: '',
+            mobileUrl: ''
+          }
+          news.title = item["title"];
+          news.time = item["time"];
+          news.picSource = item["pic"];
+          news.content = item["content"];
+          news.mobileUrl = item["url"];
+          result.push(news);
+        })
+      }
     }
     return result;
   }

@@ -94,7 +94,7 @@ export const Tabs = TabNavigator(
     // MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} },
     HomeStack: { screen: HomeStack, navigationOptions: { tabBarLabel: '赛况'}},
     TeamsStack: { screen: TeamsStack, navigationOptions: { tabBarLabel: '球队'} },
-    CommunityStack: { screen: CommunityStack, navigationOptions: { tabBarLabel: '社区'} },
+    CommunityStack: { screen: CommunityStack, navigationOptions: { tabBarLabel: '新闻'} },
     MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} }
   },
   {

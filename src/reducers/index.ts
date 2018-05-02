@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 import { LoginState, loginHandler } from "../reducers/loginReducer";
 import navigatorReducer from '../reducers/navigatorReducer';
-import { fetchGamesHandler, GameState, fetchGameDetailHandler } from '../reducers/gameReducer';
+import { fetchGamesHandler, GameState, fetchGameDetailHandler, fetchSearchGamesHandler } from '../reducers/gameReducer';
 import { FeedBackState, feedbackHandler } from '../reducers/feedbackReducer';
 import { fetchNewsHandler, NewsState, commitCommentHandler } from '../reducers/newsReducer';
 import { fetchTeamsRankHandler, BasicTeamInfo, fetchTeamDetailHandler } from '../reducers/teamReducer';
@@ -10,6 +10,7 @@ import { fetchTeamsRankHandler, BasicTeamInfo, fetchTeamDetailHandler } from '..
 const rootReducer = combineReducers({
   loginHandler,
   fetchGamesHandler,
+  fetchSearchGamesHandler,
   feedbackHandler,
   fetchNewsHandler,
   fetchTeamsRankHandler,

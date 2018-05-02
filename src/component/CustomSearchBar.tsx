@@ -43,7 +43,7 @@ export default class CustomSearchBar extends React.Component<Props, State> {
             style={[styles.textInput, {textAlignVertical: 'center'}]}
             onChangeText={this._onChangeText}
             underlineColorAndroid="transparent"
-            placeholder={'按日期搜索比赛 eg:2018/03/14'}
+            placeholder={'按日期搜索比赛 eg: 2018/03/14'}
             autoFocus={true}
             onSubmitEditing={() => this.props.onSubmitEditing()}
           /> 

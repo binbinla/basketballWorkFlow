@@ -53,7 +53,7 @@ export const getGameGeneral = (year, month, date) => {
     const channel = new Channel();
     return channel.getGameGeneral(year, month, date)
       .then(data => {
-        console.log('game data' + JSON.stringify(data))
+        // console.log('game data' + JSON.stringify(data))
         return dispatch({
           type: types.DID_FETCH_TODAY_GAMES,
           games: data
@@ -67,13 +67,46 @@ export const getYesterdayGameGeneral = (year, month, date) => {
     const channel = new Channel();
     return channel.getGameGeneral(year, month, date)
       .then(data => {
-        console.log('game data' + JSON.stringify(data))
+        // console.log('game data' + JSON.stringify(data))
         return dispatch({
           type: types.DID_FETCH_YESTERDAY_GAMES,
           games: data
         })
       })
   }
+}
+
+export const getGameSearch = (year, month, date) => {
+  return (dispatch, getStore) => {
+    dispatch(didStartFetchSearchGames());
+    const channel = new Channel();
+    return channel.getGameGeneral(year, month, date)
+      .then(data => {
+        console.log('game search data' + JSON.stringify(data))
+        return dispatch({
+          type: types.DID_FETCH_SEARCH_GAMES,
+          games: data
+        })
+      })
+  }
+}
+
+function didStartFetchSearchGames() {
+	return {
+		type: types.DID_START_FETCH_SEARCH_GAMES
+	}
+}
+
+export function clearSearchGames () {
+  return (dispatch, getStore) => {
+    dispatch(didClearSearchGames());
+  }
+}
+
+function didClearSearchGames() {
+	return {
+		type: types.DID_CLEAR_SEARCH_GAMES
+	}
 }
 
 export const getGameDetail = (year, month, date, gameId) => {

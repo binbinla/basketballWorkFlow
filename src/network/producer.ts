@@ -8,7 +8,12 @@ export interface GameGeneralResult {
   live: GameState[],
   over: GameState[],
   gameDate?: string,
-  weekDay?: string 
+  weekDay?: string
+}
+
+export interface  GameSearchResult {
+  gameGeneral: GameGeneralResult,
+  loading: boolean
 }
 
 export interface TeamRankResult {

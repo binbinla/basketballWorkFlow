@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TabNavigator, StackNavigator, TabBarBottom, navigationOptions } from 'react-navigation';
 import HomePage from './HomePage';
 import TeamsPage from './TeamsPage';
-import CommunityPage from './CommunityPage';
+import NewsPage from './NewsPage';
 import MinePage from './MinePage';
 import Hello from '../../component/Hello';
 import LoginPage from '../account/Login';
@@ -14,12 +14,15 @@ import HelpAndFeedback from '../../container/mine/HelpAndFeedback';
 import EvaluateApp from '../../container/mine/EvaluateApp';
 import ChangeNickName from '../../container/mine/personalProfile/ChangeNickName';
 import ChangeAddress from '../../container/mine/personalProfile/ChangeAddress';
-import NewsDetail from '../../container/community/NewsDetail';
+import CommunityDetail from '../../container/community/CommunityDetail';
 import GameDetail from '../../container/game/GameDetail';
 import TeamDetail from '../team/TeamDetail';
 import TeamDetailBasic from '../team/TeamDetailBasic';
 import TeamDetailPlayers from '../team/TeamDetailPlayers';
 import GameSearch from '../../container/game/GameSearch';
+import NewsWebView from '../community/NewsWebView';
+import CommunityPage from './CommunityPage';
+
 
 const HomeStack = StackNavigator(
   {
@@ -52,10 +55,25 @@ const TeamsStack = StackNavigator(
   }  
 )
 
+const NewsStack = StackNavigator(
+  {
+    NewsPage: { screen: NewsPage},
+    NewsWebView: { screen: NewsWebView}
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: commonColors.topicColor,
+      },
+      headerTintColor: commonColors.white
+    }
+  }  
+)
+
 const CommunityStack = StackNavigator(
   {
     CommunityPage: { screen: CommunityPage},
-    NewsDetail: { screen: NewsDetail}
+    CommunityDetail: { screen: CommunityDetail},
   },
   {
     navigationOptions: {
@@ -91,10 +109,10 @@ const MineStack = StackNavigator(
 
 export const Tabs = TabNavigator(
   {
-    // MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} },
     HomeStack: { screen: HomeStack, navigationOptions: { tabBarLabel: '赛况'}},
     TeamsStack: { screen: TeamsStack, navigationOptions: { tabBarLabel: '球队'} },
-    CommunityStack: { screen: CommunityStack, navigationOptions: { tabBarLabel: '新闻'} },
+    NewsStack: { screen: NewsStack, navigationOptions: { tabBarLabel: '新闻'} },
+    CommunityStack: { screen: CommunityStack, navigationOptions: { tabBarLabel: '社区'} },
     MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} }
   },
   {

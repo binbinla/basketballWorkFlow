@@ -1,1 +1,1 @@
-{"version":3,"file":"newsTypes.js","sourceRoot":"","sources":["../../src/constants/newsTypes.ts"],"names":[],"mappings":";;AACa,QAAA,cAAc,GAAG,gBAAgB,CAAC,CAAC,QAAQ;AAE3C,QAAA,wBAAwB,GAAG,0BAA0B,CAAC,CAAC,SAAS;AAEhE,QAAA,yBAAyB,GAAG,2BAA2B,CAAC,CAAC,SAAS"}
+{"version":3,"file":"newsTypes.js","sourceRoot":"","sources":["../../src/constants/newsTypes.ts"],"names":[],"mappings":";;AACa,QAAA,cAAc,GAAG,gBAAgB,CAAC,CAAC,QAAQ;AAExD,gFAAgF;AAEhF,kFAAkF"}

@@ -13,35 +13,34 @@ import { Navigatable } from '../../types/general-types';
 import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
 import { commonColors } from '../../utils/colors';
-import CommunityCard from '../../component/CommunityCard';
-import { CommunityState } from '../../reducers/communityReducer';
-import * as communityAction from '../../actions/communityAction';
+import NewsCard from '../../component/NewsCard';
+import * as newsAction from '../../actions/newsAction';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import { News } from '../../model/news';
 
 const GiftedListView = require('react-native-gifted-listview');
 
 interface StateProps {
-  readonly communityParams: any
+  readonly newsParams: News[]
 }
 
 interface DispathProps {
-  readonly fetchCommunity: () => Action<void>
+  readonly fetchNews: (num: number, start: number) => Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
 
-class CommunityPage extends React.Component<Props, {}> {
+class NewsPage extends React.Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);
   }
   static navigationOptions = {
-    title: '社区'
+    title: '新闻'
   };
 
   componentWillMount() {
-    this.props.fetchCommunity();
+    this.props.fetchNews(40, 0);
   }
 
   componentWillReceiveProps(nextProps: Props, nextState: any) {
@@ -83,10 +82,25 @@ class CommunityPage extends React.Component<Props, {}> {
    */
   _onFetch(page, callback, options) {
     setTimeout(() => {
-      const ids: string[] = this.props.communityParams ? this.props.communityParams.ids : []
+      const news = this.props.newsParams ? this.props.newsParams : []
       let result = {}
-      result['社区话题'] = ids
-      callback(result);
+      if (news.length !== 0) {
+        if (page === 1) {
+          result['NBA新闻资讯 第一页'] = news.slice(0,10);
+          callback(result);
+        } else if (page === 2) {
+          result['NBA新闻资讯 第二页'] = news.slice(10,20);
+          callback(result);
+        } else if (page === 3) {
+          result['NBA新闻资讯 第三页'] = news.slice(20,30);
+          callback(result);
+        } else if (page === 4) {
+          result['NBA新闻资讯 第四页'] = news.slice(30,40);
+          callback(result, {
+            allLoaded: true, // the end of the list is reached
+          });
+        }
+      }
     }, 1500);
   }
 
@@ -128,8 +142,8 @@ class CommunityPage extends React.Component<Props, {}> {
         activeOpacity={0.8}
         onPress={() => this._onItemPress(rowData)}
       >
-        <CommunityCard
-          communityId={rowData}
+        <NewsCard
+          news={rowData}
         />
       </TouchableOpacity>
     )
@@ -139,9 +153,9 @@ class CommunityPage extends React.Component<Props, {}> {
    * when a row was touched
    * @param
    */
-  _onItemPress = (rowData: string) => {
-    this.props.navigation.navigate('CommunityDetail', {
-      id: rowData
+  _onItemPress = (rowData: News) => {
+    this.props.navigation.navigate('NewsWebView', {
+      url: rowData.mobileUrl
     });
   }
 
@@ -195,17 +209,17 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(reducer: any) {
   return {
-    communityParams: reducer.fetchCommunitysHandler
+    newsParams: reducer.fetchNewsHandler
   }
 }
 
 function mapDispatchToProps() {
   return (dispatch: any) => ({
-    fetchCommunity: () => dispatch(communityAction.fetchCommunity())
+    fetchNews: (num: number, start: number) => dispatch(newsAction.fetchNews(num, start))
   })
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CommunityPage)
+)(NewsPage)

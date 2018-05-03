@@ -1,5 +1,6 @@
+import { GameState } from './gameReducer';
 import * as types from '../constants/gameTypes';
-import { GameGeneralResult, GameDetailResult } from '../network/producer';
+import { GameGeneralResult, GameDetailResult, GameSearchResult } from '../network/producer';
 import { Player } from '../model/player';
 
 export const enum GameType {
@@ -52,7 +53,7 @@ export interface SingleGameTeamInfo {
 const initialItem: GameGeneralResult = {
   unstart: [],
   live: [],
-  over: [],
+  over: []
 };
 
 const initialState: GameGeneralResult[] = []
@@ -66,6 +67,43 @@ export function fetchGamesHandler(state = initialState, action: any) {
     }
     case types.DID_FETCH_YESTERDAY_GAMES: {
       newState['yesterday'] = action.games;
+      return newState;
+    }
+    default: 
+      return state;
+  }
+}
+
+
+const gameSearchInitial: GameSearchResult = {
+  gameGeneral: {
+    unstart: [],
+    over: [],
+    live: []
+  },
+  loading: true
+}
+
+export function fetchSearchGamesHandler(state = gameSearchInitial, action: any) {
+  let newState: GameSearchResult = state;
+  switch(action.type) {
+    case types.DID_START_FETCH_SEARCH_GAMES: {
+      return newState;
+    }
+    case types.DID_FETCH_SEARCH_GAMES: {
+      newState.gameGeneral = action.games;
+      newState.loading = false;
+      return newState;
+    }
+    case types.DID_CLEAR_SEARCH_GAMES: {
+      newState.gameGeneral = gameSearchInitial.gameGeneral
+      newState = Object.assign({}, state, {
+        gameGeneral: {
+          unstart: [],
+          over: [],
+          live: []
+        }
+      })
       return newState;
     }
     default: 

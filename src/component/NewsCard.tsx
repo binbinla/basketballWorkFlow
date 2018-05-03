@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import { commonColors } from '../utils/colors';
 import news_test_data from '../mock_datas/news_datas';
+import { News } from '../model/news';
 
 /** 
  * Props pass from parent
 */
 interface Props extends ViewStyle {
-  // newsTitle: string,
-  // newsImage: any
-  newsId: string,
+  // newsId: string,
+  news: News
 }
 
 export default class NewsCard extends React.Component<Props, object> {
@@ -26,17 +26,19 @@ export default class NewsCard extends React.Component<Props, object> {
     super(props);
   }
   render() {
-    const newsTitle = news_test_data[this.props.newsId].newsTitle;
-    const newsImage = news_test_data[this.props.newsId].newsImage;
+    // const newsTitle = news_test_data[this.props.newsId].newsTitle;
+    // const newsImage = news_test_data[this.props.newsId].newsImage;
+    const imageFormat = this.props.news.picSource && this.props.news.picSource !== '' ? { uri: this.props.news.picSource }
+      : require('../../assets/img/news/news_default.png');
     return (
       <View style={[styles.container]}>
         <Image
-          source={newsImage}
+          source={imageFormat}
           style={styles.imageContainer}
         />
         <View style={styles.textContainer}>
           <Text style={styles.text}>
-            {newsTitle}
+            {this.props.news.title}
           </Text>
         </View>
       </View>
@@ -54,7 +56,6 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   container: {
-    // flex: 1,
     flexDirection: 'row',
     backgroundColor: commonColors.white,
     padding: 8,

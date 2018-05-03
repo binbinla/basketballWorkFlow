@@ -23,8 +23,8 @@ import news_test_data from '../../mock_datas/news_datas';
 import CommentInputForm from './CommentInputForm';
 import CommentCard from './CommentCard';
 import { LoginState } from '../../reducers/loginReducer';
-import { CommentState } from '../../reducers/newsReducer';
-import * as newsAction from '../../actions/newsAction';
+import { CommentState } from '../../reducers/communityReducer';
+import * as communityAction from '../../actions/communityAction';
 import Spinner from '../../component/Spinner';
 
 interface StateProps {
@@ -45,7 +45,7 @@ interface State {
 
 type Props = Navigatable & DispathProps & StateProps
 
-class NewsDetail extends React.Component<Props, State> {
+class CommunityDetail extends React.Component<Props, State> {
 
   private _scroll
 
@@ -185,7 +185,6 @@ class NewsDetail extends React.Component<Props, State> {
    * 渲染评论
    */
   _renderRow = (rowData, sectionID, rowID, highlightRow) => {
-    // console.log('rowdata' + rowData)
     if (rowData) {
       return (
         <CommentCard
@@ -361,11 +360,11 @@ function mapStateToProps(reducer: any) {
 
 function mapDispatchToProps() {
   return (dispatch: any) => ({
-    commitComment: (comment: string) => dispatch(newsAction.commitComment(comment)),
+    commitComment: (comment: string) => dispatch(communityAction.commitComment(comment)),
   })
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewsDetail)
+)(CommunityDetail)

@@ -1,6 +1,8 @@
+import { News } from './../model/news';
 import address from './address';
 import producer, { GameGeneralResult, TeamRankResult, GameDetailResult, TeamDetailResult }  from './producer';
 import { mapTeamIdToBasic, mapTeamIdToDetail } from './mapTeamJson';
+import news_test from '../mock_datas/news_test_from_api';
 
 export default class Channel {
 
@@ -10,7 +12,7 @@ export default class Channel {
   //   this.options = options;
   // }
 
-  getGameGeneral(year, month, date): Promise<GameGeneralResult> {
+  getGameGeneral(year, month, date, search?: boolean): Promise<GameGeneralResult> {
     const gen_url = address.gameGeneral(`${year}${month}${date}`);
     // console.log('game general url' + gen_url);
     const getDate: string[] = [year,month,date]
@@ -18,7 +20,7 @@ export default class Channel {
       .then(res => res.json())
       .then(data => {
         const allGames = producer.gameGeneral(data, getDate)
-        if ((allGames.live.length + allGames.unstart.length + allGames.over.length) === 0) {
+        if ((allGames.live.length + allGames.unstart.length + allGames.over.length) === 0 && (!search)) {
           // 若当天没有比赛，则请求下一天的比赛数据
           return this.getGameGeneral(year, month, parseInt(date, 10) + 1)
         }
@@ -86,6 +88,26 @@ export default class Channel {
     }
     return result;
   }
+
+  // getRecentNews(num: number, start: number): Promise<News[]> {
+  //   const url = address.recentNBANews(num, start);
+  //   return window.fetch(url)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       const result = producer.recentNBANews(data);
+  //       return result;
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       throw error;
+  //     })
+  // }
+
+  getRecentNews(num: number, start: number) {
+    const result: News[] = producer.recentNBANews(JSON.parse(news_test));
+    return result;
+  }
+
 }
 
 

@@ -89,6 +89,13 @@ const address = {
    */
   teamDetailBasic: (id) => {
     return `http://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=${season}&TeamID=${id}`
+  },
+  
+  /**
+   * 获取新闻接口
+   */
+  recentNBANews: (num: number, start: number) => {
+    return `http://api.jisuapi.com/news/get?channel=NBA&start=${start}&num=${num}&appkey=0c38b07a80fbaf37`
   }  
 }
 

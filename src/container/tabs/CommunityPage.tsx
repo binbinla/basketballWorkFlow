@@ -13,26 +13,20 @@ import { Navigatable } from '../../types/general-types';
 import { allReducer } from '../../reducers/index';
 import { Action } from '../../actions/types';
 import { commonColors } from '../../utils/colors';
-import NewsCard from '../../component/NewsCard';
-import { NewsState } from '../../reducers/newsReducer';
-import * as newsAction from '../../actions/newsAction';
-import Toast, {DURATION} from 'react-native-easy-toast';
+import CommunityCard from '../../component/CommunityCard';
+import { CommunityState } from '../../reducers/communityReducer';
+import * as communityAction from '../../actions/communityAction';
+import Toast, { DURATION } from 'react-native-easy-toast';
+import { News } from '../../model/news';
 
 const GiftedListView = require('react-native-gifted-listview');
 
-const resetAction = NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'Hello' })
-  ]
-})
-
 interface StateProps {
-  readonly newsParams: any
+  readonly communityParams: any
 }
 
 interface DispathProps {
-  readonly fetchNews: () => Action<void>
+  readonly fetchCommunity: () => Action<void>
 }
 
 type Props = Navigatable & StateProps & DispathProps
@@ -47,27 +41,7 @@ class CommunityPage extends React.Component<Props, {}> {
   };
 
   componentWillMount() {
-    this.props.fetchNews();
-    // console.log('news fetch');
-    // fetch("http://stats.nba.com/stats/commonplayerinfo?LeagueID=00&PlayerID=203584&SeasonType=Regular+Season", {
-    //   method: 'GET',
-    //   credentials: "include",
-    //   headers: {
-    //     cookie: JSON.stringify(getCookie('__guid=65800172.4031362203156968000.1522065220488.3794; __gads=ID=03a5ac0aa1827b17:T=1522065226:S=ALNI_Ma9lOh3ONwDqugSEzOaY0KekVMR_Q; AMCV_248F210755B762187F000101%40AdobeOrg=-1891778711%7CMCAID%7C2D5C6FA5052A639F-6000012AA050E45B%7CMCIDTS%7C17641%7CMCMID%7C10509461825900863961656828769582452970%7CMCAAMLH-1524748627%7C11%7CMCAAMB-1524748627%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1524151027s%7CNONE%7CMCSYNCSOP%7C411-17648%7CvVersion%7C2.4.0; pgv_pvid=3730815700; ug=5ab8df450778880a3c732e47be0074cb; s_vi=[CS]v1|2D5C6FA5052A639F-6000012AA050E45B[CE]; s_fid=2282642745FE8062-049F91B355DBFE06; _ga=GA1.2.956194348.1522065224; mbox=PC#2eb8928a49b94e778e5b1c6bb51882d6.24_13#1585310027|session#ef08aee812e347138faa184078a75091#1524636763; ak_bmsc=3100331DA9FCEB334F0F0648C4C91E4DDF7732BD2E0D000021E2E35A0ADDF638~pl/FuDh2Fb5zu1QomlkraNb1fjOk4Nq2LaL+LrAbDuxUqbiMmEZafpxt1uBY34aGvj7flJELH2mTszMOORZvVHb4ugDJ+mPZ7O8CaX1ZnbKvaxlzhg9Ld9G3W+19qi/sUgMj/Xi+BBqFIC3h2PPx3+9NqgGstezvdp4dnoi38Q9KxuRY+IdiqDOLoaSD4OQh6qf3gYL57XUxaMNdRLDDzEBLedIoxKHPu1r+uf2wmorOg=; bm_sv=177DA7646B70D64CF778591832C6C508~3Ay5CASaeqXjLhVEMyrqsbEvptMSZP36qBaz8+564Lb3xS5uNVQwNhL8aVVh/DpSbr42DiRFdX8m7Rk9I3LN80WV5PBwpPjY/2H7YIVQRHbDlyTuAVRSFaAPgU7VRdT+PJ85lAPwuJdYHyHIyv9EFQ==; monitor_count=6')) 
-    //     // 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-    //   }
-    // })
-    //   // .then(res => res.json())
-    //   .then(data => {
-    //     console.log('component will mount ' + JSON.stringify(data));
-    //     const toast: any = this.refs.toast;
-    //     toast.show("请求成功", DURATION.SHORT);
-    //   })
-    //   .catch(error => {
-    //     console.log('point out errror' + error);
-    //     const toast: any = this.refs.toast;
-    //     toast.show("请求失败", DURATION.SHORT);
-    //   })    
+    this.props.fetchCommunity();
   }
 
   componentWillReceiveProps(nextProps: Props, nextState: any) {
@@ -77,12 +51,12 @@ class CommunityPage extends React.Component<Props, {}> {
   render() {
     return (
       <View style={styles.container}>
-        <Toast 
+        <Toast
           ref="toast"
           position="center"
-          />      
+        />
         <GiftedListView
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           rowView={this._renderRowView.bind(this)}
           onFetch={this._onFetch.bind(this)}
           firstLoader={true}
@@ -90,6 +64,7 @@ class CommunityPage extends React.Component<Props, {}> {
           refreshable={true}
           withSections={true} // enable sections
           sectionHeaderView={this._renderSectionHeaderView}
+          paginationAllLoadedView={this._renderPaginationAllLoadedView}
           customStyles={{
             paginationView: {
               backgroundColor: commonColors.white,
@@ -106,19 +81,19 @@ class CommunityPage extends React.Component<Props, {}> {
    * will be called when refreshing
    * @param
    */
-  _onFetch(page = 1, callback, options) {
+  _onFetch(page, callback, options) {
     setTimeout(() => {
-      const ids = this.props.newsParams.ids ? this.props.newsParams.ids : []
+      const ids: string[] = this.props.communityParams ? this.props.communityParams.ids : []
       let result = {}
-      result['周一'] = ids;
+      result['社区话题'] = ids
       callback(result);
-    }, 1000);
-  }  
-  
-   /**
-   * Render a row
-   * @param {object} rowData Row data
-   */
+    }, 1500);
+  }
+
+  /**
+  * Render a row
+  * @param {object} rowData Row data
+  */
   _renderSectionHeaderView(sectionData, sectionID) {
     return (
       <View style={styles.header}>
@@ -129,6 +104,19 @@ class CommunityPage extends React.Component<Props, {}> {
     );
   }
 
+  /**
+   * 数据已经加载完毕
+   */
+  _renderPaginationAllLoadedView() {
+    return (
+      <View style={styles.paginationView}>
+        <Text style={styles.paginationText}>
+          没有更多了~
+        </Text>
+      </View>
+    );
+  }
+  
   /***
    * Render a row
    * @param
@@ -140,8 +128,8 @@ class CommunityPage extends React.Component<Props, {}> {
         activeOpacity={0.8}
         onPress={() => this._onItemPress(rowData)}
       >
-        <NewsCard
-          newsId={rowData}
+        <CommunityCard
+          communityId={rowData}
         />
       </TouchableOpacity>
     )
@@ -151,11 +139,10 @@ class CommunityPage extends React.Component<Props, {}> {
    * when a row was touched
    * @param
    */
-  _onItemPress = (rowData) => {
-    console.log(rowData + 'was pressed');
-    this.props.navigation.navigate('NewsDetail', {
+  _onItemPress = (rowData: string) => {
+    this.props.navigation.navigate('CommunityDetail', {
       id: rowData
-    });    
+    });
   }
 
   _renderPaginationWaitingView(paginateCallback) {
@@ -170,7 +157,7 @@ class CommunityPage extends React.Component<Props, {}> {
       </TouchableOpacity>
     );
   }
-  
+
 }
 
 interface Style {
@@ -208,13 +195,13 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(reducer: any) {
   return {
-    newsParams: reducer.fetchNewsHandler
+    communityParams: reducer.fetchCommunitysHandler
   }
 }
 
-function mapDispatchToProps() { 
+function mapDispatchToProps() {
   return (dispatch: any) => ({
-    fetchNews: () => dispatch(newsAction.fetchNews())
+    fetchCommunity: () => dispatch(communityAction.fetchCommunity())
   })
 }
 

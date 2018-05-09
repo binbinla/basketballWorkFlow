@@ -60,8 +60,8 @@ class CommunityPage extends React.Component<Props, {}> {
           rowView={this._renderRowView.bind(this)}
           onFetch={this._onFetch.bind(this)}
           firstLoader={true}
-          pagination={true}
-          refreshable={true}
+          pagination={false}
+          refreshable={false}
           withSections={true} // enable sections
           sectionHeaderView={this._renderSectionHeaderView}
           paginationAllLoadedView={this._renderPaginationAllLoadedView}

@@ -22,6 +22,7 @@ import * as date from '../../utils/date';
 import { GameGeneralResult } from '../../network/producer';
 import teamMap from '../../utils/team-map';
 import * as teamAction from '../../actions/teamAction';
+import JPushModule from 'jpush-react-native';
 
 const GiftedListView = require('react-native-gifted-listview');
 
@@ -81,7 +82,24 @@ class HomePage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({ navigatePress: this._navigatePress })
+    this.props.navigation.setParams({ navigatePress: this._navigatePress });
+    JPushModule.notifyJSDidLoad((resultCode) => {
+      if (resultCode === 0) {
+
+        }
+    });
+    JPushModule.addReceiveNotificationListener((map) => {
+      console.log("alertContent: " + map.alertContent);
+      console.log("extras: " + map.extras);
+    });
+    // 用户注册成功后（一般在用户启动应用后），如果订阅了这个事件，将会收到这个 registrationId。
+    JPushModule.addGetRegistrationIdListener((registrationId) => {
+      console.log("Device register succeed, registrationId " + registrationId);
+    });    
+  }
+
+  componentWillUnmount() {
+    JPushModule.clearAllNotifications();
   }
 
     /**

@@ -15,8 +15,12 @@
       android:allowBackup="true"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
-      android:theme="@style/AppTheme">
-      <activity
+      android:theme="@style/AppTheme"
+        xmlns:tools="http://schemas.android.com/tools">
+        <meta-data android:name="JPUSH_APPKEY" android:value="52d3841357e179b7e684fafd" tools:replace="android:value"/>
+        <meta-data android:name="JPUSH_CHANNEL" android:value="C_001" tools:replace="android:value"/>
+
+        <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -27,6 +31,7 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+
     </application>
 
 </manifest>

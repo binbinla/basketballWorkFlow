@@ -10,6 +10,8 @@
     "@types/react-redux": "^5.0.15",
     "@yfuks/react-native-action-sheet": "0.0.4",
     "create-react-class": "^15.6.3",
+    "jcore-react-native": "^1.2.5",
+    "jpush-react-native": "^2.2.2",
     "moment": "^2.22.1",
     "moment-timezone": "^0.5.16",
     "react": "16.2.0",

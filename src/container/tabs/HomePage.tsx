@@ -157,34 +157,40 @@ class HomePage extends React.Component<Props, State> {
       let result = {};
       const todayResult = this.combineGames(DayType.today);
       const yesterdayResult = this.combineGames(DayType.yesterday);
-      result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}${' '}${todayResult.length}场`] = todayResult
-      result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}${' '}${yesterdayResult.length}场`] = yesterdayResult
+      if (this.props.gamesParams['today'].gameDate && this.props.gamesParams['yesterday'].gameDate) {
+        result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}${' '}${todayResult.length}场`] = todayResult
+        result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}${' '}${yesterdayResult.length}场`] = yesterdayResult
+      }
       callback(result);
-    }, 2000);
+    }, 1000);
   }
 
   combineGames = (type: DayType): GameState[] => {
     const all: GameState[] = []
     if (type === DayType.today) {
-      this.props.gamesParams['today'].live.forEach(item => {
-        all.push(item);
-      })
-      this.props.gamesParams['today'].unstart.forEach(item => {
-        all.push(item);
-      })
-      this.props.gamesParams['today'].over.forEach(item => {
-        all.push(item);
-      })
+      if (this.props.gamesParams['today']) {
+        this.props.gamesParams['today'].live.forEach(item => {
+          all.push(item);
+        })
+        this.props.gamesParams['today'].unstart.forEach(item => {
+          all.push(item);
+        })
+        this.props.gamesParams['today'].over.forEach(item => {
+          all.push(item);
+        })
+      }
     } else if (type === DayType.yesterday) {
-      this.props.gamesParams['yesterday'].live.forEach(item => {
-        all.push(item);
-      })
-      this.props.gamesParams['yesterday'].unstart.forEach(item => {
-        all.push(item);
-      })
-      this.props.gamesParams['yesterday'].over.forEach(item => {
-        all.push(item);
-      })
+      if (this.props.gamesParams['yesterday']) {
+        this.props.gamesParams['yesterday'].live.forEach(item => {
+          all.push(item);
+        })
+        this.props.gamesParams['yesterday'].unstart.forEach(item => {
+          all.push(item);
+        })
+        this.props.gamesParams['yesterday'].over.forEach(item => {
+          all.push(item);
+        })
+      }
     }
     return all;
   }

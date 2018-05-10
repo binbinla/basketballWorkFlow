@@ -19,6 +19,7 @@ import FormWithPairText from '../../component/Form/FormWithPairText';
 import Button from '../../component/Button';
 import { commonColors } from '../../utils/colors';
 import * as loginAction from '../../actions/loginAction';
+import { CommentState } from '../../reducers/communityReducer';
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -28,7 +29,7 @@ const resetAction = NavigationActions.reset({
 })
 
 interface StateProps {
-  // readonly loginParams: LoginState
+  readonly commentProps: CommentState
 }
 
 interface DispathProps {
@@ -37,14 +38,27 @@ interface DispathProps {
 
 type Props = Navigatable & StateProps & DispathProps
 
-class MinePage extends React.Component<Props, {}> {
+interface State {
+  userIntegral: number
+}
+
+class MinePage extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    this.state = {
+      userIntegral: this.props.commentProps.integral
+    }
   }
   static navigationOptions = {
     title: '个人中心'
   };
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (this.props.commentProps.integral !== nextProps.commentProps.integral) {
+      this.setState({ userIntegral: nextProps.commentProps.integral });
+    }
+  }
 
   render() {
     return (
@@ -61,15 +75,15 @@ class MinePage extends React.Component<Props, {}> {
             />
             <FormWithPairText
               leftText="我的积分"
-              rightText="180"
-              onFormClick={() => this.aboutTheApp()}
+              rightText={String(this.state.userIntegral)}
+              onFormClick={() => {}}
               cutOffLine={false}
             />
           </View>
           <View style={styles.partContainer}>
             <FormArrowToDetail
                 leftText={'我的主队'}
-                onFormClick={() => this.aboutTheApp()}
+                onFormClick={() => this.mySupportTeam()}
                 cutOffLine={false}
               />            
           </View>
@@ -104,6 +118,13 @@ class MinePage extends React.Component<Props, {}> {
   personalProfile = () => {
     console.log('点击了个人资料');
     this.props.navigation.navigate('PersonalProfile');
+  }
+
+  /**
+   * 跳转至 ‘我的主队页面’
+   */
+  mySupportTeam = () => {
+    this.props.navigation.navigate('MineStarTeam');
   }
 
   /**
@@ -168,7 +189,7 @@ const styles = StyleSheet.create<Style>({
 
 function mapStateToProps(reducer: any) {
   return {
-    // loginParams: reducer.loginIn
+    commentProps: reducer.commitCommentHandler
   }
 }
 

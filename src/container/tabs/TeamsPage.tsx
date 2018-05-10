@@ -71,7 +71,7 @@ class TeamsPage extends React.Component<Props, {}> {
           onFetch={this._onFetch.bind(this)}
           firstLoader={true}
           pagination={false}
-          refreshable={true}
+          refreshable={false}
           withSections={true} // enable sections
           sectionHeaderView={this._renderSectionHeaderView}
           customStyles={{

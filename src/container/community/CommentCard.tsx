@@ -25,7 +25,7 @@ export default class CommentCard extends React.Component<Props, object> {
     super(props);
   }
   render() {
-    const imageUrl = this.props.user ? this.props.user.imageResource : require('../../../assets/img/indicate/snail.jpg')
+    const imageUrl = this.props.user ? require('../../../assets/img/indicate/snail.jpg') : require('../../../assets/img/indicate/snail.jpg')
     const nickName = this.props.user ? this.props.user.nickName : '到此一游'
     return (
       <View style={[styles.container]}>

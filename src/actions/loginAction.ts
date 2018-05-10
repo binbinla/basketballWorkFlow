@@ -3,14 +3,15 @@ import * as types from '../constants/loginType';
 import { User } from '../reducers/loginReducer';
 
 // 模拟用户登录信息
-const user: User = {
+export const user: User = {
 	name: 'erving',
 	age: 23,
 	nickName: 'hello_bin',
 	phoneNumber: '188****6910',
 	sex: '男',
 	address: '广东省广州市',
-	imageResource: ''
+	imageResource: '',
+	integral: 10
 }
 
 // 访问登录接口,根据返回结果来划分action属于哪个type,然后返回对象,给reducer处理

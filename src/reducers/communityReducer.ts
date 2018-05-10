@@ -1,4 +1,5 @@
 
+import { user } from './../actions/loginAction';
 import * as types from '../constants/communityTypes';
 
 export interface CommunityState {
@@ -53,16 +54,17 @@ export function fetchCommunitysHandler(state = initialState, action: any) {
 
 export interface CommentState {
   loading: boolean,
-  allComments: string[]
+  allComments: string[],
+  integral: number
 }
 
 const commentInitialState: CommentState = {
   loading: true,
-  allComments: []
+  allComments: [],
+  integral: user.integral
 }
 
 export function commitCommentHandler(state: CommentState = commentInitialState, action: any) {
-  state.allComments.push(action.commentContent);
   let newState = state;
   switch (action.type) {
     case types.DID_START_COMMIT_COMMENT: {
@@ -72,9 +74,11 @@ export function commitCommentHandler(state: CommentState = commentInitialState, 
       return newState;
     }
     case types.DID_FINISH_COMMIT_COMMENT: {
+      state.allComments.push(action.commentContent);
+      const newIntegral = state.integral + 10;
       newState = Object.assign({}, state, {
         loading: false,
-        // allComment: newAllComments
+        integral: newIntegral
       })
       return newState;
     }

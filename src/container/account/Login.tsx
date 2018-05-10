@@ -114,6 +114,11 @@ class LoginPage extends React.Component<Props, State> {
       toast.show("密码不可为空", DURATION.SHORT);
       return;
     }
+    const re = /^1[3|4|5|7|8][0-9]{9}$/
+    if (!re.test(this.state.account)) {
+      toast.show("账号格式不对，应为11位合法手机号码", DURATION.SHORT);
+      return;
+    }
     toast.show("登录成功", DURATION.SHORT, () => {
       this.props.login();
     });

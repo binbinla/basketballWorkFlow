@@ -7,6 +7,7 @@ import { FeedBackState, feedbackHandler } from '../reducers/feedbackReducer';
 import { fetchNewsHandler } from '../reducers/newsReducer';
 import { fetchTeamsRankHandler, BasicTeamInfo, fetchTeamDetailHandler } from '../reducers/teamReducer';
 import { commitCommentHandler, fetchCommunitysHandler, CommunityState} from '../reducers/communityReducer';
+import { starTeamHandler } from './starTeamReducer';
 
 const rootReducer = combineReducers({
   loginHandler,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   fetchCommunitysHandler,
   commitCommentHandler,
   fetchTeamDetailHandler,
+  starTeamHandler,
   navigatorReducer
 });
 

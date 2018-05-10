@@ -14,7 +14,8 @@ export interface User {
   phoneNumber: string,
   sex: string,
   address: string,
-  imageResource: any
+  imageResource: any,
+  integral: number
 }
 
 // 初始状态

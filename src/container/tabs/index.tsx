@@ -22,6 +22,7 @@ import TeamDetailPlayers from '../team/TeamDetailPlayers';
 import GameSearch from '../../container/game/GameSearch';
 import NewsWebView from '../community/NewsWebView';
 import CommunityPage from './CommunityPage';
+import MineStarTeam from '../mine/MineStarTeam';
 
 
 const HomeStack = StackNavigator(
@@ -95,7 +96,8 @@ const MineStack = StackNavigator(
     HelpAndFeedback: { screen: HelpAndFeedback},
     EvaluateApp: { screen: EvaluateApp},
     ChangeNickName: { screen: ChangeNickName},
-    ChangeAddress: { screen: ChangeAddress}
+    ChangeAddress: { screen: ChangeAddress},
+    MineStarTeam: { screen: MineStarTeam }
   },
   {
     navigationOptions: {

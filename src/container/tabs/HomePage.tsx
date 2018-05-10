@@ -46,7 +46,8 @@ interface DispathProps {
 type Props = Navigatable & StateProps & DispathProps
 
 interface State {
-  date: string[]
+  date: string[],
+  isNetworkError: boolean
 }
 
 class HomePage extends React.Component<Props, State> {
@@ -54,7 +55,8 @@ class HomePage extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      date: date.getToday()
+      date: date.getToday(),
+      isNetworkError: false
     }
   }
 
@@ -75,11 +77,7 @@ class HomePage extends React.Component<Props, State> {
   });  
 
   componentWillMount() {
-    // this.props.fetchGames();
-    const today = date.getToday()
-    this.props.getGameGeneral(today[0], today[1], today[2]);
-    const yesterday = date.getYesterday()
-    this.props.getYesterdayGameGeneral(yesterday[0], yesterday[1], yesterday[2])
+    this.requestNetwork();
   }
 
   componentDidMount() {
@@ -95,6 +93,13 @@ class HomePage extends React.Component<Props, State> {
     }); 
   }
 
+  requestNetwork = () => {
+    const today = date.getToday()
+    this.props.getGameGeneral(today[0], today[1], today[2])
+    const yesterday = date.getYesterday()
+    this.props.getYesterdayGameGeneral(yesterday[0], yesterday[1], yesterday[2])
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -107,6 +112,7 @@ class HomePage extends React.Component<Props, State> {
           refreshable={false}
           withSections={true} // enable sections
           sectionHeaderView={this._renderSectionHeaderView}
+          emptyView={this._renderEmptyView.bind(this)}
           customStyles={{
             paginationView: {
               backgroundColor: commonColors.white,
@@ -119,12 +125,35 @@ class HomePage extends React.Component<Props, State> {
     )
   }
 
+  _renderEmptyView(refreshCallback) {
+    this.setState({isNetworkError: true});
+    return (
+      <View style={styles.defaultView}>
+        <Text style={styles.defaultViewTitle}>
+          Sorry, there is no content to display
+        </Text>
+
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={refreshCallback}
+        >
+          <Text>
+            ↻
+          </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   /**
    * will be called when refreshing
    * @param
    */
   _onFetch(page = 1, callback, options) {
     setTimeout(() => {
+      if (this.state.isNetworkError) {
+        this.requestNetwork();
+      }
       let result = {};
       const todayResult = this.combineGames(DayType.today);
       const yesterdayResult = this.combineGames(DayType.yesterday);
@@ -225,7 +254,9 @@ interface Style {
   header: ViewStyle,
   headerTitle: TextStyle,
   paginationView: ViewStyle,
-  paginationText: TextStyle
+  paginationText: TextStyle,
+  defaultView: ViewStyle,
+  defaultViewTitle: TextStyle
 }
 
 const styles = StyleSheet.create<Style>({
@@ -250,6 +281,16 @@ const styles = StyleSheet.create<Style>({
   paginationText: {
     fontSize: 13,
     color: commonColors.underGray,
+  },
+  defaultView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  defaultViewTitle: {
+    fontSize: 16,
+    color: commonColors.black,
+    marginBottom: 15,
   }
 });
 

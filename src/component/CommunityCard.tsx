@@ -27,6 +27,7 @@ export default class CommunityCard extends React.Component<Props, object> {
   render() {
     const newsTitle = news_test_data[this.props.communityId].newsTitle;
     const newsImage = news_test_data[this.props.communityId].newsImage;
+    const newsComment = news_test_data[this.props.communityId].commentCount;
     return (
       <View style={[styles.container]}>
         <Image
@@ -37,6 +38,14 @@ export default class CommunityCard extends React.Component<Props, object> {
           <Text style={styles.text}>
             {newsTitle}
           </Text>
+          {/** 累积评论数量展示 **/}
+          {/* <View style={styles.countContainer}>
+            <Image
+              style={styles.imageContainer}
+              source={require('../../assets/img/indicate/comment.jpg')}
+            />
+            <Text style={styles.countText}>{newsComment}</Text>
+          </View> */}
         </View>
       </View>
     );
@@ -48,7 +57,10 @@ interface Styles {
   container: ViewStyle,
   imageContainer: ViewStyle,
   textContainer: ViewStyle,
-  text: TextStyle
+  text: TextStyle,
+  countContainer: ViewStyle,
+  countText: TextStyle,
+  countImage: ViewStyle
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -70,5 +82,20 @@ const styles = StyleSheet.create<Styles>({
   text: {
     fontSize: 13,
     color: commonColors.black
+  },
+  countContainer: {
+    position: 'absolute',
+    right: 15,
+    top: 20,
+    flexDirection: 'row'
+  },
+  countText: {
+    fontSize: 10,
+    color: commonColors.black
+  },
+  countImage: {
+    width: 20,
+    height: 20,
+    marginRight: 8
   }
 });

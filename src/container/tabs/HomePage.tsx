@@ -130,7 +130,7 @@ class HomePage extends React.Component<Props, State> {
           refreshable={false}
           withSections={true} // enable sections
           sectionHeaderView={this._renderSectionHeaderView}
-          emptyView={this._renderEmptyView.bind(this)}
+          // emptyView={this._renderEmptyView.bind(this)}
           customStyles={{
             paginationView: {
               backgroundColor: commonColors.white,
@@ -175,12 +175,10 @@ class HomePage extends React.Component<Props, State> {
       let result = {};
       const todayResult = this.combineGames(DayType.today);
       const yesterdayResult = this.combineGames(DayType.yesterday);
-      if (this.props.gamesParams['today'].gameDate && this.props.gamesParams['yesterday'].gameDate) {
-        result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}${' '}${todayResult.length}场`] = todayResult
-        result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}${' '}${yesterdayResult.length}场`] = yesterdayResult
-      }
+      result[`${this.props.gamesParams['today'].gameDate}${' '}${date.getWeekDay(DayType.today)}${' '}${todayResult.length}场`] = todayResult
+      result[`${this.props.gamesParams['yesterday'].gameDate}${' '}${date.getWeekDay(DayType.yesterday)}${' '}${yesterdayResult.length}场`] = yesterdayResult
       callback(result);
-    }, 1000);
+    }, 2000);
   }
 
   combineGames = (type: DayType): GameState[] => {

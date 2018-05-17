@@ -61,7 +61,7 @@ class CommunityDetail extends React.Component<Props, State> {
   }
 
   static navigationOptions = {
-    title: '新闻一线',
+    title: '话题详情',
     tabBarVisible: false,
   };
 

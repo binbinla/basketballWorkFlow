@@ -89,24 +89,24 @@ export default class Channel {
     return result;
   }
 
-  // getRecentNews(num: number, start: number): Promise<News[]> {
-  //   const url = address.recentNBANews(num, start);
-  //   return window.fetch(url)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       const result = producer.recentNBANews(data);
-  //       return result;
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       throw error;
-  //     })
-  // }
-
-  getRecentNews(num: number, start: number) {
-    const result: News[] = producer.recentNBANews(JSON.parse(news_test));
-    return result;
+  getRecentNews(num: number, start: number): Promise<News[]> {
+    const url = address.recentNBANews(num, start);
+    return window.fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const result = producer.recentNBANews(data);
+        return result;
+      })
+      .catch(error => {
+        console.log(error);
+        throw error;
+      })
   }
+
+  // getRecentNews(num: number, start: number) {
+  //   const result: News[] = producer.recentNBANews(JSON.parse(news_test));
+  //   return result;
+  // }
 
 }
 

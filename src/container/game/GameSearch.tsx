@@ -137,7 +137,9 @@ class GameSearch extends React.Component<Props, State> {
     if (this.props.gamesParams.gameGeneral.live.length === 0 &&
       this.props.gamesParams.gameGeneral.unstart.length === 0 &&
       this.props.gamesParams.gameGeneral.over.length === 0) {
-      toast.show("当天没有比赛", DURATION.LONG);
+        if (toast) {
+          toast.show("当天没有比赛", DURATION.LONG);
+        }
     }
     this.props.gamesParams.gameGeneral.live.forEach(item => {
       all.push(item);

@@ -22,6 +22,7 @@ import * as date from '../../utils/date';
 import { GameGeneralResult } from '../../network/producer';
 import teamMap from '../../utils/team-map';
 import * as teamAction from '../../actions/teamAction';
+import JPushModule from 'jpush-react-native';
 
 const GiftedListView = require('react-native-gifted-listview');
 
@@ -81,7 +82,24 @@ class HomePage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({ navigatePress: this._navigatePress })
+    this.props.navigation.setParams({ navigatePress: this._navigatePress });
+    JPushModule.notifyJSDidLoad((resultCode) => {
+      if (resultCode === 0) {
+
+        }
+    });
+    JPushModule.addReceiveNotificationListener((map) => {
+      console.log("alertContent: " + map.alertContent);
+      console.log("extras: " + map.extras);
+    });
+    // 用户注册成功后（一般在用户启动应用后），如果订阅了这个事件，将会收到这个 registrationId。
+    JPushModule.addGetRegistrationIdListener((registrationId) => {
+      console.log("Device register succeed, registrationId " + registrationId);
+    });    
+  }
+
+  componentWillUnmount() {
+    JPushModule.clearAllNotifications();
   }
 
     /**
@@ -112,7 +130,7 @@ class HomePage extends React.Component<Props, State> {
           refreshable={false}
           withSections={true} // enable sections
           sectionHeaderView={this._renderSectionHeaderView}
-          emptyView={this._renderEmptyView.bind(this)}
+          // emptyView={this._renderEmptyView.bind(this)}
           customStyles={{
             paginationView: {
               backgroundColor: commonColors.white,
@@ -166,25 +184,29 @@ class HomePage extends React.Component<Props, State> {
   combineGames = (type: DayType): GameState[] => {
     const all: GameState[] = []
     if (type === DayType.today) {
-      this.props.gamesParams['today'].live.forEach(item => {
-        all.push(item);
-      })
-      this.props.gamesParams['today'].unstart.forEach(item => {
-        all.push(item);
-      })
-      this.props.gamesParams['today'].over.forEach(item => {
-        all.push(item);
-      })
+      if (this.props.gamesParams['today']) {
+        this.props.gamesParams['today'].live.forEach(item => {
+          all.push(item);
+        })
+        this.props.gamesParams['today'].unstart.forEach(item => {
+          all.push(item);
+        })
+        this.props.gamesParams['today'].over.forEach(item => {
+          all.push(item);
+        })
+      }
     } else if (type === DayType.yesterday) {
-      this.props.gamesParams['yesterday'].live.forEach(item => {
-        all.push(item);
-      })
-      this.props.gamesParams['yesterday'].unstart.forEach(item => {
-        all.push(item);
-      })
-      this.props.gamesParams['yesterday'].over.forEach(item => {
-        all.push(item);
-      })
+      if (this.props.gamesParams['yesterday']) {
+        this.props.gamesParams['yesterday'].live.forEach(item => {
+          all.push(item);
+        })
+        this.props.gamesParams['yesterday'].unstart.forEach(item => {
+          all.push(item);
+        })
+        this.props.gamesParams['yesterday'].over.forEach(item => {
+          all.push(item);
+        })
+      }
     }
     return all;
   }

@@ -21,6 +21,7 @@ import { commonColors } from '../../utils/colors';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import StarTeamCard from '../../component/StarTeamCard';
 import * as starTeamAction from '../../actions/starTeamAction';
+import JPushModule from 'jpush-react-native';
 
 interface StateProps {
   starTeamProps: any 
@@ -122,6 +123,7 @@ class MineStarTeam extends React.Component<Props, State> {
     }
     toast.show("保存成功", DURATION.LONG, () => {
       this.props.postStarTeamAttr(this.allTeams[this.selectedIds[0]]);
+      this.setAlias();
       this.props.navigation.goBack();
     });
   }
@@ -138,6 +140,17 @@ class MineStarTeam extends React.Component<Props, State> {
     )
   });
 
+  /**
+   *  上传所选“主队”
+   */
+  setAlias = () => {
+		if (this.state.currentAttr) {
+			JPushModule.setAlias(this.state.currentAttr, () => {
+				console.log("Set alias succeed");
+			});
+		}
+  }
+  
   render() {
     return (
       <View style={styles.container}>

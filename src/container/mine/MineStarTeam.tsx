@@ -111,13 +111,13 @@ class MineStarTeam extends React.Component<Props, State> {
    */
   _navigatePress = () => {
     const toast: any = this.refs.toast;
-    if (this.selectedCount === 0) {
+    if (this.selectedCount === 0 && this.state.currentAttr === 'none') {
       toast.show("您没有选择任何一支球队", DURATION.LONG, () => {
         this.props.navigation.goBack();
       });
       return
     }
-    if (this.selectedCount > 1) {
+    if ((this.state.currentAttr === 'none' && this.selectedCount > 1) || (this.state.currentAttr !== 'none' && this.selectedCount > 0)) {
       toast.show("暂时只支持关注单支球队", DURATION.LONG);
       return;
     }
@@ -145,7 +145,7 @@ class MineStarTeam extends React.Component<Props, State> {
    */
   setAlias = () => {
 		if (this.state.currentAttr) {
-			JPushModule.setAlias(this.state.currentAttr, () => {
+			JPushModule.setAlias(this.props.starTeamProps.teamAttr, () => {
 				console.log("Set alias succeed");
 			});
 		}

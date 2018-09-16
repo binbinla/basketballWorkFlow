@@ -111,10 +111,10 @@ const MineStack = StackNavigator(
 
 export const Tabs = TabNavigator(
   {
-    HomeStack: { screen: HomeStack, navigationOptions: { tabBarLabel: '赛况'}},
-    TeamsStack: { screen: TeamsStack, navigationOptions: { tabBarLabel: '球队'} },
     NewsStack: { screen: NewsStack, navigationOptions: { tabBarLabel: '新闻'} },
     CommunityStack: { screen: CommunityStack, navigationOptions: { tabBarLabel: '社区'} },
+    HomeStack: { screen: HomeStack, navigationOptions: { tabBarLabel: '赛况'}},
+    TeamsStack: { screen: TeamsStack, navigationOptions: { tabBarLabel: '球队'} },
     MineStack: { screen: MineStack, navigationOptions: { tabBarLabel: '我的'} }
   },
   {
@@ -136,10 +136,7 @@ export const Tabs = TabNavigator(
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
-    // lazyLoad: true
-  },
-  {
-    initialRouteName: 'MineStack'
+    initialRouteName: 'HomeStack'
   }
 );
 

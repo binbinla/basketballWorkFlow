@@ -23,6 +23,7 @@ import { GameGeneralResult } from '../../network/producer';
 import teamMap from '../../utils/team-map';
 import * as teamAction from '../../actions/teamAction';
 import JPushModule from 'jpush-react-native';
+import Toast, { DURATION } from 'react-native-easy-toast';
 
 const GiftedListView = require('react-native-gifted-listview');
 
@@ -139,6 +140,10 @@ class HomePage extends React.Component<Props, State> {
           refreshableTintColor="blue"
           paginationWaitingView={this._renderPaginationWaitingView}
         />
+        <Toast 
+          ref="toast"
+          position="center"
+          />           
       </View>
     )
   }
@@ -251,6 +256,13 @@ class HomePage extends React.Component<Props, State> {
    */
   _onItemPress(item: GameState) {
     console.log(item + 'was pressed');
+    if (item.process.time === '未开始') {
+      const toast: any = this.refs.toast;
+      toast.show("比赛暂未开始", DURATION.LONG, () => {
+        //
+      });
+      return
+    }
     this.props.navigation.navigate('GameDetail', {
       gameItem: item
     }); 
